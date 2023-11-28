@@ -13,6 +13,7 @@ class GameObject:
         self.zOrder = zOrder
         self.main = main
         self.physics = PhysicsObject(self, False, 1)
+        self.spread = 1
         
 
         self.voxelPath = path
