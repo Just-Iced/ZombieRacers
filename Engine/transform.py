@@ -5,3 +5,4 @@ from pygame.math import Vector2
 class Transform:
     pos: Vector2 = (0,0)
     rot: int = 0
+    scale: Vector2 = (32,32)
