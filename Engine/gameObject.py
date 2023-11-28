@@ -4,6 +4,9 @@ from Engine.physicsObject import PhysicsObject
 import pygame
 import os
 
+import sys, os
+
+
 class GameObject:
     def __init__(self, main, path, transform : Transform, zOrder = int):
         self.transform = transform
@@ -13,8 +16,8 @@ class GameObject:
         
 
         self.voxelPath = path
-        self.sprites = [pygame.image.load(self.voxelPath+"/"+img) for img in os.listdir(self.voxelPath)]
-
+        self.findPath = os.getcwd()+'/Game/'+self.voxelPath+'/'
+        self.sprites = [pygame.image.load(self.findPath+img).convert_alpha() for img in os.listdir(self.findPath)]
         
         self.main.objects.append(self)
     

@@ -15,7 +15,7 @@ class DefaultObject(GameObject):
         #Physics Parameters
             #self.physics.scale = 0
             #self.physics.simulate = True
-            #self.physics.minVelocity = Vec2(15, 0)
+            #self.physics.minVel = Vec2(0, 0)
             #self.physics.colliderState = ColliderState.Block
         
         
