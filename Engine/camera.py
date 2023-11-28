@@ -7,7 +7,7 @@ import numpy
 class Camera:
     def __init__(self, main):
         self.pos = pygame.math.Vector2(0,0)
-        self.offset = pygame.math.Vector2(90,45)
+        self.offset = pygame.math.Vector2(90, 45)
         self.zoom = 1
         self.rot = 0
         
@@ -33,8 +33,8 @@ class Camera:
                    [0,1,self.offset.y],
                    [0,0,1]]
         
-        self.mRot = [[math.cos(angle), math.sin(angle), 0],
-                [-math.sin(angle), math.cos(angle), 0],
+        self.mRot = [[-math.cos(angle), math.sin(angle), 0],
+                [math.sin(angle), math.cos(angle), 0],
                 [0,0,1]]
         
         self.mZoom = [[self.zoom, 0,0],
