@@ -15,9 +15,8 @@ class Renderer:
         for object in self.objects:
             tf = self.cam.applyTransform(object.transform.pos)
             for i, img in enumerate(object.sprites):
-                rotatedimg = pygame.transform.rotate(img, object.transform.rot)
-                rotatedimg2 = pygame.transform.rotate(rotatedimg, self.angle)
-                self.screen.blit(rotatedimg2, (tf[0][0] - rotatedimg2.get_width() // 2, tf[1][0] - rotatedimg2.get_height() // 2 - i * object.spread))
+                rotatedimg = pygame.transform.rotate(img, object.transform.rot + self.angle)
+                self.screen.blit(rotatedimg, (tf[0][0] - rotatedimg.get_width() // 2, tf[1][0] - rotatedimg.get_height() // 2 - i * object.spread))
                 
         self.display()
                 

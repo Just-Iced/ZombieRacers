@@ -33,8 +33,8 @@ class Camera:
                    [0,1,self.offset.y],
                    [0,0,1]]
         
-        self.mRot = [[-math.cos(angle), math.sin(angle), 0],
-                [math.sin(angle), math.cos(angle), 0],
+        self.mRot = [[math.cos(angle), math.sin(angle), 0],
+                [-math.sin(angle), math.cos(angle), 0],
                 [0,0,1]]
         
         self.mZoom = [[self.zoom, 0,0],

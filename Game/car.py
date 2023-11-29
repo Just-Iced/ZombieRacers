@@ -20,6 +20,7 @@ class Car(GameObject):
         self.physics.colliderState = ColliderState.Block
         self.physics.AddSubscribersForCollisionEvent(self.resetVel)
         self.move = 0
+        self.camOffset = 5
         
         
     def update(self):
@@ -27,10 +28,10 @@ class Car(GameObject):
         
         if keys[pygame.K_a]:
             self.transform.rot += 0.5
-            self.main.cam.rot += 0.5
+            self.main.cam.rot -= 0.35
         elif keys[pygame.K_d]:
             self.transform.rot -= 0.5
-            self.main.cam.rot -= 0.5
+            self.main.cam.rot += 0.35
         
         if keys[pygame.K_w]:
             if self.move != -0.5:
@@ -42,7 +43,6 @@ class Car(GameObject):
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
                 
         self.main.cam.pos = self.transform.pos
-
         
         
     def resetVel(self):
