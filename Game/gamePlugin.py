@@ -10,7 +10,8 @@ from road import Road
 game = main()
 
 #put game logic here:
-car = Car(game, Transform(Vector2(90,90), 0, Vector2(16,16)))
-grass = Road(game, Transform(Vector2(90,45), 0, Vector2(16,16)))
+car = Car(game, Transform(Vector2(90,90), 0, Vector2(16,-16)))
+road = Road(game, Transform(Vector2(90,45), 0, Vector2(48,48)))
+grass = Grass(game, Transform(Vector2(90,45), 0, Vector2(16,16)))
 
 game.run()
