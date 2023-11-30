@@ -9,7 +9,7 @@ import pygame
 import math
 
 class Car(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 1, path = 'car'):
+    def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         
@@ -39,6 +39,7 @@ class Car(GameObject):
         else:
             if self.move < 0:
                 self.move += 0.03 * self.main.dt
+                self.move = max(self.move, 0)
 
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
                 

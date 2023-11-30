@@ -12,6 +12,10 @@ game = main()
 #put game logic here:
 car = Car(game, Transform(Vector2(90,90), 0, Vector2(16,16)))
 grass = Grass(game, Transform(Vector2(90,45), 0, Vector2(16,16)))
-road = Road(game, Transform(Vector2(90,45), 0, Vector2(16,16)))
+
+roads = []
+for i in range(10):
+    road = Road(game, Transform(Vector2(90,i*144), 0, Vector2(16,16)),i)
+    roads.append(road)
 
 game.run()
