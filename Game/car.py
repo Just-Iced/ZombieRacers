@@ -27,18 +27,18 @@ class Car(GameObject):
         keys = pygame.key.get_pressed()
         
         if keys[pygame.K_a]:
-            self.transform.rot += 0.5
-            self.main.cam.rot -= 0.35
+            self.transform.rot += 2 * self.main.dt
+            self.main.cam.rot -= 2 * self.main.dt
         elif keys[pygame.K_d]:
-            self.transform.rot -= 0.5
-            self.main.cam.rot += 0.35
+            self.transform.rot -= 2 * self.main.dt
+            self.main.cam.rot += 2 * self.main.dt
         
         if keys[pygame.K_w]:
-            if self.move != -0.5:
-                self.move -= 0.002
+            if self.move != -3:
+                self.move -= 0.03 * self.main.dt
         else:
             if self.move < 0:
-                self.move += 0.001
+                self.move += 0.03 * self.main.dt
 
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
                 
