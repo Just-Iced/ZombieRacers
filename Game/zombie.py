@@ -8,7 +8,7 @@ from pygame.math import Vector2 as Vec2
 import pygame
 
 class Zombie(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 1, path = 'zombie'):
+    def __init__(self, main, transform : Transform, zOrder = 12, path = 'zombie'):
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         
