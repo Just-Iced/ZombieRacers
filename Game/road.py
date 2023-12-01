@@ -8,12 +8,12 @@ from pygame.math import Vector2 as Vec2
 import pygame
 
 class RoadSide(GameObject):
-        def __init__(self, main, transform : Transform, zOrder = 12, path = 'roads/straight/side'):
-            super().__init__(main, path, transform, zOrder)
-            self.physics.colliderState = ColliderState.Block
-            
-        def update(self):
-            pass
+    def __init__(self, main, transform : Transform, zOrder = 12, path = 'roads/straight/side'):
+        super().__init__(main, path, transform, zOrder)
+        self.physics.colliderState = ColliderState.Block
+        
+    def update(self):
+        pass
 
 class Road(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads/straight/road'):

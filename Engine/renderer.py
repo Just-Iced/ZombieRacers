@@ -1,4 +1,5 @@
 import pygame
+from Engine.renderlayer import Layer
 
 class Renderer:
     def __init__(self, objects, window, camera):
@@ -12,11 +13,23 @@ class Renderer:
         self.cam.createTransform()
         self.angle = self.cam.rot
         self.objects.sort(key=lambda x: x.zOrder, reverse=False)
+
+        layers = []
+        
         for object in self.objects:
             tf = self.cam.applyTransform(object.transform.pos)
-            for i, img in enumerate(object.sprites):
-                rotatedimg = pygame.transform.rotate(img, object.transform.rot + self.angle)
-                self.screen.blit(rotatedimg, (tf[0][0] - rotatedimg.get_width() // 2, tf[1][0] - rotatedimg.get_height() // 2 - i * object.spread))
+            if self.checkShouldRender(tf) == True:
+                for i, img in enumerate(object.sprites):
+                    layers.append(Layer(object, img, i + object.zOrder, i, tf))
+                
+        
+        layers.sort(key=lambda x: x.zOrder, reverse=False)
+        
+        for layer in layers:
+            if not layer.transform[0][0] > 180 or not layer.transform[0][0] < 180 or not layer.transform[1][0] > 90 or not layer.transform[1][0] < 90:
+                    rotatedimg = pygame.transform.rotate(layer.surface, layer.object.transform.rot + self.angle)
+                    self.screen.blit(rotatedimg, (layer.transform[0][0] - rotatedimg.get_width() // 2, layer.transform[1][0] - rotatedimg.get_height() // 2 - layer.i * layer.object.spread))
+
                 
         self.display()
                 
@@ -24,3 +37,8 @@ class Renderer:
         s = pygame.transform.scale(self.screen, (1280, 720))
         
         self.window.window.blit(s, (0,0))
+        
+    def checkShouldRender(self, tf):
+        if tf[0][0] > 280 or tf[0][0] < -280 or tf[1][0] > 190 or tf[1][0] < -190:
+            return False
+        return True
