@@ -22,8 +22,8 @@ class Road(GameObject):
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
         
-        RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144)),zOrder+12)
-        RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144)),zOrder+12)        
+        RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144)),zOrder)
+        RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144)),zOrder)        
     def update(self):
         #self.transform.rot += 0.5
         pass
