@@ -20,6 +20,8 @@ class GameObject:
         self.findPath = os.getcwd()+'/Game/'+self.voxelPath+'/'
         self.sprites = [pygame.image.load(self.findPath+img).convert_alpha() for img in os.listdir(self.findPath)]
         
+        self.shadowed = False
+        
         self.main.objects.append(self)
     
     
