@@ -20,6 +20,7 @@ class PhysicsObject:
         self.colliderState = ColliderState(ColliderState.Blank)
         
         self.overlapEvent = Event()
+        self.hitEvent = Event()
         
         self.owner.main.colliders.append(self)
         
@@ -39,3 +40,11 @@ class PhysicsObject:
     #remove event from Begin Overlap
     def RemoveSubscribersForCollisionEvent(self,objMethod):
         self.overlapEvent -= objMethod
+
+    #assign event to Begin Overlap
+    def AddSubscribersForHitEvent(self,objMethod):
+        self.hitEvent += objMethod
+    
+    #remove event from Begin Overlap
+    def RemoveSubscribersForHitEvent(self,objMethod):
+        self.hitEvent -= objMethod

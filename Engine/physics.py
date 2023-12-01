@@ -1,3 +1,4 @@
+from re import L
 import pygame
 from pygame.math import Vector2
 from Engine.gameObject import GameObject
@@ -22,6 +23,7 @@ class Physics:
         
         for entity in self.entities:
             callOverlap = False
+            callHit = False
             if entity.physics.simulate == True:
                 self.simulated.append(entity)
                 
@@ -53,7 +55,7 @@ class Physics:
                         if colliding["left"] or colliding["right"]:
                             entity.transform.pos.x = entity.physics.collider.x + (entity.transform.scale.x // 2)
                             entity.physics.velocity.x = entity.physics.minVel.x
-                            callOverlap = True
+                            callHit = True
                     
                     if entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
                         callOverlap = True
@@ -75,10 +77,12 @@ class Physics:
                         if colliding["up"] or colliding["down"]:
                             entity.transform.pos.y = entity.physics.collider.y + (entity.transform.scale.y // 2)
                             entity.physics.velocity.y = entity.physics.minVel.y
-                            callOverlap = True
+                            callHit = True
                             
                     if entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
                         callOverlap = True
                         
             if callOverlap == True:
                 entity.physics.overlapEvent()
+            elif callHit == True:
+                entity.physics.hitEvent()

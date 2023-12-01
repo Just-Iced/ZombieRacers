@@ -18,7 +18,7 @@ class Car(GameObject):
         self.physics.simulate = True
         self.physics.minVel = Vec2(0, 0)
         self.physics.colliderState = ColliderState.Block
-        self.physics.AddSubscribersForCollisionEvent(self.resetVel)
+        self.physics.AddSubscribersForHitEvent(self.resetVel)
         self.move = 0
         self.camOffset = 5
         

@@ -13,12 +13,16 @@ class Zombie(GameObject):
         #-CONSTRUCTOR-
         
         #Physics Parameters
-            #self.physics.scale = 0
-            #self.physics.simulate = True
+        self.physics.scale = 0
+        self.physics.simulate = True
             #self.physics.minVel = Vec2(0, 0)
-            #self.physics.colliderState = ColliderState.Block
+        self.physics.colliderState = ColliderState.Overlap
+        self.physics.AddSubscribersForCollisionEvent(self.collide)
         
         
     def update(self):
         #put your object logic here
         pass
+    def collide(self):
+        self.main.objects.remove(self)
+        self.main.colliders.remove(self.physics)
