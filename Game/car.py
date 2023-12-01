@@ -39,10 +39,12 @@ class Car(GameObject):
         else:
             if self.move < 0:
                 self.move += 0.03 * self.main.dt
-                self.move = max(self.move, 0)
+                #self.move = max(self.move, 0)
+            elif self.move > 0:
+                self.move = 0
 
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
-                
+
         self.main.cam.pos = self.transform.pos
         
         
