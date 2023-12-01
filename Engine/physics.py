@@ -34,11 +34,12 @@ class Physics:
             pX = entity.transform.pos.x + entity.physics.velocity.x * entity.main.dt
             direction = Vector2(pX, pY) - lastPos
             
+            colliding = {"up": False, "down": False, "right": False, "left": False}   
+            
             #apply x             transform
             entity.transform.pos.x += (entity.physics.velocity.x * entity.main.dt)
             entity.physics.update()
-            for collider in entity.main.colliders:
-                colliding = {"up": False, "down": False, "right": False, "left": False}    
+            for collider in entity.main.colliders: 
                 if entity.physics.collider.colliderect(collider.collider) and collider.collider != entity.physics.collider:
 
                     if entity.physics.colliderState == ColliderState.Block and collider.colliderState == ColliderState.Block:
@@ -60,8 +61,7 @@ class Physics:
                         
             entity.transform.pos.y += (entity.physics.velocity.y * entity.main.dt)
             entity.physics.update()
-            for collider in entity.main.colliders:
-                colliding = {"up": False, "down": False, "right": False, "left": False}    
+            for collider in entity.main.colliders:  
                 if entity.physics.collider.colliderect(collider.collider) and collider.collider != entity.physics.collider:
 
                     if entity.physics.colliderState == ColliderState.Block and collider.colliderState == ColliderState.Block:

@@ -36,12 +36,8 @@ class main:
                     run = False
                     sys.exit()
 
-            self.update()
+            for object in self.objects:
+                object.tick()
+                
             self.physics.update()
             self.renderer.render()
-
-            pygame.display.flip()
-    
-    def update(self):
-        for object in self.objects:
-            object.tick()

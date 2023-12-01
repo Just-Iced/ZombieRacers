@@ -5,8 +5,8 @@ class Window:
         
         pygame.init()
         
-        self.flags = (pygame.DOUBLEBUF)
+        self.flags = (pygame.DOUBLEBUF | pygame.HWSURFACE | pygame.HWACCEL)
 
-        self.window = pygame.display.set_mode((1280, 720), self.flags, 16)
+        self.window = pygame.display.set_mode((1280, 720), self.flags, vsync=1)
 
         pygame.display.set_caption("Zombie Racer")

@@ -8,4 +8,4 @@ class Layer:
     surface: pygame.surface.Surface
     zOrder: int
     i: int
-    transform: []
+    transform: pygame.math.Vector2

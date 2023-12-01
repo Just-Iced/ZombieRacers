@@ -37,13 +37,10 @@ class Camera:
                 [-math.sin(angle), math.cos(angle), 0],
                 [0,0,1]]
         
-        self.mZoom = [[self.zoom, 0,0],
+        """self.mZoom = [[self.zoom, 0,0],
                  [0,self.zoom,0],
-                 [0,0,1]]
+                 [0,0,1]]"""
     
 
     def applyTransform(self, vec):
-        thing = numpy.dot(self.mPos, [[vec.x],[vec.y],[1]])
-        thing2 = numpy.dot(self.mRot, thing)
-        thing3 = numpy.dot(self.mZoom, thing2)
-        return numpy.around(numpy.dot(self.mOffset, thing3), 1)
+        return numpy.around(numpy.dot(self.mOffset, numpy.dot(self.mRot, numpy.dot(self.mPos, [[vec.x],[vec.y],[1]]))), 1)
