@@ -8,10 +8,14 @@ from pygame.math import Vector2 as Vec2
 import pygame
 import math
 
+from Engine.shadow import Shadow
+
 class Car(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
+        
+        self.shadow = Shadow(radius=8)
         
         #Physics Parameters
         self.physics.scale = 0

@@ -13,14 +13,18 @@ class Renderer:
         self.screen.fill((0,0,0))
         self.cam.createTransform()
 
+        self.objects.sort(key=lambda x: x.zOrder, reverse=False)
+
         layers = []
         for object in self.objects:
             tf = self.cam.applyTransform(object.transform.pos)
             transform = pygame.math.Vector2(tf[0][0], tf[1][0])
             if self.checkShouldRender(transform) == True:
                 
+                self.renderShadow(object, layers, transform)
+                
                 for i, img in enumerate(object.sprites):
-                    layers.append(Layer(object, img, i + object.zOrder, i, transform))
+                    layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
                 
         layers.sort(key=lambda x: x.zOrder, reverse=False)
         
@@ -42,5 +46,6 @@ class Renderer:
         return True
     
     def renderShadow(self, object, layers, transform):
-        if object.shadowed == True:
-            pass
+        try:
+            layers.append(Layer(object, object.shadow.surf, object.zOrder, 0, transform))
+        except:pass

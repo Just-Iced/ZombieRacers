@@ -7,11 +7,13 @@ from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 import pygame
 
+from Engine.shadow import Shadow
+
 class Zombie(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 12, path = 'zombie'):
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
-        
+        self.shadow = Shadow(radius=6)        
         #Physics Parameters
         self.physics.scale = 0
         self.physics.simulate = True
