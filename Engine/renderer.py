@@ -38,7 +38,7 @@ class Renderer:
         s = pygame.transform.scale(self.screen, (1280, 720))
         self.window.window.blit(s, (0,0))
         pygame.display.update()
-    
+
         
     def checkShouldRender(self, tf):
         if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:
