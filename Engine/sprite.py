@@ -5,6 +5,6 @@ import os
 
 class Sprite(GameObject):
     def __init__(self, main, path, transform: Transform, zOrder: int):
-        super().__init__(main, path, transform, zOrder)
+        super().__init__(main, 'roads/straight/road', transform, zOrder)
 
-        self.sprites = [pygame.image.load(os.getcwd()+'/Game/'+path)]
+        self.sprites = [pygame.image.load(os.getcwd()+'\\Game\\'+path).convert_alpha()]
