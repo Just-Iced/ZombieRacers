@@ -16,10 +16,12 @@ class GameObject:
         self.physics = PhysicsObject(self, False, 1)
         self.spread = 1
 
-
-        self.voxelPath = path
-        self.findPath = os.getcwd()+'/Game/'+self.voxelPath+'/'
-        self.sprites = [pygame.image.load(self.findPath+img).convert_alpha() for img in os.listdir(self.findPath)]
+        if path != '':
+            self.voxelPath = path
+            self.findPath = os.getcwd()+'/Game/'+self.voxelPath+'/'
+            self.sprites = [pygame.image.load(self.findPath+img).convert_alpha() for img in os.listdir(self.findPath)]
+        else:
+            self.sprites = []
         
 
         

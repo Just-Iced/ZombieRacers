@@ -17,10 +17,8 @@ car = Car(game, Transform(Vector2(90,90), 0, Vector2(16,16)))
 grass = Grass(game, Transform(Vector2(90,45), 0, Vector2(16,16)))
 zombie = Zombie(game, Transform(Vector2(106,45), 0, Vector2(3,3)))
 ah = SpriteTest(game, Transform(Vector2(90,0), 0, Vector2(16,16)))
-roads = []
-for i in range(100):
-    road = Road(game, Transform(Vector2(90,144*i), 0, Vector2(16,16)))
-    roads.append(road)
+
+road = Road(game, Transform(Vector2(90,144), 0, Vector2(85,16)))
 
 
 game.run()
