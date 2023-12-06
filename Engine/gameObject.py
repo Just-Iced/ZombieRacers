@@ -33,3 +33,7 @@ class GameObject:
     
     def update(self):
         pass
+
+    def Destroy(self):
+        self.main.gameObjects.remove(self)
+        self.main.colliders.remove(self.physics)
