@@ -1,0 +1,10 @@
+{
+    "speed": 1,
+    "spawnRate": 10,
+    "sprite": "Sprite.png",
+    "lifetime": 2,
+    "velocity": [2,2],
+    "scale": [[2,2],[2,2]],
+    "randomSpread": true,
+    "randomVertical": false
+}
