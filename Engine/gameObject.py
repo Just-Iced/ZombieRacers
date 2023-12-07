@@ -37,5 +37,6 @@ class GameObject:
     def Destroy(self):
         if self in self.main.objects:
             self.main.objects.remove(self)
+        
         if self.physics in self.main.colliders:
             self.main.colliders.remove(self.physics)

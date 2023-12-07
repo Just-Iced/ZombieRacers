@@ -9,6 +9,7 @@ import Engine.configRead as ConfigRead
 import random
 from pygame.math import Vector2 as Vec2
 from Engine.functions import DelayEvent
+from Engine.physicsObject import PhysicsObject
 
 import pygame
 from json import load
@@ -16,34 +17,42 @@ from json import load
 
 
 class System(GameObject):
-    def __init__(self, main, path, transform: Transform, zOrder=0):
+    def __init__(self, main, path, transform : Transform, zOrder = int):
         self.transform = transform
         self.zOrder = zOrder
         self.main = main
+        self.physics = PhysicsObject(self, False, 1)
         self.spread = 1
         self.particles = []
 
-        file = load(open(path))
-        sys.path.append(str("Game/ParticleSystems"))
+        file = load(open(os.getcwd()+'\\Game\\ParticleSystems\\'+path))
 
 
-        self.params = SystemStructure(file.get('speed'), file.get('spawnRate'), pygame.image.load(file.get('sprite')).convert_alpha(), file.get('lifetime'),
+        self.params = SystemStructure(file.get('speed'), file.get('spawnRate'), pygame.image.load(os.getcwd()+'\\Game\\'+file.get('sprite')).convert_alpha(), file.get('lifetime'),
                                       Vec2(file.get('velocity')[0], file.get('velocity')[1]), 
                                       (Vec2(random.randint(file.get('scale')[0][0], file.get('scale')[1][0])), 
                                       Vec2(random.randint(file.get('scale')[0][1], file.get('scale')[1][1]))),
                                       file.get('randomSpread'), file.get('randomVertical'))
         
 
-        DelayEvent(self.main, self.params.lifetime*1000, self.Destroy())
+        self.prevTime = pygame.time.get_ticks()
         
+        self.curTime = pygame.time.get_ticks()
+        
+        self.main.objects.append(self)
+
 
     def update(self):
-        for i in range(self.params.spawnRate):
-            self.spawnParticle()
+        self.curTime = pygame.time.get_ticks()
+        if self.curTime -  self.prevTime >= self.params.lifetime*1000:
+            self.Destroy()
+        else:
+            for i in range(self.params.spawnRate):
+                self.spawnParticle()
 
-        for particle in self.particles:
-            particle.simulate()
+            for particle in self.particles:
+                particle.simulate()
 
     def spawnParticle(self):
-        self.particles.append(Particle(self.transform, (self.params.velocity), self.params.lifetime, self.params.sprite, self.main.dt))
+        self.particles.append(Particle(self.transform, (self.params.velocity), self.params.lifetime, self.params.sprite, self.main.dt,self))
         

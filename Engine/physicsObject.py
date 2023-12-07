@@ -6,6 +6,7 @@ class ColliderState(Enum):
     Blank = 1
     Overlap = 2
     Block = 3
+
 class Event(object):
  
     def __init__(self):
