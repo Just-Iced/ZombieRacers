@@ -82,12 +82,14 @@ class Physics:
                             entity.transform.pos.y = entity.physics.collider.y + (entity.transform.scale.y // 2)
                             entity.physics.velocity.y = entity.physics.minVel.y
                             callHit = True
-                            collidingObjects.append(collider.owner)
+                            if collider.owner not in collidingObjects:
+                                collidingObjects.append(collider.owner)
 
                             
                     elif entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
                         callOverlap = True
-                        collidingObjects.append(collider.owner)
+                        if collider.owner not in collidingObjects:
+                            collidingObjects.append(collider.owner)
 
 
             if callOverlap == True:

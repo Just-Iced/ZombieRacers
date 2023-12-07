@@ -27,7 +27,7 @@ class RoadEnd(GameObject):
         self.isDead = False
         print(self.transform.pos)
     def new_road(self, object):
-        if isinstance(object, Car) and not self.isDead:
+        if isinstance(object, Car):
             self.isDead = True
             self.Destroy()
             print(object.__class__.__name__)
