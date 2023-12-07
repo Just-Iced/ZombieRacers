@@ -1,5 +1,6 @@
 import pygame
 from Engine.renderlayer import Layer
+from Engine.ParticleSystem.system import System
 
 class Renderer:
     def __init__(self, objects, window, camera):
@@ -14,17 +15,20 @@ class Renderer:
         self.cam.createTransform()
 
         self.objects.sort(key=lambda x: x.zOrder, reverse=False)
+        self.systems = []
 
         layers = []
         for object in self.objects:
             tf = self.cam.applyTransform(object.transform.pos)
             transform = pygame.math.Vector2(tf[0][0], tf[1][0])
             if self.checkShouldRender(transform) == True:
-                
-                self.renderShadow(object, layers, transform)
-                
-                for i, img in enumerate(object.sprites):
-                    layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
+                if type(object) == System:
+                    self.systems.append(object)
+                else:
+                    self.renderShadow(object, layers, transform)
+                    
+                    for i, img in enumerate(object.sprites):
+                        layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
                 
         layers.sort(key=lambda x: x.zOrder, reverse=False)
         
@@ -38,6 +42,10 @@ class Renderer:
         s = pygame.transform.scale(self.screen, (1280, 720))
         self.window.window.blit(s, (0,0))
         pygame.display.update()
+
+    def renderParticles(self, systems):
+        for system in systems:
+            pass
 
         
     def checkShouldRender(self, tf):

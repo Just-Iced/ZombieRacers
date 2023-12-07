@@ -18,6 +18,7 @@ class PhysicsObject:
         self.minVel = Vector2(0,0)
         self.collider = pygame.Rect(self.owner.transform.pos.x - (self.owner.transform.scale.x // 2),self.owner.transform.pos.y - (self.owner.transform.scale.y // 2),self.owner.transform.scale.x, self.owner.transform.scale.y)
         self.colliderState = ColliderState(ColliderState.Blank)
+        self.overlappingObject = None
         
         self.overlapEvent = Event()
         self.hitEvent = Event()

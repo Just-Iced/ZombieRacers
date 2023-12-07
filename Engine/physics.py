@@ -83,5 +83,7 @@ class Physics:
                         
             if callOverlap == True:
                 entity.physics.overlapEvent()
+                entity.physics.overlappingObject = collider.owner
             elif callHit == True:
                 entity.physics.hitEvent()
+                entity.physics.overlappingObject = collider.owner

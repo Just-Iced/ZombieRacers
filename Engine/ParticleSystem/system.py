@@ -41,6 +41,9 @@ class System(GameObject):
         for i in range(self.params.spawnRate):
             self.spawnParticle()
 
+        for particle in self.particles:
+            particle.simulate()
+
     def spawnParticle(self):
         self.particles.append(Particle(self.transform, (self.params.velocity), self.params.lifetime, self.params.sprite, self.main.dt))
         
