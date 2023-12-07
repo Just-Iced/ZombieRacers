@@ -1,4 +1,3 @@
-import imp
 import sys, os
 sys.path.append(os.getcwd())
 
@@ -25,13 +24,15 @@ class RoadEnd(GameObject):
         self.physics.simulate = True
         self.physics.scale = 0
         self.physics.AddSubscribersForCollisionEvent(self.new_road)
+        self.isDead = False
         print(self.transform.pos)
-    def new_road(self):
-        print(self.physics.overlappingObject.__class__.__name__)
-        if isinstance(self.physics.overlappingObject, Car):
+    def new_road(self, object):
+        if isinstance(object, Car) and not self.isDead:
+            self.isDead = True
+            self.Destroy()
+            print(object.__class__.__name__)
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
-            self.main.objects.remove(self)
-            self.main.colliders.remove(self.physics)
+
 
 class Road(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads/straight/road'):

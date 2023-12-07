@@ -1,13 +1,28 @@
 import pygame
 from pygame.math import Vector2
 from enum import Enum
-from Engine.event import Event
 
 class ColliderState(Enum):
     Blank = 1
     Overlap = 2
     Block = 3
-    
+class Event(object):
+ 
+    def __init__(self):
+        self.__eventhandlers = []
+ 
+    def __iadd__(self, handler):
+        self.__eventhandlers.append(handler)
+        return self
+ 
+    def __isub__(self, handler):
+        self.__eventhandlers.remove(handler)
+        return self
+ 
+    def __call__(self, object, *args, **keywargs):
+        for eventhandler in self.__eventhandlers:
+            eventhandler(object, *args, **keywargs)
+
 #physics object class
 class PhysicsObject:
     def __init__(self, owner, simulate, gravityScale, initVelocity = Vector2(0,0)):

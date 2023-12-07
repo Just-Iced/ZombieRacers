@@ -35,5 +35,7 @@ class GameObject:
         pass
 
     def Destroy(self):
-        self.main.gameObjects.remove(self)
-        self.main.colliders.remove(self.physics)
+        if self in self.main.objects:
+            self.main.objects.remove(self)
+        if self.physics in self.main.colliders:
+            self.main.colliders.remove(self.physics)

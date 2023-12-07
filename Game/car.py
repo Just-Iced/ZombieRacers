@@ -53,7 +53,7 @@ class Car(GameObject):
         self.main.cam.pos = self.transform.pos
         
         
-    def resetVel(self):
+    def resetVel(self, object):
         self.move = 0
                 
         

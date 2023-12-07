@@ -5,6 +5,7 @@ from Engine.gameObject import GameObject
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
+from car import Car
 import pygame
 
 from Engine.shadow import Shadow
@@ -25,6 +26,6 @@ class Zombie(GameObject):
     def update(self):
         #put your object logic here
         pass
-    def collide(self):
-        self.main.objects.remove(self)
-        self.main.colliders.remove(self.physics)
+    def collide(self, object):
+        if isinstance(object, Car):
+            self.Destroy()
