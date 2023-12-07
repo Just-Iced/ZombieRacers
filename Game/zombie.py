@@ -29,3 +29,5 @@ class Zombie(GameObject):
     def collide(self, object):
         if isinstance(object, Car):
             self.Destroy()
+            object.coins += 1
+            print(object.coins)

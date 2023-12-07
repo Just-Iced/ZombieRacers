@@ -1,4 +1,5 @@
 import sys, os
+from telnetlib import GA
 sys.path.append(os.getcwd())
 
 from Engine.gameObject import GameObject
@@ -24,14 +25,28 @@ class RoadEnd(GameObject):
         self.physics.simulate = True
         self.physics.scale = 0
         self.physics.AddSubscribersForCollisionEvent(self.new_road)
-        self.isDead = False
         print(self.transform.pos)
     def new_road(self, object):
         if isinstance(object, Car):
-            self.isDead = True
             self.Destroy()
             print(object.__class__.__name__)
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
+
+class RoadDestroy(GameObject):
+    def __init__(self, main, road: GameObject, transform: Transform, path="", zOrder=-10):
+        super().__init__(main, path, transform, zOrder)
+        self.physics.colliderState = ColliderState.Overlap
+        self.physics.simulate = True
+        self.physics.scale = 0
+        self.physics.AddSubscribersForCollisionEvent(self.destroy_road)
+        self.road = road
+        print(self.transform.pos)
+    def destroy_road(self, object):
+        if isinstance(object, Car):
+            for child in self.road.children:
+                child.Destroy()
+            self.road.Destroy()
+            self.Destroy()
 
 
 class Road(GameObject):
@@ -40,16 +55,16 @@ class Road(GameObject):
         #-CONSTRUCTOR-
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
+        self.children = []
         
-        RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144)))
-        RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144)))        
+        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
+        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
         RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
+        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
 
         for i in range(random.randint(0,5)):
-            pos = Vec2(random.randint(0,85), random.randint(0,144)) + self.transform.pos
-            Zombie(self.main,Transform(pos,0,Vec2(3,3)))
-            print(f'Zombie spawned at: {pos}')
-
+            pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
+            self.children.append(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
         print(f'Road spawned at: {self.transform.pos.xy}')
     def update(self):
         #self.transform.rot += 0.5

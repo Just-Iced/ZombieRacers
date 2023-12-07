@@ -25,7 +25,9 @@ class Car(GameObject):
         self.physics.AddSubscribersForHitEvent(self.resetVel)
         self.move = 0
         self.camOffset = 5
-        self.maxSpeed = 0.75
+        self.maxSpeed = 10
+        self.acceleration = 0.06
+        self.coins = 0
         
         
     def update(self):
@@ -37,13 +39,14 @@ class Car(GameObject):
         elif keys[pygame.K_d]:
             self.transform.rot -= 2 * self.main.dt
             self.main.cam.rot += 2 * self.main.dt
+            self.move += 0.01 * self.main.dt
         
         if keys[pygame.K_w]:
-            if self.move != -self.maxSpeed:
-                self.move -= 0.03 * self.main.dt
+            if self.move >= -self.maxSpeed:
+                self.move -= self.acceleration * self.main.dt
         else:
             if self.move < 0:
-                self.move += 0.03 * self.main.dt
+                self.move += self.acceleration * self.main.dt
                 #self.move = max(self.move, 0)
             elif self.move > 0:
                 self.move = 0
