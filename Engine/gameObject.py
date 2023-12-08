@@ -23,8 +23,6 @@ class GameObject:
         else:
             self.sprites = []
         
-
-        
         self.main.objects.append(self)
     
     

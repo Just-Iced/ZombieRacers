@@ -15,26 +15,27 @@ class Renderer:
         self.cam.createTransform()
 
         self.objects.sort(key=lambda x: x.zOrder, reverse=False)
-        self.systems = []
+        systems = []
 
         layers = []
         for object in self.objects:
+            if isinstance(object, System):
+                systems.append(object)
             tf = self.cam.applyTransform(object.transform.pos)
             transform = pygame.math.Vector2(tf[0][0], tf[1][0])
-            if self.checkShouldRender(transform) == True:
-                if type(object) == System:
-                    self.systems.append(object)
-                else:
-                    self.renderShadow(object, layers, transform)
-                    
-                    for i, img in enumerate(object.sprites):
-                        layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
+            if self.checkShouldRender(transform) == True and not isinstance(object, System):
+                
+                self.renderShadow(object, layers, transform)
+                for i, img in enumerate(object.sprites):
+                    layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
                 
         layers.sort(key=lambda x: x.zOrder, reverse=False)
         
         for layer in layers:
             rotatedimg = pygame.transform.rotate(layer.surface, layer.object.transform.rot + self.cam.rot)
             self.screen.blit(rotatedimg, (layer.transform.x - (rotatedimg.get_width() // 2), layer.transform.y - (rotatedimg.get_height() // 2)- layer.i * layer.object.spread))
+        
+        self.renderParticles(systems)
         
         self.display()
                 
@@ -45,7 +46,10 @@ class Renderer:
 
     def renderParticles(self, systems):
         for system in systems:
-            pass
+            for particle in system.particles:
+                tf = self.cam.applyTransform(particle.transform.pos)
+                transform = pygame.math.Vector2(tf[0][0], tf[1][0])
+                self.screen.blit(particle.surface, transform)
 
         
     def checkShouldRender(self, tf):

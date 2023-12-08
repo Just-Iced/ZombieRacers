@@ -2,7 +2,6 @@ import pygame
 from pygame.math import Vector2
 from Engine.gameObject import GameObject
 from Engine.physicsObject import ColliderState
-from Engine.physicsObject import Event
 
 
 #physics calculations
@@ -96,6 +95,5 @@ class Physics:
                 for object in collidingObjects:
                     entity.physics.overlapEvent(object)
 
-            elif callHit == True:
-                for object in collidingObjects:                
-                    entity.physics.hitEvent(object)
+            if callHit == True:              
+                entity.physics.hitEvent()

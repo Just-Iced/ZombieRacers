@@ -16,9 +16,8 @@ class Particle:
 
     def simulate(self):
         self.curTime = pygame.time.get_ticks()
-        if self.curTime -  self.prevTime >= self.lifetime:
+        if self.curTime - self.prevTime >= self.lifetime:
             self.owner.particles.remove(self)
         else:
-            self.velocity.y = min(10, self.velocity.y + 0.1)
             self.transform.pos.y += self.velocity.y * self.deltatime
             self.transform.pos.x += self.velocity.x * self.deltatime

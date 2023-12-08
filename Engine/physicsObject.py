@@ -1,13 +1,14 @@
 import pygame
 from pygame.math import Vector2
 from enum import Enum
+from Engine.event import Event
 
 class ColliderState(Enum):
     Blank = 1
     Overlap = 2
     Block = 3
 
-class Event(object):
+class EventCol(object):
  
     def __init__(self):
         self.__eventhandlers = []
@@ -36,7 +37,7 @@ class PhysicsObject:
         self.colliderState = ColliderState(ColliderState.Blank)
         self.overlappingObject = None
         
-        self.overlapEvent = Event()
+        self.overlapEvent = EventCol()
         self.hitEvent = Event()
         
         self.owner.main.colliders.append(self)
