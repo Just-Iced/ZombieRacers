@@ -7,8 +7,8 @@ import time
 import sys
 
 class main:
-    def __init__(self):
-        self.window = Window()
+    def __init__(self, window):
+        self.window = window
         self.objects = []
         self.colliders = []
         

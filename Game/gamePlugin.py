@@ -10,8 +10,9 @@ from road import Road
 from zombie import Zombie
 from spritetest import SpriteTest
 from Engine.ParticleSystem.system import System
+from Engine.window import Window
 
-game = main()
+game = main(Window((1280, 720)))
 
 #put game logic here:
 car = Car(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
