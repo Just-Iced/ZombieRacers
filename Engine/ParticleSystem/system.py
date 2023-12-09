@@ -32,8 +32,7 @@ class System(GameObject):
 
         self.params = SystemStructure(file.get('speed'), file.get('spawnRate'), pygame.image.load(os.getcwd()+'\\Game\\'+file.get('sprite')).convert_alpha(), file.get('lifetime'),
                                       Vec2(file.get('velocity')[0], file.get('velocity')[1]), 
-                                      (Vec2(random.randint(file.get('scale')[0][0], file.get('scale')[1][0])), 
-                                      Vec2(random.randint(file.get('scale')[0][1], file.get('scale')[1][1]))),
+                                      (file.get('scale')[0], file.get('scale')[1]),
                                       file.get('randomSpread'), file.get('randomVertical'))
         
 
@@ -42,7 +41,6 @@ class System(GameObject):
         self.curTime = pygame.time.get_ticks()
         
         self.main.objects.append(self)
-
 
     def update(self):
         self.curTime = pygame.time.get_ticks()
@@ -56,9 +54,10 @@ class System(GameObject):
 
         for particle in self.particles:
             particle.simulate()
-
+    
     def spawnParticle(self):
-        self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(random.uniform(self.params.scale[0].x, self.params.scale[1].x), random.uniform(self.params.scale[0].y, self.params.scale[1].y))),
+        scale = random.randint(self.params.scale[0], self.params.scale[1])
+        self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(scale, scale)),
                                        Vec2(random.uniform(-self.params.velocity.x, self.params.velocity.x), 
                                         random.uniform(-self.params.velocity.y, self.params.velocity.y)),
                                         self.params.lifetime, self.params.sprite, self.main.dt, self))

@@ -64,7 +64,7 @@ class GUI:
         self.root.mainloop()
         
     def spawnSystem(self):
-        self.application.system = System(self.application.main, self.application.name, Transform(pygame.math.Vector2(-65, -20), 0, pygame.math.Vector2(1,1)), 0)
+        self.application.system = System(self.application.main, self.application.name, Transform(pygame.math.Vector2(-60, -18), 0, pygame.math.Vector2(1,1)), 0)
         
     def closing(self):
         #creates dialogue box asking the user if they are sure they want to close the application
