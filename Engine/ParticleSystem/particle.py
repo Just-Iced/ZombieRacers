@@ -7,7 +7,7 @@ class Particle:
         self.transform = transform
         self.velocity = initVelocity
         self.lifetime = lifetime
-        self.surface = surface
+        self.surface = pygame.transform.scale(surface, self.transform.scale)
         self.deltatime = deltaTime
         self.owner = owner
         self.prevTime = pygame.time.get_ticks()

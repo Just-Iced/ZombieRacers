@@ -48,16 +48,17 @@ class System(GameObject):
         self.curTime = pygame.time.get_ticks()
         
         if self.curTime - self.prevTime >= self.lifetime:
-            self.Destroy()
+            if self.particles == []:
+                self.Destroy()
         else:
             for i in range(self.params.spawnRate):
                 self.spawnParticle()
 
-            for particle in self.particles:
-                particle.simulate()
+        for particle in self.particles:
+            particle.simulate()
 
     def spawnParticle(self):
-        self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(self.transform.scale.x, self.transform.scale.y)),
+        self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(random.uniform(self.params.scale[0].x, self.params.scale[1].x), random.uniform(self.params.scale[0].y, self.params.scale[1].y))),
                                        Vec2(random.uniform(-self.params.velocity.x, self.params.velocity.x), 
                                         random.uniform(-self.params.velocity.y, self.params.velocity.y)),
                                         self.params.lifetime, self.params.sprite, self.main.dt, self))

@@ -23,21 +23,24 @@ class main:
         run = True
 
         while run:
-            self.dt = time.time() - self.lastTime
-            
-            self.dt *= 60
-            
-            self.lastTime = time.time()
-            
-            events = pygame.event.get()
+            self.update()
 
-            for event in events:
-                if event.type == pygame.QUIT:
-                    run = False
-                    sys.exit()
+    def update(self):
+        self.dt = time.time() - self.lastTime
+        
+        self.dt *= 60
+        
+        self.lastTime = time.time()
+        
+        events = pygame.event.get()
 
-            for object in self.objects:
-                object.tick()
-                
-            self.physics.update()
-            self.renderer.render()
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+
+        for object in self.objects:
+            object.tick()
+            
+        self.physics.update()
+        self.renderer.render()
