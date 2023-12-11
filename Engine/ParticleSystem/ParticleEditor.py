@@ -104,6 +104,7 @@ class Panel:
         
     def setSprite(self, event=None):
         self.params.sprite = pygame.image.load(os.getcwd()+'\\Game\\'+self.sprite.value).convert_alpha()
+
         
     def setRSpread(self, event=None):
         self.params.randomSpread = self.rSpread.value.get()
@@ -298,6 +299,7 @@ class GUI:
     def save(self, event=None):
         import json
         p = self.panel.params
+        self.application.system.path = self.panel.sprite.value
         dictionary = {
             "speed": p.speed,
             "spawnRate": p.spawnRate,
@@ -317,6 +319,7 @@ class GUI:
     def saveAs(self, event=None):
         import json
         p = self.panel.params
+        self.application.system.path = self.panel.sprite.value
         dictionary = {
             "speed": p.speed,
             "spawnRate": p.spawnRate,
