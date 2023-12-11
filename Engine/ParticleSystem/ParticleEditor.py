@@ -46,7 +46,7 @@ class Panel:
         self.params = SystemStructure()
         
         self.speed = NumBox("Speed Multiplier:", self.parent, 1, self.setSpeed)
-        self.spawnRate = NumBox("Spawn Rate (ParticlesPerFrame): ", self.parent, 10, self.setRate)
+        self.spawnRate = NumBox("Spawn Rate: ", self.parent, 10, self.setRate)
         self.lifeTime = NumBox("Particle Lifetime (Ms): ", self.parent, 2, self.setParticleLifetime)
         self.systemLifeTime = NumBox('System Lifetime (S): ', self.parent, 2, self.setSystemLifetime)
         self.velocity = VecBox("Velocity: ", self.parent, Vec2(0,0), self.setVel)
