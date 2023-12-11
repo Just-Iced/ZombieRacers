@@ -28,12 +28,17 @@ class System(GameObject):
 
 
         file = load(open(os.getcwd()+'\\Game\\ParticleSystems\\'+path))
-        self.lifetime = file.get('systemlifetime')*1000
+        self.path = file.get('sprite')
 
-        self.params = SystemStructure(file.get('speed'), file.get('spawnRate'), pygame.image.load(os.getcwd()+'\\Game\\'+file.get('sprite')).convert_alpha(), file.get('lifetime'),
+        self.params = SystemStructure(file.get('speed'), 
+                                      file.get('spawnRate'), 
+                                      pygame.image.load(os.getcwd()+'\\Game\\'+self.path).convert_alpha(), 
+                                      file.get('lifetime'),
+                                      file.get('systemlifetime'), 
                                       Vec2(file.get('velocity')[0], file.get('velocity')[1]), 
-                                      (file.get('scale')[0], file.get('scale')[1]),
-                                      file.get('randomSpread'), file.get('randomVertical'))
+                                      Vec2(file.get('scale')[0], file.get('scale')[1]),
+                                      file.get('randomSpread'), 
+                                      file.get('randomVertical'))
         
 
         self.prevTime = pygame.time.get_ticks()
@@ -45,7 +50,7 @@ class System(GameObject):
     def update(self):
         self.curTime = pygame.time.get_ticks()
         
-        if self.curTime - self.prevTime >= self.lifetime:
+        if self.curTime - self.prevTime >= self.params.systemLifetime*1000:
             if self.particles == []:
                 self.Destroy()
         else:
@@ -57,7 +62,22 @@ class System(GameObject):
     
     def spawnParticle(self):
         scale = random.randint(self.params.scale[0], self.params.scale[1])
+
+        vel = self.checkVec()
+        
         self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(scale, scale)),
-                                       Vec2(random.uniform(-self.params.velocity.x, self.params.velocity.x), 
-                                        random.uniform(-self.params.velocity.y, self.params.velocity.y)),
-                                        self.params.lifetime, self.params.sprite, self.main.dt, self))
+                                       vel,
+                                        self.params.lifetime, self.params.sprite, self.main.dt, self.params.speed, self))
+        
+    def checkVec(self):
+        if self.params.randomSpread == True:
+            x = random.uniform(-self.params.velocity.x, self.params.velocity.x)
+        else:
+            x = self.params.velocity.x
+            
+        if self.params.randomVertical == True:
+            y = random.uniform(-self.params.velocity.y, self.params.velocity.y)
+        else:
+            y = self.params.velocity.y
+            
+        return Vec2(x, y)

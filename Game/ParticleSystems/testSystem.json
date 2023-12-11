@@ -1,11 +1,1 @@
-{
-    "speed": 1,
-    "spawnRate": 1,
-    "sprite": "Sprite.png",
-    "lifetime": 500,
-    "systemlifetime": 2,
-    "velocity": [1,1],
-    "scale": [4,16],
-    "randomSpread": true,
-    "randomVertical": false
-}
+{"speed": 1, "spawnRate": 1, "sprite": "Sprite.png", "lifetime": 500, "systemlifetime": 2, "velocity": [1.0, 1.0], "scale": [2.0, 16.0], "randomSpread": true, "randomVertical": true}

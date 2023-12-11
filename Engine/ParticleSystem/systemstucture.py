@@ -7,7 +7,8 @@ class SystemStructure:
     spawnRate: int = 10
     sprite: str = ''
     lifetime: int = 2
-    velocity: Vec2 = (0,0)
-    scale: () = Vec2(0, 0)
+    systemLifetime: int = 2
+    velocity: Vec2 = Vec2(0,0)
+    scale: Vec2 = Vec2(0,0)
     randomSpread: bool = True
     randomVertical: bool = False
