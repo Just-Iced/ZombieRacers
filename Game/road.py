@@ -26,28 +26,33 @@ class RoadEnd(GameObject):
         self.physics.simulate = True
         self.physics.scale = 0
         self.physics.AddSubscribersForCollisionEvent(self.new_road)
-        print(self.transform.pos)
     def new_road(self, object):
         if isinstance(object, Car):
             self.Destroy()
-            print(object.__class__.__name__)
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
 
 class RoadDestroy(GameObject):
-    def __init__(self, main, road: GameObject, transform: Transform, path="", zOrder=-10):
+    def __init__(self, main, road: "Road", transform: Transform, path="", zOrder=-10, destroyer=True):
         super().__init__(main, path, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
-        self.physics.AddSubscribersForCollisionEvent(self.destroy_road)
+        self.physics.AddSubscribersForCollisionEvent(self.try_destroy_road)
         self.road = road
-        print(self.transform.pos)
-    def destroy_road(self, object):
-        if isinstance(object, Car):
+        self.should_destroy = destroyer
+    def try_destroy_road(self, object):
+        if not isinstance(object, Car):
+            return
+        if self.should_destroy:
+            if not self.road.exists:
+                return
             for child in self.road.children:
                 child.Destroy()
             self.road.Destroy()
-            self.Destroy()
+            self.road.exists = False
+            print(f"Road despawned at: {self.road.transform.pos.xy}")
+        else:
+            self.road.replace_road()
 
 
 class Road(GameObject):
@@ -62,9 +67,14 @@ class Road(GameObject):
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
         RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
         RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
+        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
+        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        self.exists = True
         for i in range(random.randint(0,5)):
             x = threading.Thread(target=self.spawn_zombie)
             x.start()
+            x.join()
         print(f'Road spawned at: {self.transform.pos.xy}')
     def update(self):
         #self.transform.rot += 0.5
@@ -72,3 +82,12 @@ class Road(GameObject):
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         self.children.append(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
+    def replace_road(self):
+        if not self.exists:
+            self.main.objects.append(self)
+            self.main.colliders.append(self.physics)
+            for child in self.children:
+                child.main.objects.append(child)
+                child.main.colliders.append(child.physics)
+            print(f'Road respawned at: {self.transform.pos.xy}')
+            self.exists = True

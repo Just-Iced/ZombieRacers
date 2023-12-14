@@ -30,4 +30,4 @@ class Zombie(GameObject):
         if isinstance(object, Car):
             self.Destroy()
             object.coins += 1
-            print(object.coins)
+            #print(object.coins)

@@ -8,7 +8,7 @@ class SystemStructure:
     sprite: str = ''
     lifetime: int = 2
     systemLifetime: int = 2
-    velocity: Vec2 = Vec2(0,0)
-    scale: Vec2 = Vec2(0,0)
+    velocity: Vec2 = (0,0)
+    scale: Vec2 = (1,1)
     randomSpread: bool = True
     randomVertical: bool = False
