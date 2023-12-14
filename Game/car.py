@@ -9,7 +9,7 @@ import pygame
 import math
 
 from Engine.shadow import Shadow
-
+from Engine.ParticleSystem.system import System
 class Car(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
         super().__init__(main, path, transform, zOrder)
@@ -28,7 +28,7 @@ class Car(GameObject):
         self.maxSpeed = 10
         self.acceleration = 0.06
         self.coins = 0
-        
+        self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=self.zOrder)
         
     def update(self):
         keys = pygame.key.get_pressed()
@@ -52,6 +52,8 @@ class Car(GameObject):
                 self.move = 0
 
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
+
+        
 
         self.main.cam.pos = self.transform.pos
         

@@ -50,7 +50,7 @@ class System(GameObject):
     def update(self):
         self.curTime = pygame.time.get_ticks()
         
-        if self.curTime - self.prevTime >= self.params.systemLifetime*1000:
+        if self.curTime - self.prevTime >= self.params.systemLifetime*1000 and self.params.systemLifetime != 0:
             if self.particles == []:
                 self.Destroy()
         else:
