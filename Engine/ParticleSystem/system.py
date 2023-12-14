@@ -12,6 +12,7 @@ from Engine.functions import DelayEvent
 from Engine.physicsObject import PhysicsObject
 from Engine.physicsObject import ColliderState
 import pygame
+import math
 from json import load
 
 
@@ -64,10 +65,12 @@ class System(GameObject):
         scale = random.randint(self.params.scale[0], self.params.scale[1])
 
         vel = self.checkVec()
-        
-        self.particles.append(Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), 0, Vec2(scale, scale)),
+        particle = Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), self.transform.rot, Vec2(scale, scale)),
                                        vel,
-                                        self.params.lifetime, self.params.sprite, self.main.dt, self.params.speed, self))
+                                        self.params.lifetime, self.params.sprite, self.main.dt, self.params.speed, self)
+        
+        
+        self.particles.append(particle)
         
     def checkVec(self):
         if self.params.randomSpread == True:
