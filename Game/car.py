@@ -32,6 +32,9 @@ class Car(GameObject):
         
     def update(self):
         keys = pygame.key.get_pressed()
+
+
+
         
         if keys[pygame.K_a]:
             self.transform.rot += 2 * self.main.dt
@@ -50,8 +53,9 @@ class Car(GameObject):
                 #self.move = max(self.move, 0)
             elif self.move > 0:
                 self.move = 0
-
+        self.particles.params.velocity = self.particles.initvel * -self.move
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
+
 
         
 
