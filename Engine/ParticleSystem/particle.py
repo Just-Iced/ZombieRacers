@@ -16,15 +16,14 @@ class Particle:
         self.prevTime = pygame.time.get_ticks()
         
         self.curTime = pygame.time.get_ticks()
+        vel = Vector2(-(self.velocity.x * math.cos(math.radians(self.transform.rot- 180))) - self.velocity.y * math.sin(math.radians(self.transform.rot- 180)),
+                      self.velocity.x * math.sin(math.radians(self.transform.rot - 180)) - self.velocity.y * math.cos(math.radians(self.transform.rot - 180)))
+        self.velocity = vel
 
     def simulate(self):
         self.curTime = pygame.time.get_ticks()
         if self.curTime - self.prevTime >= self.lifetime:
             self.owner.particles.remove(self)
         else:
-            c, s = np.cos(math.radians(self.transform.rot)), np.sin(math.radians(self.transform.rot))
-            j = np.matrix([[c, s], [-s, c]])
-            m = np.dot(j, [self.velocity.x, self.velocity.y])
-            self.velocity = Vector2(float(m.T[0]), float(m.T[1]))
             self.transform.pos.y += (self.velocity.y * self.deltatime)*self.speed
             self.transform.pos.x += (self.velocity.x * self.deltatime)*self.speed

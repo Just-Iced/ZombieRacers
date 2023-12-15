@@ -16,11 +16,6 @@ game = main(Window((1280, 720)))
 
 #put game logic here:
 car = Car(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
-grass = Grass(game, Transform(Vec2(90,45), 0, Vec2(16,16)))
-zombie = Zombie(game, Transform(Vec2(106,45), 0, Vec2(3,3)))
-ah = SpriteTest(game, Transform(Vec2(90,0), 0, Vec2(16,16)))
-
-
 road = Road(game, Transform(Vec2(90,144), 0, Vec2(85,16)))
 
 game.run()
