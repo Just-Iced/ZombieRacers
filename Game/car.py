@@ -25,7 +25,7 @@ class Car(GameObject):
         self.physics.AddSubscribersForHitEvent(self.resetVel)
         self.move = 0
         self.camOffset = 5
-        self.maxSpeed = 10
+        self.maxSpeed = 5
         self.acceleration = 0.06
         self.coins = 0
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=self.zOrder)

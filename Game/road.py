@@ -47,10 +47,11 @@ class RoadDestroy(GameObject):
             if not self.road.exists:
                 return
             for child in self.road.children:
-                child.Destroy()
+                x = threading.Thread(target=child.Destroy)
+                x.start()
+                x.join()
             self.road.Destroy()
             self.road.exists = False
-            print(f"Road despawned at: {self.road.transform.pos.xy}")
         else:
             self.road.replace_road()
 
@@ -62,7 +63,14 @@ class Road(GameObject):
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
         self.children = []
-        
+        x = threading.Thread(target=self.spawn)
+        x.start()
+        x.join()
+        for i in range(random.randint(0,5)):
+            x = threading.Thread(target=self.spawn_zombie)
+            x.start()
+            x.join()
+    def spawn(self):
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
         RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
@@ -71,23 +79,22 @@ class Road(GameObject):
         RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
         RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
         self.exists = True
-        for i in range(random.randint(0,5)):
-            x = threading.Thread(target=self.spawn_zombie)
-            x.start()
-            x.join()
-        print(f'Road spawned at: {self.transform.pos.xy}')
     def update(self):
         #self.transform.rot += 0.5
         pass
+
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         self.children.append(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
+    def spawn_child(self, child):
+        child.main.objects.append(child)
+        child.main.colliders.append(child.physics)
     def replace_road(self):
         if not self.exists:
             self.main.objects.append(self)
             self.main.colliders.append(self.physics)
             for child in self.children:
-                child.main.objects.append(child)
-                child.main.colliders.append(child.physics)
-            print(f'Road respawned at: {self.transform.pos.xy}')
+                x = threading.Thread(target=lambda: self.spawn_child(child))
+                x.start()
+                x.join()
             self.exists = True

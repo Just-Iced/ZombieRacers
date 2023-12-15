@@ -9,6 +9,7 @@ from car import Car
 import pygame
 
 from Engine.shadow import Shadow
+from Engine.ParticleSystem.system import System
 
 class Zombie(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 12, path = 'zombie'):
@@ -28,6 +29,7 @@ class Zombie(GameObject):
         pass
     def collide(self, object):
         if isinstance(object, Car):
+            System(self.main,'BloodSystem.json',self.transform,self.zOrder)
             self.Destroy()
             object.coins += 1
             #print(object.coins)
