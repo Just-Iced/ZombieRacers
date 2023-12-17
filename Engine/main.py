@@ -49,6 +49,4 @@ class main:
         p.start()
         p.join()
         
-        r = threading.Thread(target=self.renderer.render)
-        r.start()
-        r.join()
+        self.renderer.render()

@@ -7,7 +7,7 @@ class Renderer:
     def __init__(self, objects, window, camera):
         self.objects = objects
         self.window = window
-        self.screen = pygame.Surface((180,90))
+        self.screen = pygame.Surface((self.window.window.get_width()/8, self.window.window.get_height()/8))
         self.cam = camera
 
     def render(self):
@@ -37,7 +37,7 @@ class Renderer:
         self.display()
                 
     def display(self):
-        s = pygame.transform.scale(self.screen, (1280, 720))
+        s = pygame.transform.scale(self.screen, (self.window.window.get_width(), self.window.window.get_height()))
         self.window.window.blit(s, (0,0))
         pygame.display.update()
     
