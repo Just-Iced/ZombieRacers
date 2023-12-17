@@ -5,20 +5,11 @@ from Engine.gameObject import GameObject
 from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
+from car import Car
+from zombie import Zombie
 from pygame.math import Vector2 as Vec2
 import pygame
-<<<<<<< Updated upstream
-
-class Road(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads'):
-        super().__init__(main, path, transform, zOrder)
-        #-CONSTRUCTOR-
-        #Physics Parameters
-        self.physics.colliderState = None
-    def update(self):
-        #self.transform.rot += 0.5
-        pass
-=======
+import random
 import threading
 
 class RoadSide(SpriteStack):
@@ -106,4 +97,3 @@ class Road(SpriteStack):
                 x.start()
                 x.join()
             self.exists = True
->>>>>>> Stashed changes
