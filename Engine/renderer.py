@@ -51,3 +51,10 @@ class Renderer:
             shadow = pygame.transform.rotate(object.shadow.shadow, object.transform.rot + self.cam.rot)
             self.screen.blit(shadow, transform - pygame.math.Vector2(shadow.get_width()//2, shadow.get_height()//2))
         except:pass
+    
+    def renderParticles(self, systems):
+        for system in systems:
+            for particle in system.particles:
+                tf = self.cam.applyTransform(particle.transform.pos)
+                transform = pygame.math.Vector2(tf[0], tf[1])
+                self.screen.blit(particle.surface, transform)
