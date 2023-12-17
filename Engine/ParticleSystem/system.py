@@ -5,10 +5,8 @@ from Engine.transform import Transform
 from Engine.gameObject import GameObject
 from Engine.ParticleSystem.systemstucture import SystemStructure
 from Engine.ParticleSystem.particle import Particle
-import Engine.configRead as ConfigRead
 import random
 from pygame.math import Vector2 as Vec2
-from Engine.functions import DelayEvent
 from Engine.physicsObject import PhysicsObject
 from Engine.physicsObject import ColliderState
 import pygame
