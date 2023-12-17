@@ -1,27 +1,28 @@
 import sys, os
+from telnetlib import GA
 sys.path.append(os.getcwd())
 
 from Engine.gameObject import GameObject
 from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
-from car import Car
-from zombie import Zombie
 from pygame.math import Vector2 as Vec2
-import pygame
+from zombie import Zombie
+from car import Car
 import random
+import pygame
 import threading
 
 class RoadSide(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 50, path = 'roads/straight/side'):
-        super().__init__(main, path, transform, zOrder, cache = 180)
+        super().__init__(main, path, transform, zOrder)
         self.physics.colliderState = ColliderState.Block
         
     def update(self):
         pass
 class RoadEnd(GameObject):
-    def __init__(self, main, transform: Transform, zOrder=-10):
-        super().__init__(main, transform, zOrder)
+    def __init__(self, main, transform: Transform, path="", zOrder=-10):
+        super().__init__(main, path, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
@@ -32,8 +33,8 @@ class RoadEnd(GameObject):
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
 
 class RoadDestroy(GameObject):
-    def __init__(self, main, road: "Road", transform: Transform, zOrder=-10, destroyer=True):
-        super().__init__(main, transform, zOrder)
+    def __init__(self, main, road: "Road", transform: Transform, path="", zOrder=-10, destroyer=True):
+        super().__init__(main, path, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
@@ -58,7 +59,7 @@ class RoadDestroy(GameObject):
 
 class Road(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads/straight/road'):
-        super().__init__(main, path, transform, zOrder, cache=180)
+        super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
@@ -79,15 +80,16 @@ class Road(SpriteStack):
         RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
         RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
         self.exists = True
+    def update(self):
+        #self.transform.rot += 0.5
+        pass
 
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         self.children.append(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
-        
     def spawn_child(self, child):
         child.main.objects.append(child)
         child.main.colliders.append(child.physics)
-        
     def replace_road(self):
         if not self.exists:
             self.main.objects.append(self)

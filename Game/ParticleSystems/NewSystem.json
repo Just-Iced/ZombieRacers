@@ -1,0 +1,1 @@
+{"speed": 1, "spawnRate": 1, "sprite": "grass\\grass0.png", "lifetime": 500, "systemlifetime": 2, "velocity": [2.0, 1.0], "scale": [1.0, 16.0], "randomSpread": true, "randomVertical": true}

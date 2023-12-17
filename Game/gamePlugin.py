@@ -8,6 +8,7 @@ from car import Car
 from grass import Grass
 from road import Road
 from zombie import Zombie
+from spritetest import SpriteTest
 from Engine.ParticleSystem.system import System
 from Engine.window import Window
 

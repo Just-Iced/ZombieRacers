@@ -13,7 +13,7 @@ from Engine.ParticleSystem.system import System
 
 class Zombie(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 12, path = 'zombie'):
-        super().__init__(main, path, transform, zOrder, cache=45)
+        super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         self.shadow = Shadow(self)        
         #Physics Parameters
