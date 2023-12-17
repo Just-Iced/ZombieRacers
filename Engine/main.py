@@ -6,16 +6,12 @@ from Engine.preCalculator import PreCalculator
 import pygame
 import time
 import sys
+import threading
 
 class main:
-<<<<<<< Updated upstream
-    def __init__(self):
-        self.window = Window()
-=======
     def __init__(self, window):
         self.window = window
         self.preCalc = PreCalculator()
->>>>>>> Stashed changes
         self.objects = []
         self.colliders = []
         
@@ -30,35 +26,29 @@ class main:
         run = True
 
         while run:
-            self.dt = time.time() - self.lastTime
-            
-            self.dt *= 60
-            
-            self.lastTime = time.time()
-            
-            events = pygame.event.get()
-
-            for event in events:
-                if event.type == pygame.QUIT:
-                    run = False
-                    sys.exit()
-
             self.update()
-            self.physics.update()
-            self.renderer.render()
 
-            pygame.display.flip()
-    
     def update(self):
+        self.dt = time.time() - self.lastTime
+        
+        self.dt *= 60
+        
+        self.lastTime = time.time()
+        
+        events = pygame.event.get()
+
+        for event in events:
+            if event.type == pygame.QUIT:
+                run = False
+                sys.exit()
+
         for object in self.objects:
-<<<<<<< Updated upstream
-            object.tick()
-=======
             object.tick()
         
         p = threading.Thread(target=self.physics.update)
         p.start()
         p.join()
         
-        self.renderer.render()
->>>>>>> Stashed changes
+        r = threading.Thread(target=self.renderer.render)
+        r.start()
+        r.join()

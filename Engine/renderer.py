@@ -19,14 +19,6 @@ class Renderer:
         self.cam.createTransform()
         self.angle = self.cam.rot
         self.objects.sort(key=lambda x: x.zOrder, reverse=False)
-<<<<<<< Updated upstream
-        for object in self.objects:
-            tf = self.cam.applyTransform(object.transform.pos)
-            for i, img in enumerate(object.sprites):
-                rotatedimg = pygame.transform.rotate(img, object.transform.rot + self.angle)
-                self.screen.blit(rotatedimg, (tf[0][0] - rotatedimg.get_width() // 2, tf[1][0] - rotatedimg.get_height() // 2 - i * object.spread))
-                
-=======
         systems = []
 
         for object in self.objects:
