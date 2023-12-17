@@ -1,11 +1,7 @@
 import pygame
-<<<<<<< Updated upstream
-=======
-
 from Engine.ParticleSystem.system import System
 from Engine.spriteStack import SpriteStack
 import math
->>>>>>> Stashed changes
 
 class Renderer:
     def __init__(self, objects, window, camera):
@@ -38,15 +34,13 @@ class Renderer:
         
         self.renderParticles(systems)
         
->>>>>>> Stashed changes
         self.display()
                 
     def display(self):
         s = pygame.transform.scale(self.screen, (1280, 720))
-        
-<<<<<<< Updated upstream
         self.window.window.blit(s, (0,0))
-=======
+        pygame.display.update()
+    
     def checkShouldRender(self, tf):
         if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:
             return False
@@ -57,4 +51,3 @@ class Renderer:
             shadow = pygame.transform.rotate(object.shadow.shadow, object.transform.rot + self.cam.rot)
             self.screen.blit(shadow, transform - pygame.math.Vector2(shadow.get_width()//2, shadow.get_height()//2))
         except:pass
->>>>>>> Stashed changes
