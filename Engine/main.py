@@ -5,6 +5,7 @@ from Engine.camera import Camera
 import pygame
 import time
 import sys
+import threading
 
 class main:
     def __init__(self, window):
@@ -41,6 +42,11 @@ class main:
 
         for object in self.objects:
             object.tick()
-            
-        self.physics.update()
-        self.renderer.render()
+        
+        p = threading.Thread(target=self.physics.update)
+        p.start()
+        p.join()
+        
+        r = threading.Thread(target=self.renderer.render)
+        r.start()
+        r.join()

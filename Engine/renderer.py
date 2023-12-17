@@ -22,7 +22,7 @@ class Renderer:
             if isinstance(object, System):
                 systems.append(object)
             tf = self.cam.applyTransform(object.transform.pos)
-            transform = pygame.math.Vector2(tf[0][0], tf[1][0])
+            transform = pygame.math.Vector2(tf[0], tf[1])
             if self.checkShouldRender(transform) == True and not isinstance(object, System):
                 
                 self.renderShadow(object, layers, transform)
@@ -48,7 +48,7 @@ class Renderer:
         for system in systems:
             for particle in system.particles:
                 tf = self.cam.applyTransform(particle.transform.pos)
-                transform = pygame.math.Vector2(tf[0][0], tf[1][0])
+                transform = pygame.math.Vector2(tf[0], tf[1])
                 self.screen.blit(particle.surface, transform)
 
         
@@ -59,5 +59,5 @@ class Renderer:
     
     def renderShadow(self, object, layers, transform):
         try:
-            layers.append(Layer(object, object.shadow.surf, object.zOrder, 0, transform))
+            layers.append(Layer(object, object.shadow.shadow, object.zOrder, 0, transform))
         except:pass

@@ -15,7 +15,7 @@ class Car(GameObject):
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         
-        self.shadow = Shadow(radius=8)
+        self.shadow = Shadow(self)
         
         #Physics Parameters
         self.physics.scale = 0
