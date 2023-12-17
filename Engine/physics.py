@@ -22,6 +22,7 @@ class Physics:
         
         for entity in self.entities:
             callOverlap = False
+            callHit = False
             if entity.physics.simulate == True:
                 self.simulated.append(entity)
                 
@@ -33,12 +34,15 @@ class Physics:
             pY = entity.transform.pos.y + entity.physics.velocity.y * entity.main.dt
             pX = entity.transform.pos.x + entity.physics.velocity.x * entity.main.dt
             direction = Vector2(pX, pY) - lastPos
+
+            collidingObjects = []
+            
+            colliding = {"up": False, "down": False, "right": False, "left": False}   
             
             #apply x             transform
             entity.transform.pos.x += (entity.physics.velocity.x * entity.main.dt)
             entity.physics.update()
-            for collider in entity.main.colliders:
-                colliding = {"up": False, "down": False, "right": False, "left": False}    
+            for collider in entity.main.colliders: 
                 if entity.physics.collider.colliderect(collider.collider) and collider.collider != entity.physics.collider:
 
                     if entity.physics.colliderState == ColliderState.Block and collider.colliderState == ColliderState.Block:
@@ -52,16 +56,17 @@ class Physics:
                         if colliding["left"] or colliding["right"]:
                             entity.transform.pos.x = entity.physics.collider.x + (entity.transform.scale.x // 2)
                             entity.physics.velocity.x = entity.physics.minVel.x
-                            callOverlap = True
+                            callHit = True
+                            collidingObjects.append(collider.owner)
                     
-                    if entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
+                    elif entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
                         callOverlap = True
+                        collidingObjects.append(collider.owner)
                         
                         
             entity.transform.pos.y += (entity.physics.velocity.y * entity.main.dt)
             entity.physics.update()
-            for collider in entity.main.colliders:
-                colliding = {"up": False, "down": False, "right": False, "left": False}    
+            for collider in entity.main.colliders:  
                 if entity.physics.collider.colliderect(collider.collider) and collider.collider != entity.physics.collider:
 
                     if entity.physics.colliderState == ColliderState.Block and collider.colliderState == ColliderState.Block:
@@ -75,10 +80,20 @@ class Physics:
                         if colliding["up"] or colliding["down"]:
                             entity.transform.pos.y = entity.physics.collider.y + (entity.transform.scale.y // 2)
                             entity.physics.velocity.y = entity.physics.minVel.y
-                            callOverlap = True
+                            callHit = True
+                            if collider.owner not in collidingObjects:
+                                collidingObjects.append(collider.owner)
+
                             
-                    if entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
+                    elif entity.physics.colliderState == ColliderState.Overlap and collider.colliderState != ColliderState.Blank:
                         callOverlap = True
-                        
+                        if collider.owner not in collidingObjects:
+                            collidingObjects.append(collider.owner)
+
+
             if callOverlap == True:
-                entity.physics.overlapEvent()
+                for object in collidingObjects:
+                    entity.physics.overlapEvent(object)
+
+            if callHit == True:              
+                entity.physics.hitEvent()

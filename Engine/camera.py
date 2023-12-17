@@ -3,7 +3,6 @@ import math
 import numpy
 
 
-
 class Camera:
     def __init__(self, main):
         self.pos = pygame.math.Vector2(0,0)
@@ -21,7 +20,9 @@ class Camera:
 
         self.mZoom = []
     
+
     def createTransform(self):
+        
         angle = self.rot * math.pi/180
         
         self.mPos = [[1,0,-self.pos.x],
@@ -36,13 +37,11 @@ class Camera:
                 [-math.sin(angle), math.cos(angle), 0],
                 [0,0,1]]
         
-        self.mZoom = [[self.zoom, 0,0],
+        """self.mZoom = [[self.zoom, 0,0],
                  [0,self.zoom,0],
-                 [0,0,1]]
+                 [0,0,1]]"""
     
-
     def applyTransform(self, vec):
-        thing = numpy.dot(self.mPos, [[vec.x],[vec.y],[1]])
-        thing2 = numpy.dot(self.mRot, thing)
-        thing3 = numpy.dot(self.mZoom, thing2)
-        return numpy.around(numpy.dot(self.mOffset, thing3), 1)
+        p = numpy.around(numpy.dot(self.mOffset, numpy.dot(self.mRot, numpy.dot(self.mPos, [[vec.x],[vec.y],[1]]))), 1)
+        return (p[0][0], p[1][0])
+    
