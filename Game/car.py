@@ -11,8 +11,8 @@ import math
 from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
 class Car(SpriteStack):
-    def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, transform : Transform, zOrder = 10):
+        super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         
         self.shadow = Shadow(self)

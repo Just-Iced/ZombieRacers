@@ -1,6 +1,7 @@
 from pygame.math import Vector2 as Vec2
 from Engine.transform import Transform
 from Engine.physicsObject import PhysicsObject
+
 import pygame
 import os
 
@@ -14,10 +15,19 @@ class GameObject:
         self.main = main
         self.physics = PhysicsObject(self, False, 1)
         self.spread = 1
+        
         self.main.objects.append(self)
+    
     
     def tick(self):
         self.update()
     
     def update(self):
         pass
+
+    def Destroy(self):
+        if self in self.main.objects:
+            self.main.objects.remove(self)
+        
+        if self.physics in self.main.colliders:
+            self.main.colliders.remove(self.physics)

@@ -14,15 +14,15 @@ import pygame
 import threading
 
 class RoadSide(SpriteStack):
-    def __init__(self, main, transform : Transform, zOrder = 50, path = 'roads/straight/side'):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, transform : Transform, zOrder = 50):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Block
         
     def update(self):
         pass
 class RoadEnd(GameObject):
-    def __init__(self, main, transform: Transform, path="", zOrder=-10):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, transform: Transform, zOrder=-10):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
@@ -33,8 +33,8 @@ class RoadEnd(GameObject):
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
 
 class RoadDestroy(GameObject):
-    def __init__(self, main, road: "Road", transform: Transform, path="", zOrder=-10, destroyer=True):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, road: "Road", transform: Transform, zOrder=-10, destroyer=True):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
@@ -58,8 +58,8 @@ class RoadDestroy(GameObject):
 
 
 class Road(SpriteStack):
-    def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads/straight/road'):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, transform : Transform, zOrder = 0):
+        super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
