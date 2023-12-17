@@ -1,4 +1,11 @@
 import pygame
+<<<<<<< Updated upstream
+=======
+
+from Engine.ParticleSystem.system import System
+from Engine.spriteStack import SpriteStack
+import math
+>>>>>>> Stashed changes
 
 class Renderer:
     def __init__(self, objects, window, camera):
@@ -12,15 +19,50 @@ class Renderer:
         self.cam.createTransform()
         self.angle = self.cam.rot
         self.objects.sort(key=lambda x: x.zOrder, reverse=False)
+<<<<<<< Updated upstream
         for object in self.objects:
             tf = self.cam.applyTransform(object.transform.pos)
             for i, img in enumerate(object.sprites):
                 rotatedimg = pygame.transform.rotate(img, object.transform.rot + self.angle)
                 self.screen.blit(rotatedimg, (tf[0][0] - rotatedimg.get_width() // 2, tf[1][0] - rotatedimg.get_height() // 2 - i * object.spread))
                 
+=======
+        systems = []
+
+        for object in self.objects:
+            tf = self.cam.applyTransform(object.transform.pos)
+            transform = pygame.math.Vector2(tf[0], tf[1])
+            if self.checkShouldRender(transform) == True:
+                if isinstance(object, System):
+                    systems.append(object)
+                
+                if isinstance(object, SpriteStack):
+                        self.renderShadow(object, transform)
+                        
+                        rotfrac = (((object.transform.rot + self.cam.rot) + 180 / object.cache) % 360) / 360
+                        i = math.floor(rotfrac * object.cache)
+
+                        self.screen.blit(object.rotCache[i][1], transform - object.rotCache[i][0])
+        
+        self.renderParticles(systems)
+        
+>>>>>>> Stashed changes
         self.display()
                 
     def display(self):
         s = pygame.transform.scale(self.screen, (1280, 720))
         
+<<<<<<< Updated upstream
         self.window.window.blit(s, (0,0))
+=======
+    def checkShouldRender(self, tf):
+        if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:
+            return False
+        return True
+    
+    def renderShadow(self, object, transform):
+        try:
+            shadow = pygame.transform.rotate(object.shadow.shadow, object.transform.rot + self.cam.rot)
+            self.screen.blit(shadow, transform - pygame.math.Vector2(shadow.get_width()//2, shadow.get_height()//2))
+        except:pass
+>>>>>>> Stashed changes

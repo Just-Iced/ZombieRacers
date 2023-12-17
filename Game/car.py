@@ -1,15 +1,22 @@
 import sys, os
 sys.path.append(os.getcwd())
 
-from Engine.gameObject import GameObject
+from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 import pygame
 import math
 
+<<<<<<< Updated upstream
 class Car(GameObject):
     def __init__(self, main, transform : Transform, zOrder = 1, path = 'car'):
+=======
+from Engine.shadow import Shadow
+from Engine.ParticleSystem.system import System
+class Car(SpriteStack):
+    def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
+>>>>>>> Stashed changes
         super().__init__(main, path, transform, zOrder)
         #-CONSTRUCTOR-
         

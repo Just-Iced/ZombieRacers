@@ -22,7 +22,6 @@ class Camera:
         self.mZoom = []
     
     def createTransform(self):
-        
         angle = self.rot * math.pi/180
         
         self.mPos = [[1,0,-self.pos.x],

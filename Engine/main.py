@@ -2,13 +2,20 @@ from Engine.window import Window
 from Engine.renderer import Renderer
 from Engine.physics import Physics
 from Engine.camera import Camera
+from Engine.preCalculator import PreCalculator
 import pygame
 import time
 import sys
 
 class main:
+<<<<<<< Updated upstream
     def __init__(self):
         self.window = Window()
+=======
+    def __init__(self, window):
+        self.window = window
+        self.preCalc = PreCalculator()
+>>>>>>> Stashed changes
         self.objects = []
         self.colliders = []
         
@@ -44,4 +51,14 @@ class main:
     
     def update(self):
         for object in self.objects:
+<<<<<<< Updated upstream
             object.tick()
+=======
+            object.tick()
+        
+        p = threading.Thread(target=self.physics.update)
+        p.start()
+        p.join()
+        
+        self.renderer.render()
+>>>>>>> Stashed changes
