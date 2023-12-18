@@ -13,15 +13,15 @@ import random
 import pygame
 import threading
 
-class RoadSide(SpriteStack):
-    def __init__(self, main, transform : Transform, zOrder = 50):
+class Side(SpriteStack):
+    def __init__(self, main, transform : Transform, zOrder = 20):
         super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Block
         
     def update(self):
         pass
-class RoadEnd(GameObject):
-    def __init__(self, main, transform: Transform, zOrder=-10):
+class End(GameObject):
+    def __init__(self, main, transform: Transform, zOrder=0):
         super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
@@ -32,8 +32,8 @@ class RoadEnd(GameObject):
             self.Destroy()
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
 
-class RoadDestroy(GameObject):
-    def __init__(self, main, road: "Road", transform: Transform, zOrder=-10, destroyer=True):
+class Destroy(GameObject):
+    def __init__(self, main, road: "Road", transform: Transform, zOrder=0, destroyer=True):
         super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
@@ -72,13 +72,13 @@ class Road(SpriteStack):
             x.start()
             x.join()
     def spawn(self):
-        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
-        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
-        RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
-        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
-        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
-        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
-        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        self.children.append(Side(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
+        self.children.append(Side(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
+        End(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
+        Destroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
+        Destroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        Destroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
+        Destroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
         self.exists = True
     def update(self):
         #self.transform.rot += 0.5

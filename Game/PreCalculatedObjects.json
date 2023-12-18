@@ -1,6 +1,6 @@
 {
     "Car": {"path": "car", "cache": 180},
     "Road": {"path": "roads/straight/road", "cache": 180},
-    "RoadSide": {"path": "roads/straight/side", "cache": 180},
+    "Side": {"path": "roads/straight/side", "cache": 180},
     "Zombie": {"path": "zombie", "cache": 45}
 }
