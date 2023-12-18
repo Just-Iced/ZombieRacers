@@ -17,5 +17,6 @@ game = main(Window((1280, 720)))
 #put game logic here:
 car = Car(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
 road = Road(game, Transform(Vec2(90,144), 0, Vec2(85,16)))
+a = SpriteTest(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
 
 game.run()
