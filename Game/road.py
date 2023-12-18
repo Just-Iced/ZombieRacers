@@ -3,6 +3,7 @@ from telnetlib import GA
 sys.path.append(os.getcwd())
 
 from Engine.gameObject import GameObject
+from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
@@ -12,16 +13,16 @@ import random
 import pygame
 import threading
 
-class RoadSide(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 50, path = 'roads/straight/side'):
-        super().__init__(main, path, transform, zOrder)
+class RoadSide(SpriteStack):
+    def __init__(self, main, transform : Transform, zOrder = 20):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Block
         
     def update(self):
         pass
 class RoadEnd(GameObject):
-    def __init__(self, main, transform: Transform, path="", zOrder=-10):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, transform: Transform, zOrder=0):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
@@ -32,18 +33,18 @@ class RoadEnd(GameObject):
             Road(self.main, Transform(Vec2(0,72) + self.transform.pos, 0, Vec2(85,16)))
 
 class RoadDestroy(GameObject):
-    def __init__(self, main, road: "Road", transform: Transform, path="", zOrder=-10, destroyer=True):
-        super().__init__(main, path, transform, zOrder)
+    def __init__(self, main, road: "Road", transform: Transform, zOrder=0, RoadDestroyer=True):
+        super().__init__(main, transform, zOrder)
         self.physics.colliderState = ColliderState.Overlap
         self.physics.simulate = True
         self.physics.scale = 0
-        self.physics.AddSubscribersForCollisionEvent(self.try_destroy_road)
+        self.physics.AddSubscribersForCollisionEvent(self.try_Destroy_road)
         self.road = road
-        self.should_destroy = destroyer
-    def try_destroy_road(self, object):
+        self.should_RoadDestroy = RoadDestroyer
+    def try_Destroy_road(self, object):
         if not isinstance(object, Car):
             return
-        if self.should_destroy:
+        if self.should_RoadDestroy:
             if not self.road.exists:
                 return
             for child in self.road.children:
@@ -56,9 +57,9 @@ class RoadDestroy(GameObject):
             self.road.replace_road()
 
 
-class Road(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 0, path = 'roads/straight/road'):
-        super().__init__(main, path, transform, zOrder)
+class Road(SpriteStack):
+    def __init__(self, main, transform : Transform, zOrder = 0):
+        super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
@@ -75,9 +76,9 @@ class Road(GameObject):
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))        
         RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
         RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
-        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 571), scale=Vec2(85,85)),road=self,RoadDestroyer=False)
         RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 720), scale=Vec2(85,85)),road=self)
-        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,destroyer=False)
+        RoadDestroy(self.main, transform=Transform(self.transform.pos - Vec2(0, 571), scale=Vec2(85,85)),road=self,RoadDestroyer=False)
         self.exists = True
     def update(self):
         #self.transform.rot += 0.5

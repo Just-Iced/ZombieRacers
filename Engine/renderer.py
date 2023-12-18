@@ -1,63 +1,72 @@
 import pygame
-from Engine.renderlayer import Layer
 from Engine.ParticleSystem.system import System
+from Engine.spriteStack import SpriteStack
+from Engine.sprite import Sprite
+import math
 
 class Renderer:
     def __init__(self, objects, window, camera):
         self.objects = objects
         self.window = window
-        self.screen = pygame.Surface((180,90))
-        self.screen.set_alpha(None)
+        self.screen = pygame.Surface((self.window.window.get_width()/8, self.window.window.get_height()/8))
         self.cam = camera
 
     def render(self):
         self.screen.fill((0,0,0))
         self.cam.createTransform()
-
-        self.objects.sort(key=lambda x: x.zOrder, reverse=False)
-        systems = []
-
-        layers = []
+        self.angle = self.cam.rot      
+        renderObjects = []
+        
         for object in self.objects:
-            if isinstance(object, System):
-                systems.append(object)
-            tf = self.cam.applyTransform(object.transform.pos)
-            transform = pygame.math.Vector2(tf[0], tf[1])
-            if self.checkShouldRender(transform) == True and not isinstance(object, System):
+            transform = self.cam.applyTransform(object.transform.pos)
+            if self.checkShouldRender(transform) == True:
+                renderObjects.append((object, transform))
                 
-                self.renderShadow(object, layers, transform)
-                for i, img in enumerate(object.sprites):
-                    layers.append(Layer(object, img, i+1 + object.zOrder, i, transform))
+        renderObjects.sort(key=lambda x: (x[0].zOrder, x[1].y))
+        
+        for object in renderObjects:
+            if isinstance(object[0], System):
+                self.renderParticleSystem(object[0])
+            
+            elif isinstance(object[0], SpriteStack):
+                self.renderSpriteStack(object[0], object[1])
                 
-        layers.sort(key=lambda x: x.zOrder, reverse=False)
-        
-        for layer in layers:
-            rotatedimg = pygame.transform.rotate(layer.surface, layer.object.transform.rot + self.cam.rot)
-            self.screen.blit(rotatedimg, (layer.transform.x - (rotatedimg.get_width() // 2), layer.transform.y - (rotatedimg.get_height() // 2)- layer.i * layer.object.spread))
-        
-        self.renderParticles(systems)
+            elif isinstance(object[0], Sprite):
+                self.renderSprite(object[0], object[1])
         
         self.display()
+
+    def renderSpriteStack(self, object, transform):
+        self.renderShadow(object, transform)
+        
+        rotfrac = (((object.transform.rot + self.cam.rot) + 180 / object.cache) % 360) / 360
+        i = math.floor(rotfrac * object.cache)
+
+        self.screen.blit(object.rotCache[i][1], transform - object.rotCache[i][0])
+    
+    def renderShadow(self, object, transform):
+        try:
+            shadow = pygame.transform.rotate(object.shadow.shadow, object.transform.rot + self.cam.rot)
+            self.screen.blit(shadow, transform - pygame.math.Vector2(shadow.get_width()//2, shadow.get_height()//2))
+        except:pass
+
+    def renderSprite(self, object, transform):
+        img = pygame.transform.rotate(object.sprite, object.transform.rot + self.cam.rot)
+        offset = pygame.math.Vector2(img.get_width()/2, img.get_height()/2)
+        self.screen.blit(img, transform - offset)
+    
+    def renderParticleSystem(self, object):
+        for particle in object.particles:
+            transform = self.cam.applyTransform(particle.transform.pos)
+            self.screen.blit(particle.surface, transform)
                 
     def display(self):
-        s = pygame.transform.scale(self.screen, (1280, 720))
+        s = pygame.transform.scale(self.screen, (self.window.window.get_width(), self.window.window.get_height()))
         self.window.window.blit(s, (0,0))
         pygame.display.update()
-
-    def renderParticles(self, systems):
-        for system in systems:
-            for particle in system.particles:
-                tf = self.cam.applyTransform(particle.transform.pos)
-                transform = pygame.math.Vector2(tf[0], tf[1])
-                self.screen.blit(particle.surface, transform)
-
-        
+    
     def checkShouldRender(self, tf):
         if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:
             return False
         return True
     
-    def renderShadow(self, object, layers, transform):
-        try:
-            layers.append(Layer(object, object.shadow.shadow, object.zOrder, 0, transform))
-        except:pass

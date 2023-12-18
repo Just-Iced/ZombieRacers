@@ -1,7 +1,7 @@
-from Engine.window import Window
 from Engine.renderer import Renderer
 from Engine.physics import Physics
 from Engine.camera import Camera
+from Engine.preCalculator import PreCalculator
 import pygame
 import time
 import sys
@@ -10,6 +10,7 @@ import threading
 class main:
     def __init__(self, window):
         self.window = window
+        self.preCalc = PreCalculator()
         self.objects = []
         self.colliders = []
         
@@ -47,6 +48,4 @@ class main:
         p.start()
         p.join()
         
-        r = threading.Thread(target=self.renderer.render)
-        r.start()
-        r.join()
+        self.renderer.render()

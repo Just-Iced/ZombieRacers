@@ -6,7 +6,7 @@ import numpy
 class Camera:
     def __init__(self, main):
         self.pos = pygame.math.Vector2(0,0)
-        self.offset = pygame.math.Vector2(90, 45)
+        self.offset = pygame.math.Vector2(80, 45)
         self.zoom = 1
         self.rot = 0
         
@@ -43,5 +43,5 @@ class Camera:
     
     def applyTransform(self, vec):
         p = numpy.around(numpy.dot(self.mOffset, numpy.dot(self.mRot, numpy.dot(self.mPos, [[vec.x],[vec.y],[1]]))), 1)
-        return (p[0][0], p[1][0])
+        return pygame.math.Vector2(p[0][0], p[1][0])
     

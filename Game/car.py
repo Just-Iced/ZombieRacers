@@ -1,7 +1,7 @@
 import sys, os
 sys.path.append(os.getcwd())
 
-from Engine.gameObject import GameObject
+from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
@@ -10,9 +10,9 @@ import math
 
 from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
-class Car(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = 10, path = 'car'):
-        super().__init__(main, path, transform, zOrder)
+class Car(SpriteStack):
+    def __init__(self, main, transform : Transform, zOrder = 10):
+        super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         
         self.shadow = Shadow(self)
