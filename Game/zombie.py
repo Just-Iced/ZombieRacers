@@ -1,4 +1,5 @@
 import sys, os
+
 sys.path.append(os.getcwd())
 
 from Engine.spriteStack import SpriteStack
@@ -21,6 +22,7 @@ class Zombie(SpriteStack):
         self.physics.simulate = True
             #self.physics.minVel = Vec2(0, 0)
         self.physics.colliderState = ColliderState.Overlap
+
         self.physics.AddSubscribersForCollisionEvent(self.collide)
         
         
@@ -31,5 +33,6 @@ class Zombie(SpriteStack):
         if isinstance(object, Car):
             System(self.main,'BloodSystem.json',self.transform,self.zOrder)
             self.Destroy()
+            del self
             object.coins += 1
             #print(object.coins)

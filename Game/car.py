@@ -28,7 +28,7 @@ class Car(SpriteStack):
         self.maxSpeed = 5
         self.acceleration = 0.06
         self.coins = 0
-        self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=self.zOrder)
+        self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
         
     def update(self):
         keys = pygame.key.get_pressed()
