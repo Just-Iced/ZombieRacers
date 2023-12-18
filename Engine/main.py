@@ -1,4 +1,3 @@
-from Engine.window import Window
 from Engine.renderer import Renderer
 from Engine.physics import Physics
 from Engine.camera import Camera
