@@ -8,9 +8,6 @@ from Engine.gameObject import GameObject
 class Widget(GameObject):
     def __init__(self, main, transform : Transform, zOrder = int):
         super().__init__(main, transform, zOrder)
-        self.transform = transform
-        self.zOrder = zOrder
-        self.main = main
         self.boundingBox = pygame.Rect(transform.pos, transform.scale)
         self.surface = pygame.Surface((160, 90)).convert_alpha()
         self.hovered = False
