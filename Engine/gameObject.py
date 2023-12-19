@@ -2,10 +2,7 @@ from pygame.math import Vector2 as Vec2
 from Engine.transform import Transform
 from Engine.physicsObject import PhysicsObject
 
-import pygame
 import os
-
-import sys, os
 
 
 class GameObject:
@@ -31,3 +28,5 @@ class GameObject:
         
         if self.physics in self.main.colliders:
             self.main.colliders.remove(self.physics)
+
+        del self
