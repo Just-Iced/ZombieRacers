@@ -12,7 +12,7 @@ from Engine.Widget.widget import Widget
 game = main(Window((1280, 720)))
 
 #put game logic here:
-car = Car(game, Transform(Vec2(0,0), 0, Vec2(16,16)))
+car = Car(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
 road = Road(game, Transform(Vec2(90,144), 0, Vec2(85,16)))
 w = Widget(game, Transform(Vec2(0,0), 0, Vec2(50,50)), 50)
 
