@@ -1,3 +1,4 @@
+
 import sys, os
 
 sys.path.append(os.getcwd())
@@ -7,7 +8,9 @@ from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 from car import Car
+from coin import Coin
 import pygame
+import random
 
 from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
@@ -32,7 +35,8 @@ class Zombie(SpriteStack):
     def collide(self, object):
         if isinstance(object, Car):
             System(self.main,'BloodSystem.json',self.transform,self.zOrder)
+            for i in range(random.randint(1,5)):
+                Coin(self.main, self.transform, self.zOrder)
             self.Destroy()
             del self
-            object.coins += 1
             #print(object.coins)
