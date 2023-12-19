@@ -34,8 +34,9 @@ class Widget(GameObject):
                 self.OnUnHovered()
             self.hovered = False
 
-        if pygame.mouse.get_pressed == 1 and self.hovered == True:
+        if pygame.mouse.get_pressed()[0] == True and self.hovered == True:
             self.OnClicked()
+    
 
         self.update()
 
