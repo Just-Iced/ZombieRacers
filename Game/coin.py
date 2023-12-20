@@ -1,6 +1,7 @@
 import sys, os
 
 from Engine.spriteStack import SpriteStack
+from Game.car import Car
 sys.path.append(os.getcwd())
 
 from Engine.gameObject import GameObject
@@ -20,12 +21,21 @@ class Coin(Sprite):
         self.physics.scale = 0
         self.physics.simulate = True
         self.physics.colliderState = ColliderState.Overlap
-        self.newPos = self.transform.pos + Vec2(random.randrange(-5,5), random.randrange(-5,5))
+
         self.physics.AddSubscribersForCollisionEvent(self.hit)
-        self.speed = random.randrange(4,5) / 100
+        self.speed = random.uniform(-2,2)
+        self.player = self.main.player
+        self.physics.setVelocity(Vec2(self.speed, self.speed))
         
     def update(self):
-        self.transform.pos += self.newPos * self.speed * self.main.dt
-        self.speed -= 0.02
+        DirVec = -(self.transform.pos - self.player.transform.pos) / 500
+        
+        self.physics.setVelocity(self.physics.velocity + DirVec)
+        
     def hit(self,object):
-        self.newPos = self.transform.pos
+        if object.__class__.__name__ == "Car":
+            object.coins += 1
+            print(object.coins)
+            self.Destroy()
+        else:
+            self.speed = 0

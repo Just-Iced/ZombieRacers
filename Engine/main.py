@@ -21,6 +21,7 @@ class main:
         self.cam = Camera(self)
         self.renderer = Renderer(self.objects, self.window, self.cam)
         self.events = None
+        self.player = None
 
     def run(self):
         run = True

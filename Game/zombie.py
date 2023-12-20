@@ -36,7 +36,6 @@ class Zombie(SpriteStack):
         if isinstance(object, Car):
             System(self.main,'BloodSystem.json',self.transform,self.zOrder)
             for i in range(random.randint(1,5)):
-                Coin(self.main, self.transform, self.zOrder)
+                Coin(self.main, Transform(self.transform.pos + Vec2(random.uniform(-1,1),random.uniform(-1,1)), scale=Vec2(1,1)), self.zOrder)
             self.Destroy()
-            del self
             #print(object.coins)
