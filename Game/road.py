@@ -82,4 +82,3 @@ class Road(SpriteStack):
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         zombie = Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3)))
-        self.children.append(zombie)

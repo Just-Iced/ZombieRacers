@@ -30,7 +30,7 @@ class Coin(Sprite):
     def update(self):
         DirVec = -(self.transform.pos - self.player.transform.pos) / 500
         
-        self.physics.setVelocity(self.physics.velocity + DirVec)
+        self.physics.setVelocity((self.physics.velocity + DirVec) * 0.97)
         
     def hit(self,object):
         if object.__class__.__name__ == "Car":
