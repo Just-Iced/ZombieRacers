@@ -45,6 +45,7 @@ class main:
 
         for object in self.objects:
             object.tick()
+            
         
         p = threading.Thread(target=self.physics.update)
         p.start()
