@@ -11,6 +11,7 @@ from car import Car
 from coin import Coin
 import pygame
 import random
+import math
 
 from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
@@ -25,13 +26,14 @@ class Zombie(SpriteStack):
         self.physics.simulate = True
             #self.physics.minVel = Vec2(0, 0)
         self.physics.colliderState = ColliderState.Overlap
-
         self.physics.AddSubscribersForCollisionEvent(self.collide)
         
         
     def update(self):
         #put your object logic here
-        pass
+        relativePos = self.main.player.transform.pos - self.transform.pos
+        angle = (180/math.pi) * -math.atan2(relativePos.y,relativePos.x) + 90
+        self.transform.rot = angle
     def collide(self, object):
         if isinstance(object, Car):
             System(self.main,'BloodSystem.json',self.transform,self.zOrder)
