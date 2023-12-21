@@ -6,11 +6,12 @@ from Engine.transform import Transform
 from Engine.gameObject import GameObject
 
 class Widget(GameObject):
-    def __init__(self, main, transform : Transform, zOrder = int):
+    def __init__(self, main, canvas, transform : Transform, zOrder = int):
         super().__init__(main, transform, zOrder)
         self.boundingBox = pygame.Rect(transform.pos, transform.scale)
         self.surface = pygame.Surface((160, 90)).convert_alpha()
         self.hovered = False
+        self.canvas = canvas
 
     def OnHovered(self):
         print("Hovered")
@@ -41,4 +42,7 @@ class Widget(GameObject):
         self.update()
 
     def update(self):
+        pass
+    
+    def render(self):
         pass
