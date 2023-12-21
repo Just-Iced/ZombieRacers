@@ -2,6 +2,7 @@ import pygame
 from Engine.ParticleSystem.system import System
 from Engine.spriteStack import SpriteStack
 from Engine.sprite import Sprite
+from Engine.Widget.widget import Widget
 import math
 
 class Renderer:
@@ -12,14 +13,19 @@ class Renderer:
         self.cam = camera
 
     def render(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill((168,231,255))
         self.cam.createTransform()
         self.angle = self.cam.rot      
         renderObjects = []
+        widgets = []
         
         for object in self.objects:
             transform = self.cam.applyTransform(object.transform.pos)
-            if self.checkShouldRender(transform) == True:
+            
+            if isinstance(object, Widget):
+                widgets.append(object)
+            
+            elif self.checkShouldRender(transform) == True:
                 renderObjects.append((object, transform))
                 
         renderObjects.sort(key=lambda x: (x[0].zOrder, x[1].y))
@@ -33,7 +39,12 @@ class Renderer:
                 
             elif isinstance(object[0], Sprite):
                 self.renderSprite(object[0], object[1])
-        
+                
+        for widget in widgets:
+            widget.render()
+            surf = widget.surface
+            self.screen.blit(surf, (0,0))
+    
         self.display()
 
     def renderSpriteStack(self, object, transform):
@@ -69,4 +80,3 @@ class Renderer:
         if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:
             return False
         return True
-    
