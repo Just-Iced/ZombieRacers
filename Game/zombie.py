@@ -30,25 +30,35 @@ class Zombie(SpriteStack):
         self.physics.AddSubscribersForCollisionEvent(self.collide)
         self.startTime = round(time.time())
         self.ranOffset = 0
+        self.playerOffset = random.randint(75,120)
+        self.initSpeed = random.uniform(0.4,0.8)
         
     def update(self):
         if round(time.time()) - self.startTime >= 25:
             self.Destroy()
         if random.randint(0,100) == 69:
-            self.ranOffset = random.uniform(-15,15)
+            self.ranOffset = random.randint(-15,15)
         #put your object logic here
-        speed = 0.5
+        speed = self.initSpeed
         relativePos: Vec2 = self.main.player.transform.pos - self.transform.pos
-        if relativePos.distance_to(Vec2(0,0)) > 100:
-            speed = 5
+        if relativePos.distance_to(Vec2(0,0)) > self.playerOffset:
+            speed *= random.uniform(2,3)
 
         angle = (180/math.pi) * -math.atan2(relativePos.y,relativePos.x) + self.ranOffset
         self.transform.rot = angle + 90
         self.physics.setVelocity(Vec2(speed,0).rotate(-angle))
     def collide(self, object):
-        if isinstance(object, Car):
+        if not isinstance(object, Car):
+            return
+        if object.physics.velocity.length() > 1:
             System(self.main,'BloodSystem.json',self.transform,self.zOrder)
-            for i in range(random.randint(1,5)):
+            for i in range(random.randint(0,5)):
                 Coin(self.main, Transform(self.transform.pos + Vec2(random.uniform(-1,1),random.uniform(-1,1)), scale=Vec2(1,1)), self.zOrder)
-            self.Destroy()
+            if random.randint(0,10) == 2:
+                Zombie(self.main, Transform(self.transform.pos + Vec2(random.uniform(-5,5),random.uniform(-5,5)), scale=self.transform.scale), self.zOrder)
             #print(object.coins)
+        else:
+            self.main.player.maxSpeed -= 0.1
+            System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder)
+        self.Destroy()
+            
