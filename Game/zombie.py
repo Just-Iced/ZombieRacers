@@ -1,4 +1,3 @@
-
 import sys, os
 
 sys.path.append(os.getcwd())
@@ -42,7 +41,7 @@ class Zombie(SpriteStack):
         speed = self.initSpeed
         relativePos: Vec2 = self.main.player.transform.pos - self.transform.pos
         if relativePos.distance_to(Vec2(0,0)) > self.playerOffset:
-            speed *= random.uniform(2,3)
+            speed *= random.uniform(2,5)
 
         angle = (180/math.pi) * -math.atan2(relativePos.y,relativePos.x) + self.ranOffset
         self.transform.rot = angle + 90

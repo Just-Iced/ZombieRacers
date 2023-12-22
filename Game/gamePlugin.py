@@ -13,5 +13,6 @@ game = main(Window((1280, 720)))
 #put game logic here:
 game.player = Car(game, Transform(Vec2(90,90), 0, Vec2(16,16)))
 road = Road(game, Transform(Vec2(90,144), 0, Vec2(85,16)))
+road2 = Road(game, Transform(Vec2(90,144 + 72), 0, Vec2(85,16)))
 b = Button(game, 'Button.png', Transform(Vec2(0,0), 0, Vec2(32,16)))
 game.run()
