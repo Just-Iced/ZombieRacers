@@ -12,6 +12,7 @@ def clip(surf, rect):
 pygame.init()
 screen = pygame.display.set_mode((100,100))
 
+
 path = sys.argv[1]
 layers = int(sys.argv[2])
 src_img = pygame.image.load(path).convert_alpha()
