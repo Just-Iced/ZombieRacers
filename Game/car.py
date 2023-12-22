@@ -36,13 +36,13 @@ class Car(SpriteStack):
 
 
         
-        if keys[pygame.K_a]:
-            self.transform.rot += 2 * self.main.dt
-            self.main.cam.rot -= 2 * self.main.dt
-        elif keys[pygame.K_d]:
-            self.transform.rot -= 2 * self.main.dt
-            self.main.cam.rot += 2 * self.main.dt
-            self.move += 0.01 * self.main.dt
+        if keys[pygame.K_a] and self.move != 0:
+            self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
+            self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+        elif keys[pygame.K_d] and self.move != 0:
+            self.transform.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+            self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+            #self.move += 0.01 * self.main.dt
         
         if keys[pygame.K_w]:
             if self.move >= -self.maxSpeed:
@@ -63,7 +63,9 @@ class Car(SpriteStack):
         
         
     def resetVel(self):
-        self.move = 0
+        #self.move = 0
+        self.move = self.move/2
+        pass
                 
         
             
