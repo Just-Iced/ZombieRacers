@@ -1,0 +1,1 @@
+{"speed": 1, "spawnRate": 1, "sprite": "CarDamage.png", "lifetime": 300, "systemlifetime": 0.2, "velocity": [2.0, 2.0], "scale": [2.0, 3.0], "randomSpread": true, "randomVertical": true}

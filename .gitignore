@@ -1,3 +1,6 @@
 *.pyc
 *.pyc
 *.pyc
+*.pyc
+Engine/__pycache__/
+Game/__pycache__/
