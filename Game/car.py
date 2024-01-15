@@ -29,12 +29,11 @@ class Car(SpriteStack):
         self.acceleration = 0.06
         self.coins = 0
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
+        self.main.cam.rot = self.transform.rot
+        
         
     def update(self):
         keys = pygame.key.get_pressed()
-
-
-
         
         if keys[pygame.K_a] and self.move != 0:
             self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)

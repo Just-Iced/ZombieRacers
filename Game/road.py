@@ -43,19 +43,20 @@ class RoadDestroy(GameObject):
         self.physics.scale = 0
         self.physics.AddSubscribersForCollisionEvent(self.try_destroy_road)
         self.road = road
+        self.canDestroy = True
     def try_destroy_road(self, object):
-        if not isinstance(object, Car):
+        if object != self.main.player or not self.canDestroy:
             return
+        self.canDestroy = False
         for child in self.road.children:
             child.Destroy()
             del child
         self.road.Destroy()
         self.Destroy()
+        self.main.roadCol.transform.pos += Vec2(0,118)
         del self.road
         del self
 
-        
-        
 class Road(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 0):
         super().__init__(main, transform, zOrder)
