@@ -57,7 +57,10 @@ class Zombie(SpriteStack):
                 Zombie(self.main, Transform(self.transform.pos + Vec2(random.uniform(-5,5),random.uniform(-5,5)), scale=self.transform.scale), self.zOrder)
             #print(object.coins)
         else:
-            self.main.player.maxSpeed -= 0.1
+            if self.main.player > 0:
+                self.main.player.maxSpeed -= 0.1
+            else:
+                self.main.player.kill()
             System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder)
         self.Destroy()
             

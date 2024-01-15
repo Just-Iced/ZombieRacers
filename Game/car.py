@@ -34,7 +34,7 @@ class Car(SpriteStack):
         
     def update(self):
         keys = pygame.key.get_pressed()
-        
+
         if keys[pygame.K_a] and self.move != 0:
             self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
             self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
@@ -64,7 +64,9 @@ class Car(SpriteStack):
     def resetVel(self):
         #self.move = 0
         self.move = self.move/2
-        pass
+        
+    def kill(self):
+        self.maxSpeed = 0
                 
         
             

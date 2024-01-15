@@ -53,7 +53,6 @@ class RoadDestroy(GameObject):
             del child
         self.road.Destroy()
         self.Destroy()
-        self.main.roadCol.transform.pos += Vec2(0,118)
         del self.road
         del self
 
