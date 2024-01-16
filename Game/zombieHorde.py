@@ -9,8 +9,8 @@ from pygame.math import Vector2 as Vec2
 import pygame
 
 class ZombieHorde(Sprite):
-    def __init__(self, main, transform : Transform, zOrder = 10):
-        super().__init__(main, transform, zOrder)
+    def __init__(self, main, transform : Transform, zOrder = 10,):
+        super().__init__(main, transform=transform, zOrder=zOrder, path="ZombieHorde.png")
         #-CONSTRUCTOR-
         
         #Physics Parameters
@@ -18,12 +18,12 @@ class ZombieHorde(Sprite):
         self.physics.simulate = True
         self.physics.minVel = Vec2(0, 0)
         self.physics.colliderState = ColliderState.Overlap
-        self.physics.AddSubscribersForHitEvent(collide)
-        self.physics.setVelocity(0,1)
-    def collide(self, obj):
-        if obj != self.main.player:
+        self.physics.setVelocity(Vec2(0,0.25))
+        self.physics.AddSubscribersForCollisionEvent(self.collide)
+    def collide(self, object):
+        if object != self.main.player:
             return
-        obj.kill()
+        self.main.player.kill()
         self.Destroy()
     def update(self):
         #put your object logic here

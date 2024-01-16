@@ -57,7 +57,7 @@ class Zombie(SpriteStack):
                 Zombie(self.main, Transform(self.transform.pos + Vec2(random.uniform(-5,5),random.uniform(-5,5)), scale=self.transform.scale), self.zOrder)
             #print(object.coins)
         else:
-            if self.main.player > 0:
+            if self.main.player.maxSpeed > 0:
                 self.main.player.maxSpeed -= 0.1
             else:
                 self.main.player.kill()

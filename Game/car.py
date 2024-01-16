@@ -67,6 +67,7 @@ class Car(SpriteStack):
         
     def kill(self):
         self.maxSpeed = 0
+        self.acceleration = 0
                 
         
             
