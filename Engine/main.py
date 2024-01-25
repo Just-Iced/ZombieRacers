@@ -7,6 +7,8 @@ import time
 import sys
 import threading
 
+fixedUpdateEvent = pygame.event.Event(357, {})
+
 class main:
     def __init__(self, window):
         self.window = window
@@ -25,10 +27,10 @@ class main:
 
     def run(self):
         run = True
-
+        pygame.time.set_timer(fixedUpdateEvent, 50)
         while run:
             self.update()
-
+        pygame.time.set_timer(fixedUpdateEvent, 0)
     def update(self):
         self.dt = time.time() - self.lastTime
         
@@ -42,6 +44,10 @@ class main:
             if event.type == pygame.QUIT:
                 run = False
                 sys.exit()
+            if event.type == fixedUpdateEvent.type:
+                f = threading.Thread(target=self.fixedUpdate)
+                f.start()
+                
 
         for object in self.objects:
             object.tick()
@@ -49,6 +55,8 @@ class main:
         
         p = threading.Thread(target=self.physics.update)
         p.start()
-        p.join()
-        
         self.renderer.render()
+
+    def fixedUpdate(self):
+        for object in self.objects:
+            object.fixedUpdate()

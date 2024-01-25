@@ -26,5 +26,6 @@ class ZombieHorde(Sprite):
         self.main.player.kill()
         self.Destroy()
     def update(self):
+        ...
         #put your object logic here
-        pass
+        #self.physics.setVelocity(self.physics.velocity + Vec2(0,0.025 * self.main.dt))

@@ -18,6 +18,9 @@ class GameObject:
     
     def tick(self):
         self.update()
+
+    def fixedUpdate(self):
+        pass
     
     def update(self):
         pass
