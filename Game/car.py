@@ -7,6 +7,7 @@ from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 import pygame
 import math
+import pickle
 
 from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
@@ -30,7 +31,11 @@ class Car(SpriteStack):
         self.coins = 0
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
         self.main.cam.rot = self.transform.rot
+        self.savefile = "C:/Users/585622/Documents/GitHub/ZombieRacers/Game/savefile"
         
+        with open(self.savefile, "r") as savefile:
+            data = pickle.load(open(self.savefile))
+            print(f"Save Data: \n{data}")
         
     def update(self):
         keys = pygame.key.get_pressed()
@@ -54,12 +59,19 @@ class Car(SpriteStack):
                 self.move = 0
         self.particles.params.velocity = self.particles.initvel * -self.move
         self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
-
-
         
 
         self.main.cam.pos = self.transform.pos
         
+        for event in self.main.events:
+            if event.type == pygame.QUIT:
+                player_data = {"coins" : self.coins}
+                with open(self.savefile, "rw") as f:
+                    data = pickle.load(f)
+                    data["player"] = player_data
+                    pickle.dump(data, f)
+                    
+
         
     def resetVel(self):
         #self.move = 0
