@@ -64,7 +64,7 @@ class System(GameObject):
             particle.simulate()
     
     def spawnParticle(self):
-        scale = random.randint(self.params.scale[0], self.params.scale[1])
+        scale = random.randint(round(self.params.scale[0]), round(self.params.scale[1]))
 
         vel = self.checkVec()
         particle = Particle(Transform(Vec2(self.transform.pos.x, self.transform.pos.y), self.transform.rot, Vec2(scale, scale)),
