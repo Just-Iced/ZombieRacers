@@ -4,6 +4,7 @@ sys.path.append(os.getcwd())
 from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
+import Engine.serialization as serialize
 from pygame.math import Vector2 as Vec2
 import pygame
 import math
@@ -13,18 +14,15 @@ from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
 class Car(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 10):
-        
+        super().__init__(main, transform, zOrder)        
         #-CONSTRUCTOR-
+        self.data = {}
+        if serialize.DoesSaveDataExist:
+            self.data = serialize.LoadSaveData()
+
         
-        self.savefile = f"{os.getcwd()}/Game/savedata/car.pickle"
-        if not os.path.isfile(self.savefile):
-            with open(self.savefile, "bw") as f:
-                attributes = {"coins": 0, "pos": transform}
-                pickle.dump(attributes, f)
-        data = pickle.load(open(self.savefile, "rb"))
-        print(data)   
         self.shadow = Shadow(self)
-        super().__init__(main, data["pos"], zOrder)
+
         #Physics Parameters
         self.physics.scale = 0
         self.physics.simulate = True
