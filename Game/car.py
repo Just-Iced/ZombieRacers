@@ -17,8 +17,7 @@ class Car(SpriteStack):
         super().__init__(main, transform, zOrder)        
         #-CONSTRUCTOR-
         self.data = {}
-        if serialize.DoesSaveDataExist:
-            self.data = serialize.LoadSaveData()
+
 
         
         self.shadow = Shadow(self)
@@ -33,9 +32,13 @@ class Car(SpriteStack):
         self.camOffset = 5
         self.maxSpeed = 5
         self.acceleration = 0.06
-        self.coins = data["coins"]
+        self.coins = 0
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
-        self.main.cam.rot = self.transform.rot
+        self.main.cam.rot = -self.transform.rot
+        
+        if serialize.DoesSaveDataExist("car"):
+            self.data = serialize.LoadSaveData("car")
+            self.load()
         
 
          
@@ -67,12 +70,16 @@ class Car(SpriteStack):
         
         for event in self.main.events:
             if event.type == pygame.QUIT:
-                data = {"coins" : self.coins, "pos" : self.transform}
-                with open(self.savefile, "+wb") as f:
-                    print(data)
-                    pickle.dump(data, f)
+                self.save()
                     
-
+    def load(self):
+        self.coins = self.data['coins']
+        self.transform = self.data['pos']
+        self.main.cam.rot = -self.transform.rot
+        
+    def save(self):
+        self.data = {"coins" : self.coins, "pos" : self.transform}
+        serialize.SaveData("car", self.data)
         
     def resetVel(self):
         #self.move = 0
