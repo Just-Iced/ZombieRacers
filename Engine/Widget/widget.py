@@ -9,7 +9,7 @@ class Widget(GameObject):
     def __init__(self, main, transform: Transform):
         super().__init__(main, transform, 0)
         self.main = main
-        self.boundingBox = pygame.rect.Rect(transform.pos.x - (transform.scale.x//2), transform.pos.y - (transform.scale.y//2), transform.scale.x, transform.scale.y)
+        self.boundingBox = pygame.Rect(-transform.pos.x - (transform.scale.x/2), -transform.pos.y - (transform.scale.y/2), transform.scale.x, transform.scale.y)
         self.surface = pygame.Surface((160, 90), pygame.SRCALPHA)#.convert_alpha()
         self.hovered = False
 

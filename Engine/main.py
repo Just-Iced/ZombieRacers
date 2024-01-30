@@ -38,8 +38,10 @@ class main:
         
         self.lastTime = time.time()
         
-        self.events = pygame.event.get()
+        for object in self.objects:
+            object.tick()
 
+        self.events = pygame.event.get()
         for event in self.events:
             if event.type == pygame.QUIT:
                 run = False
@@ -49,8 +51,7 @@ class main:
                 f.start()
                 
 
-        for object in self.objects:
-            object.tick()
+
             
         
         self.physics.update()
