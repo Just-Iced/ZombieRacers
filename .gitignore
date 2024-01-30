@@ -4,3 +4,4 @@
 *.pyc
 Engine/__pycache__/
 Game/__pycache__/
+*.pyc

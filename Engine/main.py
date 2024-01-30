@@ -53,9 +53,9 @@ class main:
             object.tick()
             
         
-        p = threading.Thread(target=self.physics.update)
-        p.start()
+        self.physics.update()
         self.renderer.render()
+
 
     def fixedUpdate(self):
         for object in self.objects:

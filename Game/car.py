@@ -31,11 +31,11 @@ class Car(SpriteStack):
         self.coins = 0
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
         self.main.cam.rot = self.transform.rot
-        self.savefile = "C:/Users/585622/Documents/GitHub/ZombieRacers/Game/savefile"
+        #self.savefile = "C:/Users/585622/Documents/GitHub/ZombieRacers/Game/savefile"
         
-        with open(self.savefile, "r") as savefile:
-            data = pickle.load(open(self.savefile))
-            print(f"Save Data: \n{data}")
+        #with open(self.savefile, "r") as savefile:
+            #data = pickle.load(open(self.savefile))
+            #print(f"Save Data: \n{data}")
         
     def update(self):
         keys = pygame.key.get_pressed()
