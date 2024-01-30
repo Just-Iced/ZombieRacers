@@ -38,8 +38,10 @@ class main:
         
         self.lastTime = time.time()
         
-        self.events = pygame.event.get()
+        for object in self.objects:
+            object.tick()
 
+        self.events = pygame.event.get()
         for event in self.events:
             if event.type == pygame.QUIT:
                 run = False
@@ -49,13 +51,12 @@ class main:
                 f.start()
                 
 
-        for object in self.objects:
-            object.tick()
+
             
         
-        p = threading.Thread(target=self.physics.update)
-        p.start()
+        self.physics.update()
         self.renderer.render()
+
 
     def fixedUpdate(self):
         for object in self.objects:
