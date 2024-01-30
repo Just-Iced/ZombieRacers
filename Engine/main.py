@@ -22,7 +22,7 @@ class main:
         self.physics = Physics(self.objects)
         self.cam = Camera(self)
         self.renderer = Renderer(self.objects, self.window, self.cam)
-        self.events = None
+        self.events = pygame.event.get()
         self.player = None
 
     def run(self):
@@ -38,10 +38,12 @@ class main:
         
         self.lastTime = time.time()
         
+        self.events = pygame.event.get()        
+        
         for object in self.objects:
             object.tick()
 
-        self.events = pygame.event.get()
+
         for event in self.events:
             if event.type == pygame.QUIT:
                 run = False
