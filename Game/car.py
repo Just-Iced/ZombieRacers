@@ -13,11 +13,18 @@ from Engine.shadow import Shadow
 from Engine.ParticleSystem.system import System
 class Car(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 10):
-        super().__init__(main, transform, zOrder)
+        
         #-CONSTRUCTOR-
         
+        self.savefile = f"{os.getcwd()}/Game/savedata/car.pickle"
+        if not os.path.isfile(self.savefile):
+            with open(self.savefile, "bw") as f:
+                attributes = {"coins": 0, "pos": transform}
+                pickle.dump(attributes, f)
+        data = pickle.load(open(self.savefile, "rb"))
+        print(data)   
         self.shadow = Shadow(self)
-        
+        super().__init__(main, data["pos"], zOrder)
         #Physics Parameters
         self.physics.scale = 0
         self.physics.simulate = True
@@ -28,15 +35,12 @@ class Car(SpriteStack):
         self.camOffset = 5
         self.maxSpeed = 5
         self.acceleration = 0.06
-        self.coins = 0
+        self.coins = data["coins"]
         self.particles = System(main, path='DirtSystem.json',transform=self.transform, zOrder=9)
         self.main.cam.rot = self.transform.rot
-        self.savefile = "C:/Users/585622/Documents/GitHub/ZombieRacers/Game/savefile"
         
-        with open(self.savefile, "r") as savefile:
-            data = pickle.load(open(self.savefile))
-            print(f"Save Data: \n{data}")
-        
+
+         
     def update(self):
         keys = pygame.key.get_pressed()
 
@@ -65,10 +69,9 @@ class Car(SpriteStack):
         
         for event in self.main.events:
             if event.type == pygame.QUIT:
-                player_data = {"coins" : self.coins}
-                with open(self.savefile, "rw") as f:
-                    data = pickle.load(f)
-                    data["player"] = player_data
+                data = {"coins" : self.coins, "pos" : self.transform}
+                with open(self.savefile, "+wb") as f:
+                    print(data)
                     pickle.dump(data, f)
                     
 
