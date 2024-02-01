@@ -41,8 +41,12 @@ class Zombie(SpriteStack):
         #put your object logic here
         speed = self.initSpeed
         relativePos: Vec2 = self.main.player.transform.pos - self.transform.pos
-        if relativePos.distance_to(Vec2(0,0)) > self.playerOffset:
-            speed *= random.uniform(2,5)
+        distance_to = relativePos.distance_to(Vec2(0,0))
+        if distance_to > self.playerOffset * 5:
+            self.Destroy()
+            return
+        elif distance_to > self.playerOffset:
+            speed *= random.uniform(2,4)
 
         angle = (180/math.pi) * -math.atan2(relativePos.y,relativePos.x) + self.ranOffset
         self.transform.rot = angle + 90
