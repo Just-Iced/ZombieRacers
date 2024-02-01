@@ -15,17 +15,17 @@ class Game(main):
     def __init__(self, window):
         super().__init__(window)
         self.obj_dict = {}
-        self.player = Car(self, Transform(Vec2(90,95), 180, Vec2(16,16)))
+        self.player = self.Instantiate(Car(self, Transform(Vec2(90,95), 180, Vec2(16,16))))
         if serialize.DoesSaveDataExist("objects"):
             self.obj_dict = serialize.LoadSaveData("objects")
             self.load()
             self.loaded = True
         else:
-            horde = ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16)))
-            road = Road(self, Transform(Vec2(90,144), 0, Vec2(85,16)))
-            road2 = Road(self, Transform(Vec2(90,144 + 72), 0, Vec2(85,16)))
-            b = Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16)))
-            c = Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16)))
+            horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
+            road = self.Instantiate(Road(self, Transform(Vec2(90,144), 0, Vec2(85,16))))
+            road2 = self.Instantiate(Road(self, Transform(Vec2(90,144 + 72), 0, Vec2(85,16))))
+            b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
+            c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
     def tick(self):
         for event in self.events:
@@ -36,7 +36,7 @@ class Game(main):
         for obj in self.obj_dict:
             attrs = self.obj_dict[obj] #attributes
             module = importlib.import_module(attrs["module name"])
-            gameObject = getattr(module, attrs["class name"])(main = self, transform = attrs["transform"], zOrder=attrs["zOrder"])
+            gameObject = self.LoadObject(getattr(module, attrs["class name"])(main = self, transform = attrs["transform"], zOrder=attrs["zOrder"]))
             if isinstance(gameObject, Car):
                 self.player = gameObject
             self.objects.append(gameObject) 
@@ -51,5 +51,5 @@ class Game(main):
                                                 "transform": obj.transform, "zOrder": obj.zOrder}
                     cur_num += 1
             except AttributeError:
-                print(obj.__class__.__name__)
+                pass
         serialize.SaveData("objects", self.obj_dict)

@@ -31,7 +31,7 @@ class RoadEnd(GameObject):
         self.physics.AddSubscribersForCollisionEvent(self.new_road)
     def new_road(self, object):
         if isinstance(object, Car):
-            Road(self.main, Transform(Vec2(0,144) + self.transform.pos, 0, Vec2(85,16)))
+            self.main.Instantiate(Road(self.main, Transform(Vec2(0,144) + self.transform.pos, 0, Vec2(85,16))))
             self.Destroy()
             del self 
 
@@ -69,14 +69,14 @@ class Road(SpriteStack):
             for i in range(random.randint(0,5)):
                 self.spawn_zombie()
     def spawn(self):
-        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
-        self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144)))) 
-        RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85)))
-        RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self)
+        self.children.append(self.main.Instantiate(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144)))))
+        self.children.append(self.main.Instantiate(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144))))) 
+        self.main.Instantiate(RoadEnd(self.main, transform=Transform(self.transform.pos + Vec2(0, 72), scale=Vec2(85,85))))
+        self.main.Instantiate(RoadDestroy(self.main, transform=Transform(self.transform.pos + Vec2(0, 720), scale=Vec2(85,85)),road=self))
         
     def update(self):
         #self.transform.rot += 0.5
         pass
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
-        Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3)))
+        self.main.Instantiate(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
