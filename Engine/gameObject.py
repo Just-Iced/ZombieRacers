@@ -12,7 +12,7 @@ class GameObject:
         self.main = main
         self.physics = PhysicsObject(self, False, 1)
         self.spread = 1
-        
+        self.saveable = False
         self.main.objects.append(self)
     
     

@@ -42,7 +42,8 @@ class main:
         
         for object in self.objects:
             object.tick()
-
+            
+        self.tick()
 
         for event in self.events:
             if event.type == pygame.QUIT:
@@ -59,6 +60,8 @@ class main:
         self.physics.update()
         self.renderer.render()
 
+    def tick(self):
+        pass
 
     def fixedUpdate(self):
         for object in self.objects:

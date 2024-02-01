@@ -21,6 +21,7 @@ class Zombie(SpriteStack):
         super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         self.shadow = Shadow(self)        
+        self.saveable = True
         #Physics Parameters
         self.physics.scale = 0
         self.physics.simulate = True

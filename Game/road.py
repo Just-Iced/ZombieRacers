@@ -60,6 +60,7 @@ class Road(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 0):
         super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
+        self.saveable = True
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
         self.children = []
@@ -77,4 +78,4 @@ class Road(SpriteStack):
         pass
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
-        zombie = Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3)))
+        Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3)))
