@@ -19,16 +19,14 @@ class Button(Widget):
         self.surface.fill((0,0,0,0))
         self.surface.blit(self.image, self.transform.pos - self.renderOffset)
         
-    """def OnClicked(self):
-        self.clickEvent()"""
+    def OnClicked(self):
+        self.clickEvent()
         
-    """def OnHovered(self):
-        pygame.transform.scale(self.surface, (self.surface.get_width()*1.1, self.surface.get_height()*1.1))
-        self.hoverEvent()"""
+    def OnHovered(self):
+        self.hoverEvent()
         
-    """def OnUnHovered(self):
-        pygame.transform.scale(self.surface, (self.surface.get_width()*0.9, self.surface.get_height()*0.9))
-        self.unHoverEvent()"""
+    def OnUnHovered(self):
+        self.unHoverEvent()
     
     
     

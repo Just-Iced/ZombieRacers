@@ -24,8 +24,10 @@ class Game(main):
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
             road = self.Instantiate(Road(self, Transform(Vec2(90,144), 0, Vec2(85,16))))
             road2 = self.Instantiate(Road(self, Transform(Vec2(90,144 + 72), 0, Vec2(85,16))))
-            b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
+            
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
+
+        b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
 
     def tick(self):
         for event in self.events:
