@@ -72,10 +72,14 @@ class main:
         obj.spawnMethod = SpawnMethod.Spawned
         self.objects.append(obj)
 
+        return obj
+
     def LoadObject(self, obj = GameObject):
         from Engine.spawnMethod import SpawnMethod
         obj.spawnMethod = SpawnMethod.Loaded
         self.objects.append(obj)
+
+        return obj
 
     def fixedUpdate(self):
         for object in self.objects:
