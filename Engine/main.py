@@ -30,8 +30,6 @@ class main:
     def run(self):
         run = True
         pygame.time.set_timer(fixedUpdateEvent, 50)
-        for object in self.objects:
-            object.start()
         while run:
             self.update()
         pygame.time.set_timer(fixedUpdateEvent, 0)
@@ -72,6 +70,7 @@ class main:
         from Engine.spawnMethod import SpawnMethod
         obj.spawnMethod = SpawnMethod.Spawned
         self.objects.append(obj)
+        obj.start()
 
         return obj
 
@@ -79,27 +78,10 @@ class main:
         from Engine.spawnMethod import SpawnMethod
         obj.spawnMethod = SpawnMethod.Loaded
         self.objects.append(obj)
+        obj.start()
 
         return obj
 
     def fixedUpdate(self):
         for object in self.objects:
             object.fixedUpdate()
-
-
-    @property
-    def currentObjects(self):
-        return self._currentObjects
-    
-    @currentObjects.setter
-    def currentObjects(self, value):
-        self._currentObjects = value
-        for callback in self._observers:
-            try:
-                print(callback)
-                callback(self._currentObjects)
-            except:
-                self._observers.remove(callback)
-
-    def bind_to_map(self, callback):
-        self._observers.append(callback)
