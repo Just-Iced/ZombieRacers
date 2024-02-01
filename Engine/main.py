@@ -24,7 +24,7 @@ class main:
         self.renderer = Renderer(self.objects, self.window, self.cam)
         self.events = pygame.event.get()
         self.player = None
-
+        self.loaded = False
     def run(self):
         run = True
         pygame.time.set_timer(fixedUpdateEvent, 50)
