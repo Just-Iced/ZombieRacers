@@ -12,6 +12,7 @@ fixedUpdateEvent = pygame.event.Event(357, {})
 
 class main:
     def __init__(self, window):
+        self._observers = []
         self.window = window
         self.preCalc = PreCalculator()
         self.objects = []
@@ -84,3 +85,21 @@ class main:
     def fixedUpdate(self):
         for object in self.objects:
             object.fixedUpdate()
+
+
+    @property
+    def currentObjects(self):
+        return self._currentObjects
+    
+    @currentObjects.setter
+    def currentObjects(self, value):
+        self._currentObjects = value
+        for callback in self._observers:
+            try:
+                print(callback)
+                callback(self._currentObjects)
+            except:
+                self._observers.remove(callback)
+
+    def bind_to_map(self, callback):
+        self._observers.append(callback)
