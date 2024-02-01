@@ -45,8 +45,6 @@ class System(GameObject):
         self.prevTime = pygame.time.get_ticks()
         
         self.curTime = pygame.time.get_ticks()
-        
-        self.main.objects.append(self)
 
         self.initvel = Vec2(file.get('velocity')[0], file.get('velocity')[1])
 
