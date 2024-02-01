@@ -42,6 +42,6 @@ class CrateOverlap(GameObject):
     def collide(self, object):
         if object != self.main.player or object.physics.velocity.length() < 2:
             return
-        System(self.main, "CrateBreakSystem.json", self.transform, self.zOrder + 5)
+        self.main.Instantiate(System(self.main, "CrateBreakSystem.json", self.transform, self.zOrder + 5))
         self.crate.Destroy()
         self.Destroy()

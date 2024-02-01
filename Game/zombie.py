@@ -51,17 +51,14 @@ class Zombie(SpriteStack):
         if not isinstance(object, Car):
             return
         if object.physics.velocity.length() > 1:
-            System(self.main,'BloodSystem.json',self.transform,self.zOrder)
+            self.main.Instantiate(System(self.main,'BloodSystem.json',self.transform,self.zOrder))
             for i in range(random.randint(0,5)):
-                Coin(self.main, Transform(self.transform.pos + Vec2(random.uniform(-1,1),random.uniform(-1,1)), scale=Vec2(1,1)), self.zOrder)
-            if random.randint(0,10) == 2:
-                Zombie(self.main, Transform(self.transform.pos + Vec2(random.uniform(-5,5),random.uniform(-5,5)), scale=self.transform.scale), self.zOrder)
-            #print(object.coins)
+                self.main.Instantiate(Coin(self.main, Transform(self.transform.pos + Vec2(random.uniform(-1,1),random.uniform(-1,1)), scale=Vec2(1,1)), self.zOrder))
         else:
             if self.main.player.maxSpeed > 0:
                 self.main.player.maxSpeed -= 0.1
             else:
                 self.main.player.kill()
-            System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder)
+            self.main.Instantiate(System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder))
         self.Destroy()
             
