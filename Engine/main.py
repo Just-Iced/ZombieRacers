@@ -35,6 +35,9 @@ class main:
         pygame.time.set_timer(fixedUpdateEvent, 0)
     
     def update(self):
+        old = self.objects
+
+
         self.dt = time.time() - self.lastTime
         
         self.dt *= 60
@@ -57,7 +60,7 @@ class main:
                 f.start()
                 
 
-
+        self.startObjects(old)
             
         
         self.physics.update()
@@ -65,6 +68,12 @@ class main:
 
     def tick(self):
         pass
+
+    def startObjects(self, old):
+        objects = self.objects
+        for obj in old:
+            if obj in objects and obj != None:
+                objects.pop(obj)
 
     def Instantiate(self, obj = GameObject):
         from Engine.spawnMethod import SpawnMethod

@@ -9,6 +9,7 @@ from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 from zombie import Zombie
 from car import Car
+from Engine.spawnMethod import SpawnMethod
 import random
 import pygame
 import time
@@ -64,8 +65,10 @@ class Road(SpriteStack):
         #Physics Parameters
         self.physics.colliderState = ColliderState.Blank
         self.children = []
+    
+    def start(self):
         self.spawn()
-        if not self.main.loaded:
+        if self.spawnMethod == SpawnMethod.Spawned:
             for i in range(random.randint(0,5)):
                 self.spawn_zombie()
     def spawn(self):
