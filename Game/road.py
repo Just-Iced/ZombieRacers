@@ -65,8 +65,9 @@ class Road(SpriteStack):
         self.physics.colliderState = ColliderState.Blank
         self.children = []
         self.spawn()
-        for i in range(random.randint(0,5)):
-            self.spawn_zombie()
+        if not self.main.loaded:
+            for i in range(random.randint(0,5)):
+                self.spawn_zombie()
     def spawn(self):
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x-55, self.transform.pos.y), 0, Vec2(12, 144))))
         self.children.append(RoadSide(self.main, Transform(Vec2(self.transform.pos.x+55, self.transform.pos.y), 180, Vec2(12, 144)))) 

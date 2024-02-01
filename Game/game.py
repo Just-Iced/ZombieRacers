@@ -19,6 +19,7 @@ class Game(main):
         if serialize.DoesSaveDataExist("objects"):
             self.obj_dict = serialize.LoadSaveData("objects")
             self.load()
+            self.loaded = True
         else:
             horde = ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16)))
             road = Road(self, Transform(Vec2(90,144), 0, Vec2(85,16)))
@@ -34,12 +35,10 @@ class Game(main):
     def load(self):
         for obj in self.obj_dict:
             attrs = self.obj_dict[obj] #attributes
-            print(attrs)
             module = importlib.import_module(attrs["module name"])
             gameObject = getattr(module, attrs["class name"])(main = self, transform = attrs["transform"], zOrder=attrs["zOrder"])
             if isinstance(gameObject, Car):
                 self.player = gameObject
-            print(gameObject.transform.pos)
             self.objects.append(gameObject) 
 
     def save(self):
