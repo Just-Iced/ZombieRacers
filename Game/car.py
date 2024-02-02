@@ -39,8 +39,6 @@ class Car(SpriteStack):
         if serialize.DoesSaveDataExist("car"):
             self.data = serialize.LoadSaveData("car")
             self.load()
-        
-
          
     def update(self):
         keys = pygame.key.get_pressed()
