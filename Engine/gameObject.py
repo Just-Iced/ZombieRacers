@@ -15,6 +15,9 @@ class GameObject:
         self.spread = 1
         self.saveable = False
         self.spawnMethod = SpawnMethod.Null
+        
+        from uuid import uuid4
+        self.uid = uuid4().hex
 
     
     

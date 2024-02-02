@@ -45,13 +45,13 @@ class Game(main):
 
     def save(self):
         self.obj_dict = {}
-        cur_num = 0
         for obj in self.objects:
             try:
                 if obj.saveable:
-                    self.obj_dict[str(cur_num)] = {"module name" : obj.__module__, "class name": obj.__class__.__name__, 
+                    this_dict = {"module name" : obj.__module__, "class name": obj.__class__.__name__, 
                                                 "transform": obj.transform, "zOrder": obj.zOrder}
-                    cur_num += 1
+                    self.obj_dict[str(obj.uid)] = this_dict
             except AttributeError:
                 pass
+        print(self.obj_dict)
         serialize.SaveData("objects", self.obj_dict)
