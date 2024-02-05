@@ -8,6 +8,7 @@ from Engine.Widget.button import Button
 from crate import Crate
 from zombieHorde import ZombieHorde
 import Engine.serialization as serialize
+from roadGenerator import RoadGenerator
 import pygame
 import importlib
 
@@ -22,8 +23,7 @@ class Game(main):
             self.loaded = True
         else:
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
-            road = self.Instantiate(Road(self, Transform(Vec2(90,144), 0, Vec2(85,16))))
-            road2 = self.Instantiate(Road(self, Transform(Vec2(90,144 + 72), 0, Vec2(85,16))))
+            self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
             
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 

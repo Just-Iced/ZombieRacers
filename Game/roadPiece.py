@@ -13,17 +13,18 @@ from Engine.spawnMethod import SpawnMethod
 import random
 
 class RoadPiece(SpriteStack):
+    entryDirection = None
+    exitDirecton = None
     def __init__(self, main, transform : Transform, zOrder = 0):
         super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
         self.saveable = True
         #Physics Parameters
-        self.physics.colliderState = ColliderState.Overlap
+        self.physics.colliderState = ColliderState.Blank
         self.compatiblePieces = []
         self.spawnPos = Vec2(0,0)
-        self.chunkSize = Vec2(16,16)
-        self.entryDirection = None
-        self.exitDirecton = None
+        self.chunkSize = Vec2(144,144)
+
     
     def start(self):
         if self.spawnMethod == SpawnMethod.Spawned:

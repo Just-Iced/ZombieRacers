@@ -7,10 +7,9 @@ from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 from roadDirection import RoadDirection
 from roadPiece import RoadPiece
+from roadPieces.roadStraight import RoadStraight
 import random
 import pygame
-
-
 
 
 class RoadGenerator(GameObject):
@@ -18,33 +17,54 @@ class RoadGenerator(GameObject):
         super().__init__(main, transform, zOrder)
         self.roadPieces = RoadPiece.__subclasses__()
         self.spawnPos = Vec2(0,0)
-        print(self.roadPieces)
+        self.previousRoad = None
+        self.roads = []
         #-CONSTRUCTOR-
+    
+    def start(self):
+        road = self.main.Instantiate(RoadStraight(self.main, Transform(self.spawnPos, 0, Vec2(85,144))))
+        self.roads.append(road)
+        self.previousRoad = road
+        for i in range(5):
+            self.spawnNextChunk()
         
-        
-    def pickNextChunk(self, currentRoad):
-        entryDirection = None
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_t]:
+            self.spawnNextChunk()
 
-        match currentRoad.exitDirecton:
+
+    def pickNextChunk(self) -> RoadPiece:
+        exitDirection = None
+
+        match self.previousRoad.exitDirecton:
             case RoadDirection.North:
-                entryDirection = RoadDirection.South
-                self.spawnPos -= Vec2(0, currentRoad.chunkSize.y)
+                exitDirection = RoadDirection.South
+                self.spawnPos -= Vec2(0, self.previousRoad.chunkSize.y)
             case RoadDirection.East:
-                entryDirection = RoadDirection.West
-                self.spawnPos += Vec2(currentRoad.chunkSize.x, 0)
+                exitDirection = RoadDirection.West
+                self.spawnPos += Vec2(self.previousRoad.chunkSize.x, 0)
             case RoadDirection.South:
-                entryDirection = RoadDirection.North
-                self.spawnPos += Vec2(0, currentRoad.chunkSize.y)
+                exitDirection = RoadDirection.North
+                self.spawnPos += Vec2(0, self.previousRoad.chunkSize.y)
             case RoadDirection.West:
-                entryDirection = RoadDirection.East
-                self.spawnPos -= Vec2(currentRoad.chunkSize.x, 0)
+                exitDirection = RoadDirection.East
+                self.spawnPos -= Vec2(self.previousRoad.chunkSize.x, 0)
             case None:
                 return None
         possibleRoads = []
+        print(self.roadPieces)
         for road in self.roadPieces:
-            if road.entryDirection == entryDirection:
+            print(road.entryDirection)
+            if road.entryDirection == exitDirection:
                 possibleRoads.append(road)
         chunk = random.choice(possibleRoads)
         print(chunk)
         return chunk
-        
+    def spawnNextChunk(self):
+        if len(self.roads) >=7:
+            self.roads[0].Destroy()
+        nextChunk = self.pickNextChunk()
+        chunkToSpawn = self.main.Instantiate(nextChunk(self.main, Transform(self.spawnPos, 0, Vec2(85,16))))
+        self.previousRoad = chunkToSpawn
+        self.roads.append(chunkToSpawn)
