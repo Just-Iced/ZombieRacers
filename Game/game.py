@@ -7,6 +7,7 @@ from road import Road
 from Engine.Widget.button import Button
 from crate import Crate
 from zombieHorde import ZombieHorde
+from Engine.Widget.text import Text
 import Engine.serialization as serialize
 import pygame
 import importlib
@@ -28,6 +29,7 @@ class Game(main):
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
+        t = self.Instantiate(Text(self,"This is a test",Transform(Vec2(90,50),0,Vec2(256,32))))
 
     def tick(self):
         for event in self.events:
