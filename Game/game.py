@@ -17,14 +17,13 @@ class Game(main):
         super().__init__(window)
         self.obj_dict = {}
         self.player = self.Instantiate(Car(self, Transform(Vec2(90,95), 180, Vec2(16,16))))
+        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
         if serialize.DoesSaveDataExist("objects"):
             self.obj_dict = serialize.LoadSaveData("objects")
             self.load()
             self.loaded = True
         else:
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
-            self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
-            
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))

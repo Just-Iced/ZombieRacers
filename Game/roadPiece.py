@@ -20,13 +20,13 @@ class RoadPiece(SpriteStack):
         #-CONSTRUCTOR-
         self.saveable = True
         #Physics Parameters
-        self.physics.colliderState = ColliderState.Blank
+        self.physics.colliderState = ColliderState.Overlap
         self.compatiblePieces = []
         self.spawnPos = Vec2(0,0)
         self.chunkSize = Vec2(144,144)
-
-    
+        
     def start(self):
+        #self.physics.AddSubscribersForCollisionEvent(self.main.roadGenerator.spawnNextChunk)
         if self.spawnMethod == SpawnMethod.Spawned:
             for i in range(random.randint(0,5)):
                 self.spawn_zombie()

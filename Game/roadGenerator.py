@@ -37,6 +37,7 @@ class RoadGenerator(GameObject):
         exitDirection = None
         if len(self.roads) == 0:
             road = self.main.Instantiate(RoadStraight(self.main, Transform(Vec2(90,95), 0, Vec2(85,144))))
+            road.physics.colliderState == ColliderState.Blank
             self.roads.append(road)
         previousRoad = self.roads[-1]
         spawnPos = previousRoad.transform.pos
@@ -68,6 +69,8 @@ class RoadGenerator(GameObject):
         if len(self.roads) >=7:
             self.roads[0].Destroy()
             self.roads.pop(0)
+            self.roads[0].physics.colliderState == ColliderState.Blank
         chunkToSpawn = self.pickNextChunk()
+        
         print(chunkToSpawn.transform.pos)
         self.roads.append(chunkToSpawn)
