@@ -33,13 +33,15 @@ class Car(SpriteStack):
         self.maxSpeed = 5
         self.acceleration = 0.06
         self.coins = 0
-        self.particles = self.main.Instantiate(System(main, path='DirtSystem.json',transform=self.transform, zOrder=9))
+        self.particles = None
         self.main.cam.rot = -self.transform.rot
         
         if serialize.DoesSaveDataExist("car"):
             self.data = serialize.LoadSaveData("car")
             self.load()
-         
+    
+    def start(self):
+        self.particles = self.main.Instantiate(System(self.main, path='DirtSystem.json',transform=self.transform, zOrder=9))
     def update(self):
         keys = pygame.key.get_pressed()
 
