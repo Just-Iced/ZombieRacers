@@ -18,7 +18,6 @@ class RoadPiece(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 0):
         super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
-        self.saveable = True
         #Physics Parameters
         self.physics.colliderState = ColliderState.Overlap
         self.compatiblePieces = []

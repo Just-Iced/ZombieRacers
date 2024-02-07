@@ -16,7 +16,7 @@ class Game(main):
     def __init__(self, window):
         super().__init__(window)
         self.roadGenerator = None
-        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
+        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(90,-85),0,Vec2(1,1)),0))
         self.obj_dict = {}
         self.player = self.Instantiate(Car(self, Transform(Vec2(90,95), 180, Vec2(16,16))))
         if serialize.DoesSaveDataExist("objects"):
@@ -41,6 +41,8 @@ class Game(main):
             gameObject = self.LoadObject(getattr(module, attrs["class name"])(main = self, transform = attrs["transform"], zOrder=attrs["zOrder"]))
             if isinstance(gameObject, Car):
                 self.player = gameObject
+            elif isinstance(gameObject, RoadGenerator):
+                self.roadGenerator = gameObject
             self.objects.append(gameObject) 
 
     def save(self):

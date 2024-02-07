@@ -18,6 +18,7 @@ class RoadGenerator(GameObject):
         super().__init__(main, transform, zOrder)
         self.roadPieces = RoadPiece.__subclasses__()
         self.roads = []
+        self.saveable = True
         
         #-CONSTRUCTOR-
     
@@ -38,8 +39,8 @@ class RoadGenerator(GameObject):
     def pickNextChunk(self) -> RoadPiece:
         exitDirection = None
         if len(self.roads) == 0:
-            road = self.main.Instantiate(RoadStraight(self.main, Transform(Vec2(90,-85), 0, Vec2(85,144))))
-            road.physics.colliderState == ColliderState.Blank
+            road = self.main.Instantiate(RoadStraight(self.main, Transform(self.transform.pos, 0, Vec2(85,144))))
+            road.physics.colliderState = ColliderState.Blank
             self.roads.append(road)
         previousRoad = self.roads[-1]
         spawnPos = previousRoad.transform.pos
@@ -59,6 +60,7 @@ class RoadGenerator(GameObject):
             case None:
                 return None
         print(f"Spawn Pos is: {spawnPos}")
+        
         possibleRoads = []
         for road in self.roadPieces:
             #print(road.entryDirection)
@@ -76,6 +78,7 @@ class RoadGenerator(GameObject):
             self.roads.pop(0)
             self.roads[0].physics.colliderState = ColliderState.Blank
             self.roads[1].physics.colliderState = ColliderState.Blank
+            self.transform.pos = self.roads[0].transform.pos
         chunkToSpawn = self.pickNextChunk()
         
         print(f"Road is at: {chunkToSpawn.transform.pos}")
