@@ -23,7 +23,7 @@ class RoadGenerator(GameObject):
         #-CONSTRUCTOR-
     
     def start(self):
-        while len(self.roads) < 7:
+        while len(self.roads) < 6:
             self.spawnNextChunk()
             
         """for road in self.roads:
@@ -74,7 +74,7 @@ class RoadGenerator(GameObject):
 
     def spawnNextChunk(self):
         if len(self.roads) >=7:
-            self.roads[0].Destroy()
+            self.roads[0].kill()
             self.roads.pop(0)
             self.roads[0].physics.colliderState = ColliderState.Blank
             self.roads[1].physics.colliderState = ColliderState.Blank

@@ -20,7 +20,7 @@ class RoadPiece(SpriteStack):
         #-CONSTRUCTOR-
         #Physics Parameters
         self.physics.colliderState = ColliderState.Overlap
-        self.compatiblePieces = []
+        self.children = []
         self.spawnPos = Vec2(0,0)
         self.chunkSize = Vec2(144,144)
 
@@ -30,12 +30,13 @@ class RoadPiece(SpriteStack):
         
         
     def start(self):
-        
         if self.spawnMethod == SpawnMethod.Spawned:
             for i in range(random.randint(0,5)):
                 self.spawn_zombie()
 
-
+    def update(self):
+        if self not in self.main.roadGenerator.roads:
+            self.kill()
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         self.main.Instantiate(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
@@ -44,3 +45,7 @@ class RoadPiece(SpriteStack):
         if not isinstance(obj, Car):
             return
         self.main.roadGenerator.spawnNextChunk()
+    def kill(self):
+        for child in self.children:
+            child.Destroy()
+        self.Destroy()
