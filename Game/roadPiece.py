@@ -24,16 +24,24 @@ class RoadPiece(SpriteStack):
         self.compatiblePieces = []
         self.spawnPos = Vec2(0,0)
         self.chunkSize = Vec2(144,144)
+
+        self.physics.scale = 0
+        self.physics.simulate = True
+        self.physics.AddSubscribersForCollisionEvent(self.spawnNewRoad)
+        
         
     def start(self):
-        #self.physics.AddSubscribersForCollisionEvent(self.main.roadGenerator.spawnNextChunk)
+        
         if self.spawnMethod == SpawnMethod.Spawned:
             for i in range(random.randint(0,5)):
                 self.spawn_zombie()
-        
-    def update(self):
-        #self.transform.rot += 0.5
-        pass
+
+
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
         self.main.Instantiate(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
+
+    def spawnNewRoad(self, obj):
+        if not isinstance(obj, Car):
+            return
+        self.main.roadGenerator.spawnNextChunk()

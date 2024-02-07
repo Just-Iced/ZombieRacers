@@ -8,6 +8,7 @@ from pygame.math import Vector2 as Vec2
 from roadDirection import RoadDirection
 from roadPiece import RoadPiece
 from roadPieces.roadStraight import RoadStraight
+from Engine.sprite import Sprite
 import random
 import pygame
 
@@ -21,11 +22,12 @@ class RoadGenerator(GameObject):
         #-CONSTRUCTOR-
     
     def start(self):
-        for i in range(5):
+        while len(self.roads) < 7:
             self.spawnNextChunk()
             
-        for road in self.roads:
-            print(f"Road is at: {self.roads[-1].transform.pos}")
+        """for road in self.roads:
+            print(f"Road is at: {road.transform.pos}")
+            print(f"Road has collision: {road.physics.colliderState}")"""
         
     def update(self):
         keys = pygame.key.get_pressed()
@@ -36,7 +38,7 @@ class RoadGenerator(GameObject):
     def pickNextChunk(self) -> RoadPiece:
         exitDirection = None
         if len(self.roads) == 0:
-            road = self.main.Instantiate(RoadStraight(self.main, Transform(Vec2(90,95), 0, Vec2(85,144))))
+            road = self.main.Instantiate(RoadStraight(self.main, Transform(Vec2(90,-85), 0, Vec2(85,144))))
             road.physics.colliderState == ColliderState.Blank
             self.roads.append(road)
         previousRoad = self.roads[-1]
@@ -63,14 +65,19 @@ class RoadGenerator(GameObject):
             if road.entryDirection == exitDirection:
                 possibleRoads.append(road)
         chunk = random.choice(possibleRoads)
-        #print(chunk)
-        return self.main.Instantiate(chunk(self.main, Transform(round(spawnPos), 0, Vec2(85,16))))
+
+        return self.main.Instantiate(chunk(self.main, Transform(round(spawnPos), 0, Vec2(85,72))))
+    
+    
+
     def spawnNextChunk(self):
         if len(self.roads) >=7:
             self.roads[0].Destroy()
             self.roads.pop(0)
-            self.roads[0].physics.colliderState == ColliderState.Blank
+            self.roads[0].physics.colliderState = ColliderState.Blank
+            self.roads[1].physics.colliderState = ColliderState.Blank
         chunkToSpawn = self.pickNextChunk()
         
-        print(chunkToSpawn.transform.pos)
+        print(f"Road is at: {chunkToSpawn.transform.pos}")
+        print(f"Road has collision: {chunkToSpawn.physics.colliderState}")
         self.roads.append(chunkToSpawn)

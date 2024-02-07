@@ -15,9 +15,10 @@ import importlib
 class Game(main):
     def __init__(self, window):
         super().__init__(window)
+        self.roadGenerator = None
+        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
         self.obj_dict = {}
         self.player = self.Instantiate(Car(self, Transform(Vec2(90,95), 180, Vec2(16,16))))
-        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(0,0),0,Vec2(1,1)),0))
         if serialize.DoesSaveDataExist("objects"):
             self.obj_dict = serialize.LoadSaveData("objects")
             self.load()
