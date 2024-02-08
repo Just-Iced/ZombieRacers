@@ -5,31 +5,31 @@ from pygame.math import Vector2 as Vec2
 from car import Car
 from road import Road
 from Engine.Widget.button import Button
+from Engine.Widget.text import Text
 from crate import Crate
 from zombieHorde import ZombieHorde
 from Engine.Widget.text import Text
 import Engine.serialization as serialize
+from roadGenerator import RoadGenerator
 import pygame
 import importlib
 
 class Game(main):
     def __init__(self, window):
         super().__init__(window)
+        self.roadGenerator = None
+        self.roadGenerator = self.Instantiate(RoadGenerator(self, Transform(Vec2(90,-85),0,Vec2(1,1)),0))
         self.obj_dict = {}
         self.player = self.Instantiate(Car(self, Transform(Vec2(90,95), 180, Vec2(16,16))))
         if serialize.DoesSaveDataExist("objects"):
             self.obj_dict = serialize.LoadSaveData("objects")
             self.load()
-            self.loaded = True
         else:
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
-            road = self.Instantiate(Road(self, Transform(Vec2(90,144), 0, Vec2(85,16))))
-            road2 = self.Instantiate(Road(self, Transform(Vec2(90,144 + 72), 0, Vec2(85,16))))
-            
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
-        t = self.Instantiate(Text(self,"This is a test",Transform(Vec2(90,50),0,Vec2(256,32))))
+        t = self.Instantiate(Text(self, 'A test or sumthin', Transform(Vec2(30,0), 0, Vec2(32,16))))
 
     def tick(self):
         for event in self.events:
@@ -43,6 +43,8 @@ class Game(main):
             gameObject = self.LoadObject(getattr(module, attrs["class name"])(main = self, transform = attrs["transform"], zOrder=attrs["zOrder"]))
             if isinstance(gameObject, Car):
                 self.player = gameObject
+            elif isinstance(gameObject, RoadGenerator):
+                self.roadGenerator = gameObject
             self.objects.append(gameObject) 
 
     def save(self):
