@@ -8,7 +8,10 @@ from pygame.math import Vector2 as Vec2
 from roadDirection import RoadDirection
 from roadPiece import RoadPiece
 from roadPieces.roadStraight import RoadStraight
+from Engine.spawnMethod import SpawnMethod
 from Engine.sprite import Sprite
+import Engine.serialization as serialize
+import importlib
 import random
 import pygame
 
@@ -19,22 +22,27 @@ class RoadGenerator(GameObject):
         self.roadPieces = RoadPiece.__subclasses__()
         self.roads = []
         self.saveable = True
-        
+        self.road_dict = {}
         #-CONSTRUCTOR-
     
     def start(self):
-        while len(self.roads) < 6:
-            self.spawnNextChunk()
+        match self.spawnMethod:
+            case SpawnMethod.Spawned:
+                while len(self.roads) < 6:
+                    self.spawnNextChunk()
+            case SpawnMethod.Loaded:
+                if serialize.DoesSaveDataExist("roads"):
+                    self.road_dict = serialize.LoadSaveData("roads")
+                    self.load()
             
         """for road in self.roads:
             print(f"Road is at: {road.transform.pos}")
             print(f"Road has collision: {road.physics.colliderState}")"""
         
     def update(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_t]:
-            self.spawnNextChunk()
-
+        for event in self.main.events:
+            if event.type == pygame.QUIT:
+                self.save()
 
     def pickNextChunk(self) -> RoadPiece:
         exitDirection = None
@@ -73,9 +81,9 @@ class RoadGenerator(GameObject):
     
 
     def spawnNextChunk(self):
-        if len(self.roads) >=7:
+        if len(self.roads) >=6:
             self.roads[0].kill()
-            self.roads.pop(0)
+            
             self.roads[0].physics.colliderState = ColliderState.Blank
             self.roads[1].physics.colliderState = ColliderState.Blank
             self.transform.pos = self.roads[0].transform.pos
@@ -84,3 +92,22 @@ class RoadGenerator(GameObject):
         print(f"Road is at: {chunkToSpawn.transform.pos}")
         print(f"Road has collision: {chunkToSpawn.physics.colliderState}")
         self.roads.append(chunkToSpawn)
+
+    def load(self):
+        print(self.road_dict)
+        for obj in self.road_dict:
+            attrs = self.road_dict[obj] #attributes
+            module = importlib.import_module(attrs["module name"])
+            gameObject = self.main.LoadObject(getattr(module, attrs["class name"])(main = self.main, transform = attrs["transform"], zOrder=attrs["zOrder"]))
+            self.roads.append(gameObject)
+        print(self.roads)
+        self.transform.pos = self.roads[0].transform.pos
+
+    def save(self):
+        self.road_dict = {}
+        for obj in self.roads:
+            this_dict = {"module name" : obj.__module__, "class name": obj.__class__.__name__, 
+                                        "transform": obj.transform, "zOrder": obj.zOrder}
+            self.road_dict[str(obj.uid)] = this_dict
+        serialize.SaveData("roads", self.road_dict)
+

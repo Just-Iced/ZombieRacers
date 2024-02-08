@@ -48,4 +48,6 @@ class RoadPiece(SpriteStack):
     def kill(self):
         for child in self.children:
             child.Destroy()
+        if self in self.main.roadGenerator.roads:
+            self.main.roadGenerator.roads.remove(self)
         self.Destroy()
