@@ -5,6 +5,7 @@ from pygame.math import Vector2 as Vec2
 from car import Car
 from road import Road
 from Engine.Widget.button import Button
+from Engine.Widget.text import Text
 from crate import Crate
 from zombieHorde import ZombieHorde
 import Engine.serialization as serialize
@@ -27,6 +28,7 @@ class Game(main):
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
+        t = self.Instantiate(Text(self, 'A test or sumthin', Transform(Vec2(30,0), 0, Vec2(32,16))))
 
     def tick(self):
         for event in self.events:

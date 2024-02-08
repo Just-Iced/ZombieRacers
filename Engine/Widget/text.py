@@ -6,11 +6,13 @@ from Engine.event import Event
 import sys, os
 
 class Text(Widget):
-    def __init__(self, main, text: str, transform: Transform):
+    def __init__(self, main, text: str, transform: Transform, fontName: str = "Pixellari.ttf"):
         super().__init__(main, transform)
-        self.font = pygame.font.get_default_font()
+        path = f"{os.getcwd()}\\Engine\\Widget\\{fontName}"
+        self.font = pygame.font.Font(path,16)
         self.text = text
+        self.colour = (255,255,255)
 
     def update(self):
-        img = self.font.render(self.text,True,...)
-        #self.surface.blit(img,(x,y))
+        img = self.font.render(self.text,True,self.colour)
+        self.surface.blit(img,self.transform.pos.xy)
