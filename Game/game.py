@@ -29,9 +29,10 @@ class Game(main):
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
-        t = self.Instantiate(Text(self, 'A test or sumthin', Transform(Vec2(30,0), 0, Vec2(32,16))))
+        self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
 
     def tick(self):
+        self.txt.text = f"Coins: {self.player.coins}"
         for event in self.events:
             if event.type == pygame.QUIT:
                 self.save()

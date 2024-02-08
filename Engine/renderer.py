@@ -10,10 +10,12 @@ class Renderer:
         self.objects = objects
         self.window = window
         self.screen = pygame.Surface((self.window.window.get_width()/8, self.window.window.get_height()/8))
+        self.widgetScreen = pygame.Surface((self.window.window.get_width(), self.window.window.get_height()), pygame.SRCALPHA)
         self.cam = camera
 
     def render(self):
         self.screen.fill((168,231,255))
+        self.widgetScreen.fill((0,0,0,0))
         self.cam.createTransform()
         self.angle = self.cam.rot      
         renderObjects = []
@@ -43,7 +45,7 @@ class Renderer:
         for widget in widgets:
             widget.render()
             surf = widget.surface
-            self.screen.blit(surf, (0,0))
+            self.widgetScreen.blit(surf, (0,0))
     
         self.display()
 
@@ -74,7 +76,10 @@ class Renderer:
     def display(self):
         s = pygame.transform.scale(self.screen, (self.window.window.get_width(), self.window.window.get_height()))
         self.window.window.blit(s, (0,0))
+        t = pygame.transform.scale(self.widgetScreen, (self.window.window.get_width(), self.window.window.get_height()))
+        self.window.window.blit(t, (0,0))
         pygame.display.update()
+        
     
     def checkShouldRender(self, tf):
         if tf.x > 280 or tf.x < -280 or tf.y > 190 or tf.y < -190:

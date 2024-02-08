@@ -10,7 +10,7 @@ class Widget(GameObject):
         super().__init__(main, transform, 0)
         self.main = main
         self.boundingBox = pygame.Rect((transform.pos.x - (transform.scale.x/2))*8, (transform.pos.y - (transform.scale.y/2))*8, transform.scale.x*8, transform.scale.y*8)
-        self.surface = pygame.Surface((160, 90), pygame.SRCALPHA)#.convert_alpha()
+        self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA)#.convert_alpha()
         self.hovered = False
 
     def OnHovered(self):
@@ -38,7 +38,7 @@ class Widget(GameObject):
             if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == True and self.hovered == True:
                 self.OnClicked()
     
-
+        self.surface.fill((0,0,0,0))
         self.update()
         
 
