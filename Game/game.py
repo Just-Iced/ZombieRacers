@@ -28,7 +28,7 @@ class Game(main):
         else:
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
-            s = self.Instantiate(Shop(self, Transform(Vec2(20,120), 0, Vec2(16,16))))
+            s = self.Instantiate(Shop(self, Transform(Vec2(60,120), 180, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))

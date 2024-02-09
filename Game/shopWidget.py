@@ -1,18 +1,35 @@
 from Engine.Widget.button import Button
 from Engine.Widget.text import Text
 from Engine.Widget.image import Image
-from Engine.Widget.widget import Widget
+from Engine.gameObject import GameObject
 from Engine.transform import Transform
 from pygame.math import Vector2 as Vec2 
 
-class ShopWidget(Widget):
+class ShopWidget(GameObject):
     def __init__(self, main, transform: Transform):
         super().__init__(main, transform)
+        self.children = []
+        self.items = {"Max Speed": {"cost": 20, "unit": "km/h", "adder": 1, "objects": []}, 
+                      "Acceleration": {"cost": 10, "unit": "m/s", "adder": 0.01, "objects": []}, 
+                      "Coin Multiplier": {"cost": 100, "unit": "x", "adder": 0.1, "objects": []}}
+        
         self.size = self.transform.scale
-        self.itemCount = 3
+
+        self.visible = False
         self.background = self.main.Insantiate(Image(self.main, Transform(Vec2(20,20),0,Vec2(32,32)), "shopWidget\\background.png"))
-        self.background.visible = False
+        self.children.append(self.background)
         
     def start(self):
-        for i in range(self.itemCount):
-            ...
+        self.children.append(self.main.Instantiate(Text(self.main, "Shop", Transform(self.transform.pos + Vec2(217, 0), 0, Vec2(32,32)))))
+        pos = Vec2(10, 30) + self.transform.pos
+        for key, values in self.items:
+            txt = Text(self.main, key, Transform(pos, 0, Vec2(32,32)))
+            self.add_child(txt)
+            pos += Vec2(0,20)
+            btn_bg = Button(self.main, "shopWidget\\btn_bg.png", Transform(pos, 0, Vec2(32,32)))
+            btn_txt = Text(self.main, "shopWidget\\btn_bg.png", Transform(pos, 0, Vec2(32,32)))
+        for item in self.children:
+            item.visible = self.visible
+
+    def add_child(self, child):
+        self.children.append(self.main.Instantiate(child))

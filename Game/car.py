@@ -86,10 +86,11 @@ class Car(SpriteStack):
         self.move = self.move/2
         
     def kill(self):
-        self.maxSpeed = 0
+        """self.maxSpeed = 0
         self.acceleration = 0
         self.move = 0
-        self.physics.setVelocity(Vec2(0,0))
+        self.physics.setVelocity(Vec2(0,0))"""
+        pass
 
                 
         
