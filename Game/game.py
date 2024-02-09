@@ -6,6 +6,7 @@ from car import Car
 from road import Road
 from Engine.Widget.button import Button
 from Engine.Widget.text import Text
+from Engine.Widget.image import Image
 from crate import Crate
 from zombieHorde import ZombieHorde
 from Engine.Widget.text import Text
@@ -30,6 +31,7 @@ class Game(main):
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
+        img = self.Instantiate(Image(self,Transform(Vec2(90,80),0,Vec2(16,16)),"Sprite.png"))
 
     def tick(self):
         self.txt.text = f"Coins: {self.player.coins}"
