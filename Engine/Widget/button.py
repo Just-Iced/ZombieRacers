@@ -17,11 +17,12 @@ class Button(Widget):
         
     def render(self):
         self.surface.fill((0,0,0,0))
-        p = self.transform.pos - self.renderOffset
-        # Scale by 8 to represent the usual pixel size of the screen
-        # Could remove if you wanted more precisely scaled/positioned buttons
-        # Original: self.surface.blit(self.image, p)
-        self.surface.blit(pygame.transform.scale_by(self.image, 8), (p.x*8, p.y*8))
+        if self.visible:
+            p = self.transform.pos - self.renderOffset
+            # Scale by 8 to represent the usual pixel size of the screen
+            # Could remove if you wanted more precisely scaled/positioned buttons
+            # Original: self.surface.blit(self.image, p)
+            self.surface.blit(pygame.transform.scale_by(self.image, 8), (p.x*8, p.y*8))
         
     def OnClicked(self):
         self.clickEvent()

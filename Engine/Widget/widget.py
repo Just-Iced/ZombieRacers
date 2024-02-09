@@ -12,15 +12,16 @@ class Widget(GameObject):
         self.boundingBox = pygame.Rect((transform.pos.x - (transform.scale.x/2))*8, (transform.pos.y - (transform.scale.y/2))*8, transform.scale.x*8, transform.scale.y*8)
         self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA)#.convert_alpha()
         self.hovered = False
+        self.visible = True
 
     def OnHovered(self):
-        print("Hovered")
+        pass
 
     def OnUnHovered(self):
-        print("Un-Hovered")
+        pass
 
     def OnClicked(self):
-        print("Clicked")
+        pass
 
     def tick(self):
         mouse = pygame.mouse.get_pos()

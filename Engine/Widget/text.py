@@ -13,6 +13,7 @@ class Text(Widget):
         self.text = text
         self.colour = (255,255,255)
 
-    def update(self):
-        img = self.font.render(self.text,False,self.colour)
-        self.surface.blit(img,self.transform.pos.xy)
+    def render(self):
+        if self.visible:
+            img = self.font.render(self.text,False,self.colour)
+            self.surface.blit(img,self.transform.pos.xy)

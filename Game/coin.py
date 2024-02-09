@@ -1,7 +1,7 @@
 import sys, os
 
 from Engine.spriteStack import SpriteStack
-from Game.car import Car
+from car import Car
 sys.path.append(os.getcwd())
 
 from Engine.gameObject import GameObject
@@ -33,9 +33,8 @@ class Coin(Sprite):
         self.physics.setVelocity((self.physics.velocity + DirVec) * 0.97)
         
     def hit(self,object):
-        if object.__class__.__name__ == "Car":
+        if isinstance(object, Car):
             object.coins += 1
-            print(object.coins)
             self.Destroy()
         else:
             self.speed = 0
