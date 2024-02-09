@@ -3,7 +3,6 @@ from Engine.gameObject import GameObject
 from Engine.transform import Transform
 from pygame.math import Vector2 as Vec2
 from car import Car
-from road import Road
 from Engine.Widget.button import Button
 from Engine.Widget.text import Text
 from Engine.Widget.image import Image
@@ -12,6 +11,7 @@ from zombieHorde import ZombieHorde
 from Engine.Widget.text import Text
 import Engine.serialization as serialize
 from roadGenerator import RoadGenerator
+from shop import Shop
 import pygame
 import importlib
 
@@ -28,6 +28,7 @@ class Game(main):
         else:
             horde = self.Instantiate(ZombieHorde(self, Transform(Vec2(90,0), 0, Vec2(85,16))))
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
+            s = self.Instantiate(Shop(self, Transform(Vec2(20,120), 0, Vec2(16,16))))
 
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
