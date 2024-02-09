@@ -12,6 +12,7 @@ from Engine.Widget.text import Text
 import Engine.serialization as serialize
 from roadGenerator import RoadGenerator
 from shop import Shop
+from shopWidget import ShopWidget
 import pygame
 import importlib
 
@@ -33,6 +34,7 @@ class Game(main):
         b = self.Instantiate(Button(self, 'Button.png', Transform(Vec2(90,45), 0, Vec2(32,16))))
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
         img = self.Instantiate(Image(self,Transform(Vec2(90,80),0,Vec2(16,16)),"Sprite.png"))
+        t = self.Instantiate(ShopWidget(self, Transform(Vec2(30, 10), 0, Vec2(32,32))))
 
     def tick(self):
         self.txt.text = f"Coins: {self.player.coins}"

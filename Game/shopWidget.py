@@ -15,19 +15,27 @@ class ShopWidget(GameObject):
         
         self.size = self.transform.scale
 
-        self.visible = False
-        self.background = self.main.Insantiate(Image(self.main, Transform(Vec2(20,20),0,Vec2(32,32)), "shopWidget\\background.png"))
-        self.children.append(self.background)
+        self.visible = True
+        self.background = Image(self.main, Transform(Vec2(20,20),0,Vec2(32,32)), "UI\\shopWidget\\background.png")
+        self.add_child(self.background)
         
     def start(self):
         self.children.append(self.main.Instantiate(Text(self.main, "Shop", Transform(self.transform.pos + Vec2(217, 0), 0, Vec2(32,32)))))
         pos = Vec2(10, 30) + self.transform.pos
-        for key, values in self.items:
+        for key in self.items:
+            values = self.items[key]
             txt = Text(self.main, key, Transform(pos, 0, Vec2(32,32)))
-            self.add_child(txt)
+            
             pos += Vec2(0,20)
             btn_bg = Button(self.main, "shopWidget\\btn_bg.png", Transform(pos, 0, Vec2(32,32)))
-            btn_txt = Text(self.main, "shopWidget\\btn_bg.png", Transform(pos, 0, Vec2(32,32)))
+            btn_txt = Text(self.main, f"Add {values['adder']} {values['unit']} for {values['cost']} coins", Transform(pos, 0, Vec2(32,32)))
+
+            pos += Vec2(0,20)
+
+            self.add_child(txt)
+            self.add_child(btn_bg)
+            self.add_child(btn_txt)
+        print(self.children)
         for item in self.children:
             item.visible = self.visible
 
