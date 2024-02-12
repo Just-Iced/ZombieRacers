@@ -22,9 +22,9 @@ class ShopWidget(GameObject):
         super().__init__(main, transform, zOrder)
 
         self.children = []
-        self.items = {"Max Speed": {"cost": 20, "unit": "km/h", "adder": 1, "objects": []}, 
-                      "Acceleration": {"cost": 10, "unit": "m/s", "adder": 0.01, "objects": []}, 
-                      "Coin Multiplier": {"cost": 100, "unit": "x", "adder": 0.1, "objects": []}}
+        self.items = {"Max Speed": {"cost": 20, "unit": "km/h", "adder": 1, "objects": {}}, 
+                      "Acceleration": {"cost": 10, "unit": "m/s", "adder": 0.01, "objects": {}}, 
+                      "Coin Multiplier": {"cost": 100, "unit": "x", "adder": 0.1, "objects": {}}}
         
         self.size = self.transform.scale
 
@@ -38,21 +38,23 @@ class ShopWidget(GameObject):
         pos = Vec2(220, 100) + self.transform.pos
         for key in self.items:
             values = self.items[key]
-            txt = Text(self.main, key, Transform(round(pos), 0, Vec2(32,32)), size=48)
+            self.items[key]["objects"]["txt"] = Text(self.main, f"{key}: {round(self.main.player.attributes[key], 2)}{values['unit']}", Transform(round(pos), 0, Vec2(32,32)), size=48)
             
             pos += Vec2(0,90)
-            btn_bg = ShopButton(self.main, Transform(round(pos/8), 0, Vec2(32,32)))
-            btn_txt = Text(self.main, f"Add {values['adder']}{values['unit']} for {values['cost']} coins", Transform(round(pos - Vec2(-20, 10)), 0, Vec2(32,32)), size=32)
+            self.items[key]["objects"]["btn"] = ShopButton(self.main, Transform(round(pos/8), 0, Vec2(32,32)))
+            self.items[key]["objects"]["btn_txt"] = Text(self.main, f"Add {values['adder']}{values['unit']} for {values['cost']} coins", Transform(round(pos - Vec2(-20, 10)), 0, Vec2(32,32)), size=32)
 
             pos += Vec2(0,105)
 
-            self.add_child(txt)
-            self.add_child(btn_bg)
-            self.add_child(btn_txt)
+            for item in self.items[key]["objects"]:
+                self.add_child(self.items[key]["objects"][item])
+
         print(self.children)
         for item in self.children:
             item.visible = self.visible
 
-
     def add_child(self, child : GameObject):
         self.children.append(self.main.Instantiate(child))
+
+    def update(self):
+        pass
