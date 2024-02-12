@@ -34,7 +34,7 @@ class Coin(Sprite):
         
     def hit(self,object):
         if isinstance(object, Car):
-            object.coins += 1
+            object.coins += object.coinMultiplier
             self.Destroy()
         else:
             self.speed = 0

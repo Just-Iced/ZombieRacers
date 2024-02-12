@@ -18,7 +18,9 @@ class Car(SpriteStack):
         #-CONSTRUCTOR-
         self.data = {}
 
-
+        self.attributes = {"Max Speed": 5, 
+                      "Acceleration": 0.06, 
+                      "Coin Multiplier": 1}
         
         self.shadow = Shadow(self)
 
@@ -33,6 +35,7 @@ class Car(SpriteStack):
         self.maxSpeed = 5
         self.acceleration = 0.06
         self.coins = 0
+        self.coinMultiplier = 1
         self.particles = None
         self.main.cam.rot = -self.transform.rot
         
@@ -73,12 +76,21 @@ class Car(SpriteStack):
                 self.save()
                     
     def load(self):
-        self.coins = self.data['coins']
-        self.transform = self.data['pos']
+        self.coins = self.data['Coins']
+        self.transform = self.data['Pos']
+        self.maxSpeed = self.data['Max Speed']
+        self.acceleration = self.data['Acceleration']
+        self.coinMultiplier = self.data['Coin Multiplier']
+
+        self.attributes = {"Max Speed": self.data['Max Speed'], 
+                            "Acceleration": self.data['Acceleration'], 
+                            "Coin Multiplier": self.data['Coin Multiplier']}
         self.main.cam.rot = -self.transform.rot
         
     def save(self):
-        self.data = {"coins" : self.coins, "pos" : self.transform}
+        self.data = {"Coins" : self.coins, "Pos" : self.transform, 
+                     "Max Speed": self.maxSpeed, "Acceleration": self.acceleration, 
+                     "Coin Multiplier": self.coinMultiplier}
         serialize.SaveData("car", self.data)
         
     def resetVel(self):
