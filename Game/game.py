@@ -32,8 +32,9 @@ class Game(main):
             s = self.Instantiate(Shop(self, Transform(Vec2(60,120), 180, Vec2(16,16))))
 
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
-        img = self.Instantiate(Image(self,Transform(Vec2(90,80),0,Vec2(16,16)),"Sprite.png"))
-        t = self.Instantiate(ShopWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
+        self.shopWidget = self.Instantiate(ShopWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
+
+        self.paused = False
 
     def tick(self):
         self.txt.text = f"Coins: {math.floor(self.player.coins)}"

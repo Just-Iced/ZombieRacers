@@ -38,6 +38,9 @@ class Car(SpriteStack):
         self.coinMultiplier = 1
         self.particles = None
         self.main.cam.rot = -self.transform.rot
+
+        self.curVel = Vec2(0,0)
+        self.curMove = 0
         
         if serialize.DoesSaveDataExist("car"):
             self.data = serialize.LoadSaveData("car")
@@ -46,37 +49,51 @@ class Car(SpriteStack):
     def start(self):
         self.particles = self.main.Instantiate(System(self.main, path='DirtSystem.json',transform=self.transform, zOrder=9))
     def update(self):
-        
-        keys = pygame.key.get_pressed()
+        if not self.main.paused:
+            keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a] and self.move != 0:
-            self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
-            self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
-        elif keys[pygame.K_d] and self.move != 0:
-            self.transform.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
-            self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
-            #self.move += 0.01 * self.main.dt
-        
-        if keys[pygame.K_w]:
-            if self.move >= -self.maxSpeed:
-                self.move -= self.acceleration * self.main.dt
-        else:
-            if self.move < 0:
-                self.move += self.acceleration * self.main.dt
-                #self.move = max(self.move, 0)
-            elif self.move > 0:
-                self.move = 0
-        self.particles.params.velocity = self.particles.initvel * -self.move
-        self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
-        
+            if keys[pygame.K_a] and self.move != 0:
+                self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
+                self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+            elif keys[pygame.K_d] and self.move != 0:
+                self.transform.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+                self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+                #self.move += 0.01 * self.main.dt
+            
+            if keys[pygame.K_w]:
+                if self.move >= -self.maxSpeed:
+                    self.move -= self.acceleration * self.main.dt
+            else:
+                if self.move < 0:
+                    self.move += self.acceleration * self.main.dt
+                    #self.move = max(self.move, 0)
+                elif self.move > 0:
+                    self.move = 0
+            self.particles.params.velocity = self.particles.initvel * -self.move
+            self.physics.setVelocity(Vec2(-self.move * math.cos(math.radians(self.transform.rot + 90)), self.move * math.sin(math.radians(self.transform.rot + 90))))
+            self.curVel = self.physics.velocity
+            self.curMove = self.move
 
         self.main.cam.pos = self.transform.pos
         self.attributes = {"Max Speed": self.maxSpeed, "Acceleration": self.acceleration, 
                             "Coin Multiplier": self.coinMultiplier}
 
+        
+
         for event in self.main.events:
             if event.type == pygame.QUIT:
                 self.save()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    self.main.shopWidget.visible = not self.main.shopWidget.visible
+                    if self.main.shopWidget.visible:
+                        self.move = 0
+                        self.physics.setVelocity(Vec2(0,0))
+                    else:
+                        self.physics.setVelocity(self.curVel)
+                        self.move = self.curMove
+                        
+
                     
     def load(self):
         self.coins = self.data['Coins']

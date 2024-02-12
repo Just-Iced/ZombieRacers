@@ -27,6 +27,8 @@ class ShopButton(Button):
             self.main.player.acceleration = self.main.player.attributes['Acceleration']
             self.main.player.coinMultiplier = self.main.player.attributes['Coin Multiplier']
 
+            self.owner.visible = False
+
     def hovered(self):
         print("Hovered")
 
@@ -49,6 +51,7 @@ class ShopWidget(GameObject):
     def start(self):
         if serialize.DoesSaveDataExist("shop"):
             self.load()
+
         text = Text(self.main, "Shop", Transform(self.transform.pos + Vec2(217, 0), 0, Vec2(32,32)))
         self.add_child(text)
         pos = Vec2(220, 100) + self.transform.pos
@@ -66,7 +69,6 @@ class ShopWidget(GameObject):
             for item in self.items[key]["objects"]:
                 self.add_child(self.items[key]["objects"][item])
 
-        print(self.children)
         for item in self.children:
             item.visible = self.visible
 
@@ -86,6 +88,9 @@ class ShopWidget(GameObject):
         for event in self.main.events:
             if event.type == pygame.QUIT:
                 self.save()
+        for child in self.children:
+            child.visible = self.visible
+        self.main.paused = self.visible
     
     def save(self):
         data = {}
@@ -97,5 +102,3 @@ class ShopWidget(GameObject):
 
     def load(self):
         self.items = serialize.LoadSaveData("shop")
-
-
