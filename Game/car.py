@@ -46,6 +46,7 @@ class Car(SpriteStack):
     def start(self):
         self.particles = self.main.Instantiate(System(self.main, path='DirtSystem.json',transform=self.transform, zOrder=9))
     def update(self):
+        
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_a] and self.move != 0:
@@ -70,7 +71,9 @@ class Car(SpriteStack):
         
 
         self.main.cam.pos = self.transform.pos
-        
+        self.attributes = {"Max Speed": self.maxSpeed, "Acceleration": self.acceleration, 
+                            "Coin Multiplier": self.coinMultiplier}
+
         for event in self.main.events:
             if event.type == pygame.QUIT:
                 self.save()
