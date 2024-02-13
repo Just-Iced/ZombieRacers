@@ -33,6 +33,12 @@ class GameObject:
     def update(self):
         pass
 
+    def pause(self):
+        pass
+
+    def unpause(self):
+        pass
+
     def Destroy(self):
         if self in self.main.objects:
             self.main.objects.remove(self)

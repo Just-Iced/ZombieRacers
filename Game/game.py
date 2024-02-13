@@ -34,6 +34,7 @@ class Game(main):
         self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16))))
         self.shopWidget = self.Instantiate(ShopWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
 
+
         self.paused = False
 
     def tick(self):
@@ -65,3 +66,10 @@ class Game(main):
                 pass
         print(self.obj_dict)
         serialize.SaveData("objects", self.obj_dict)
+
+    def pause(self):
+        for obj in self.objects:
+            if self.paused:
+                obj.pause()
+            else:
+                obj.unpause()
