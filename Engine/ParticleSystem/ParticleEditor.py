@@ -264,7 +264,7 @@ class GUI:
             return False
         
     def spawnSystem(self):
-        self.application.system = System(self.application.main, self.application.name, Transform(pygame.math.Vector2(-60, -18), 0, pygame.math.Vector2(1,1)), 0)
+        self.application.system = self.application.main.Instantiate(System(self.application.main, self.application.name, Transform(pygame.math.Vector2(-60, -18), 0, pygame.math.Vector2(1,1)), 0))
         if self.panel.params != SystemStructure():
             self.application.system.params = self.panel.params
             
