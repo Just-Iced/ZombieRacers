@@ -3,6 +3,7 @@ from Engine.physics import Physics
 from Engine.camera import Camera
 from Engine.preCalculator import PreCalculator
 from Engine.gameObject import GameObject
+from Engine.Widget.widget import Widget
 import pygame
 import time
 import sys
@@ -27,6 +28,7 @@ class main:
         self.events = pygame.event.get()
         self.player = None
         self.loaded = False
+        self.paused = False
     def run(self):
         run = True
         pygame.time.set_timer(fixedUpdateEvent, 50)
@@ -44,7 +46,12 @@ class main:
         self.events = pygame.event.get()        
         
         for object in self.objects:
-            object.tick()
+            if self.paused == False:
+                object.tick()
+            elif isinstance(object, Widget):
+                object.tick()
+
+            
             
         self.tick()
 
@@ -56,8 +63,9 @@ class main:
                 f = threading.Thread(target=self.fixedUpdate)
                 f.start()
             
+        if self.paused == False:
+            self.physics.update()
         
-        self.physics.update()
         self.renderer.render()
 
     def tick(self):
