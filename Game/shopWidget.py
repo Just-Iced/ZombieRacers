@@ -4,6 +4,7 @@ from Engine.Widget.image import Image
 from Engine.gameObject import GameObject
 from Engine.transform import Transform
 from pygame.math import Vector2 as Vec2 
+from Engine.Widget.widget import Widget
 import pygame
 import Engine.serialization as serialize
 
@@ -27,14 +28,14 @@ class ShopButton(Button):
             self.main.player.acceleration = self.main.player.attributes['Acceleration']
             self.main.player.coinMultiplier = self.main.player.attributes['Coin Multiplier']
 
-            self.owner.visible = False
+            self.main.player.hideShop()
 
     def hovered(self):
         print("Hovered")
 
-class ShopWidget(GameObject):
-    def __init__(self, main, transform: Transform, zOrder=10):
-        super().__init__(main, transform, zOrder)
+class ShopWidget(Widget):
+    def __init__(self, main, transform: Transform):
+        super().__init__(main, transform)
 
         self.children = []
         self.items = {"Max Speed": {"cost": 20, "unit": "km/h", "adder": 0.5}, 
@@ -43,10 +44,11 @@ class ShopWidget(GameObject):
         
         self.size = self.transform.scale
 
-        self.visible = True
+        self.visible = False
         self.background = Image(self.main, transform, "UI\\shopWidget\\background.png")
         self.add_child(self.background)
         self.playerAttrs = self.main.player.attributes
+        self.owner = None
         
     def start(self):
         if serialize.DoesSaveDataExist("shop"):
@@ -88,9 +90,7 @@ class ShopWidget(GameObject):
         for event in self.main.events:
             if event.type == pygame.QUIT:
                 self.save()
-        for child in self.children:
-            child.visible = self.visible
-        self.main.paused = self.visible
+        
     
     def save(self):
         data = {}
@@ -102,3 +102,9 @@ class ShopWidget(GameObject):
 
     def load(self):
         self.items = serialize.LoadSaveData("shop")
+
+    def setVisible(self, visible):
+        self.visible = visible
+        for child in self.children:
+            child.visible = self.visible
+        self.main.paused = self.visible
