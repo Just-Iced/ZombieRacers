@@ -35,7 +35,6 @@ class Game(main):
         self.shopWidget = self.Instantiate(ShopWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
 
 
-        self.paused = False
 
     def tick(self):
         self.txt.text = f"Coins: {math.floor(self.player.coins)}"
@@ -67,9 +66,3 @@ class Game(main):
         print(self.obj_dict)
         serialize.SaveData("objects", self.obj_dict)
 
-    def pause(self):
-        for obj in self.objects:
-            if self.paused:
-                obj.pause()
-            else:
-                obj.unpause()
