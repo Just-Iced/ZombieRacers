@@ -32,6 +32,14 @@ class ShopButton(Button):
 
     def hovered(self):
         print("Hovered")
+        
+class CloseButton(Button):
+    def __init__(self, main, transform: Transform, zOrder: int):
+        super().__init__(main, "shopWidget\\Exit.png", transform, zOrder)
+        self.AddSubscribersForClickEvent(self.close)
+        
+    def close(self):
+        self.main.player.hideShop()
 
 class ShopWidget(Widget):
     def __init__(self, main, transform: Transform):
@@ -49,6 +57,7 @@ class ShopWidget(Widget):
         self.add_child(self.background)
         self.playerAttrs = self.main.player.attributes
         self.owner = None
+        self.add_child(CloseButton(self.main, Transform(self.transform.pos + Vec2(34, -36), 0, Vec2(16,16)),10))
         
     def start(self):
         if serialize.DoesSaveDataExist("shop"):
