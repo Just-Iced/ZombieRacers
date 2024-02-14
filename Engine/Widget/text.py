@@ -6,8 +6,8 @@ from Engine.event import Event
 import sys, os
 
 class Text(Widget):
-    def __init__(self, main, text: str, transform: Transform, colour = pygame.color.Color(255,255,255), size=64, fontName: str = "Pixellari.ttf"):
-        super().__init__(main, transform)
+    def __init__(self, main, text: str, transform: Transform, zOrder: int, colour = pygame.color.Color(255,255,255), size=64, fontName: str = "Pixellari.ttf", ):
+        super().__init__(main, transform, zOrder)
 
         path = f"{os.getcwd()}\\Game\\UI\\{fontName}"
         self.font = pygame.font.Font(path, size)

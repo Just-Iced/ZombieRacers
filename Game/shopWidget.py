@@ -11,7 +11,7 @@ import Engine.serialization as serialize
 class ShopButton(Button):
     def __init__(self, main, transform: Transform, owner: "ShopWidget", item: str):
         transform = Transform(transform.pos + Vec2(28, 0), transform.rot, transform.scale)
-        super().__init__(main, "shopWidget\\btn_bg.png", transform)
+        super().__init__(main, "shopWidget\\btn_bg.png", transform, 1)
         self.owner = owner
         self.item = item
         self.AddSubscribersForClickEvent(self.click)
@@ -35,7 +35,7 @@ class ShopButton(Button):
 
 class ShopWidget(Widget):
     def __init__(self, main, transform: Transform):
-        super().__init__(main, transform)
+        super().__init__(main, transform, 0)
 
         self.children = []
         self.items = {"Max Speed": {"cost": 20, "unit": "km/h", "adder": 0.5}, 
@@ -45,7 +45,7 @@ class ShopWidget(Widget):
         self.size = self.transform.scale
 
         self.visible = False
-        self.background = Image(self.main, transform, "UI\\shopWidget\\background.png")
+        self.background = Image(self.main, transform, 0, "UI\\shopWidget\\background.png")
         self.add_child(self.background)
         self.playerAttrs = self.main.player.attributes
         self.owner = None
@@ -54,17 +54,17 @@ class ShopWidget(Widget):
         if serialize.DoesSaveDataExist("shop"):
             self.load()
 
-        text = Text(self.main, "Shop", Transform(self.transform.pos + Vec2(217, 0), 0, Vec2(32,32)))
+        text = Text(self.main, "Shop", Transform(self.transform.pos + Vec2(217, 0), 0, Vec2(32,32)), 2)
         self.add_child(text)
         pos = Vec2(220, 100) + self.transform.pos
         for key in self.items:
             self.items[key]['objects'] = {}
             values = self.items[key]
-            self.items[key]["objects"]["txt"] = Text(self.main, f"{key}: {round(self.playerAttrs[key], 2)}{values['unit']}", Transform(round(pos), 0, Vec2(32,32)), size=48)
+            self.items[key]["objects"]["txt"] = Text(self.main, f"{key}: {round(self.playerAttrs[key], 2)}{values['unit']}", Transform(round(pos), 0, Vec2(32,32)), size=48, zOrder=2)
             
             pos += Vec2(0,90)
             self.items[key]["objects"]["btn"] = ShopButton(self.main, Transform(round(pos/8), 0, Vec2(32,32)), self, key)
-            self.items[key]["objects"]["btn_txt"] = Text(self.main, f"Add {values['adder']}{values['unit']} for {values['cost']} coins", Transform(round(pos - Vec2(-20, 10)), 0, Vec2(32,32)), size=32)
+            self.items[key]["objects"]["btn_txt"] = Text(self.main, f"Add {values['adder']}{values['unit']} for {values['cost']} coins", Transform(round(pos - Vec2(-20, 10)), 0, Vec2(32,32)), size=32, zOrder=2)
 
             pos += Vec2(0,100)
 

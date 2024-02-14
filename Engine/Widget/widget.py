@@ -6,8 +6,8 @@ from Engine.transform import Transform
 from Engine.gameObject import GameObject
 
 class Widget(GameObject):
-    def __init__(self, main, transform: Transform):
-        super().__init__(main, transform, 0)
+    def __init__(self, main, transform: Transform, zOrder: int):
+        super().__init__(main, transform, zOrder)
         self.main = main
         self.boundingBox = pygame.Rect((transform.pos.x - (transform.scale.x/2))*8, (transform.pos.y - (transform.scale.y/2))*8, transform.scale.x*8, transform.scale.y*8)
         self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA)#.convert_alpha()

@@ -6,8 +6,8 @@ from Engine.event import Event
 import sys, os
 
 class Button(Widget):
-    def __init__(self, main, path, transform: Transform):
-        super().__init__(main, transform)
+    def __init__(self, main, path, transform: Transform, zOrder: int):
+        super().__init__(main, transform, zOrder)
         self.image = pygame.image.load(f"{os.getcwd()}/Game/UI/{path}").convert_alpha()
         self.renderOffset = Vector2(self.image.get_width()//2, self.image.get_height()//2)
         

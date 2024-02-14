@@ -41,7 +41,7 @@ class Renderer:
                 
             elif isinstance(object[0], Sprite):
                 self.renderSprite(object[0], object[1])
-                
+        widgets.sort(key=lambda x: x.zOrder)        
         for widget in widgets:
             widget.render()
             surf = widget.surface
