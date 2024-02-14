@@ -18,7 +18,7 @@ class ShopButton(Button):
         #self.AddSubscribersForHoverEvent(self.hovered)
 
     def click(self):
-        if self.main.player.coins >= self.owner.items[self.item]['cost']:
+        if self.main.player.coins >= self.owner.items[self.item]['cost'] and self.visible:
             self.main.player.coins -= self.owner.items[self.item]['cost']
 
             self.main.player.attributes[self.item] += self.owner.items[self.item]['adder']

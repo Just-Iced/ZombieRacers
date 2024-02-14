@@ -82,15 +82,8 @@ class Car(SpriteStack):
         for event in self.main.events:
             if event.type == pygame.QUIT:
                 self.save()
-            """elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_t:
-                    self.main.shopWidget.visible = not self.main.shopWidget.visible
-                    if self.main.shopWidget.visible:
-                        self.move = 0
-                        self.physics.setVelocity(Vec2(0,0))
-                    else:
-                        self.physics.setVelocity(self.curVel)
-                        self.move = self.curMove"""
+            
+                    
                         
     def showShop(self):
         self.main.shopWidget.setVisible(True)

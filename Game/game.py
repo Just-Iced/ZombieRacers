@@ -13,9 +13,11 @@ import Engine.serialization as serialize
 from roadGenerator import RoadGenerator
 from shop import Shop
 from shopWidget import ShopWidget
+from pauseWidget import PauseWidget
 import pygame
 import importlib
 import math
+
 class Game(main):
     def __init__(self, window):
         super().__init__(window)
@@ -31,13 +33,14 @@ class Game(main):
             c = self.Instantiate(Crate(self, Transform(Vec2(90,120), 0, Vec2(16,16))))
             s = self.Instantiate(Shop(self, Transform(Vec2(60,120), 180, Vec2(16,16))))
 
-        self.txt = self.Instantiate(Text(self, '', Transform(Vec2(20,20), 0, Vec2(32,16)), zOrder=1))
+        self.coinTxt = self.Instantiate(Text(self, 'Coins', Transform(Vec2(20,20), 0, Vec2(32,16)), zOrder=1))
         self.shopWidget = self.Instantiate(ShopWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
+        self.pauseWidget = self.Instantiate(PauseWidget(self, Transform(Vec2(75, 45), 0, Vec2(32,32))))
 
 
 
     def tick(self):
-        self.txt.text = f"Coins: {math.floor(self.player.coins)}"
+        self.coinTxt.text = f"Coins: {math.floor(self.player.coins)}"
         for event in self.events:
             if event.type == pygame.QUIT:
                 self.save()
