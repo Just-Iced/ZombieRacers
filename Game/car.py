@@ -53,10 +53,10 @@ class Car(SpriteStack):
 
         if keys[pygame.K_a] and self.move != 0:
             self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
-            self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+            #self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
         elif keys[pygame.K_d] and self.move != 0:
             self.transform.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
-            self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
+            #self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
             #self.move += 0.01 * self.main.dt
         
         if keys[pygame.K_w]:
@@ -73,11 +73,11 @@ class Car(SpriteStack):
         self.curVel = self.physics.velocity
         self.curMove = self.move
 
-        self.main.cam.pos = self.transform.pos
+        self.main.cam.pos = self.main.cam.pos.lerp(self.transform.pos, self.maxSpeed / 10)
         self.attributes = {"Max Speed": self.maxSpeed, "Acceleration": self.acceleration, 
                             "Coin Multiplier": self.coinMultiplier}
 
-        
+        self.main.cam.rot = pygame.math.lerp(self.main.cam.rot, -self.transform.rot, 0.05)
 
         for event in self.main.events:
             if event.type == pygame.QUIT:
