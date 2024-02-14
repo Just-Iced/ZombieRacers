@@ -11,7 +11,7 @@ import Engine.serialization as serialize
 class ShopButton(Button):
     def __init__(self, main, transform: Transform, owner: "ShopWidget", item: str):
         transform = Transform(transform.pos + Vec2(28, 0), transform.rot, transform.scale)
-        super().__init__(main, "shopWidget\\btn_bg.png", transform, 1)
+        super().__init__(main, "btn_bg.png", transform, 1)
         self.owner = owner
         self.item = item
         self.AddSubscribersForClickEvent(self.click)

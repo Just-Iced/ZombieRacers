@@ -51,15 +51,15 @@ class Car(SpriteStack):
     def update(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a] and self.move != 0:
+        if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and self.move != 0:
             self.transform.rot += 2 * self.main.dt# / (self.maxSpeed - self.move*2)
             #self.main.cam.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
-        elif keys[pygame.K_d] and self.move != 0:
+        elif (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and self.move != 0:
             self.transform.rot -= 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
             #self.main.cam.rot += 2 * self.main.dt #/ (self.maxSpeed - self.move*2)
             #self.move += 0.01 * self.main.dt
         
-        if keys[pygame.K_w]:
+        if keys[pygame.K_w] or keys[pygame.K_UP]:
             if self.move >= -self.maxSpeed:
                 self.move -= self.acceleration * self.main.dt
         else:

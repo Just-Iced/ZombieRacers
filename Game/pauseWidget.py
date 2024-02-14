@@ -9,21 +9,25 @@ import pygame
 
 class ResumeButton(Button):
     def __init__(self, main, transform: Transform):
-        super().__init__(main, "pauseWidget\\resume.png", transform, 10)
+        super().__init__(main, "btn_bg.png", transform, 10)
         self.AddSubscribersForClickEvent(self.clicked)
+    def start(self):
+        super().start()
+        txt = Text(self.main, "Resume", Transform(self.transform.pos))
+        self.main.pauseWidget.add_child(txt)
     def clicked(self):
         ...
 
 class SettingsButton(Button):
     def __init__(self, main, transform: Transform):
-        super().__init__(main, "pauseWidget\\settings.png", transform, 10)
+        super().__init__(main, "btn_bg.png", transform, 10)
         self.AddSubscribersForClickEvent(self.clicked)
     def clicked(self):
         ...
 
 class ExitButton(Button):
     def __init__(self, main, transform: Transform):
-        super().__init__(main, "pauseWidget\\exit.png", transform, 10)
+        super().__init__(main, "btn_bg.png", transform, 10)
         self.AddSubscribersForClickEvent(self.clicked)
     def clicked(self):
         ...
