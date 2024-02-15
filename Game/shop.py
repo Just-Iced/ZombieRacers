@@ -14,7 +14,6 @@ class Shop(SpriteStack):
     def __init__(self, main, transform : Transform, zOrder = 10):
         super().__init__(main, transform, zOrder)
         #-CONSTRUCTOR-
-        self.saveable = True
         #Physics Parameters
         self.physics.scale = 0
         self.physics.simulate = True

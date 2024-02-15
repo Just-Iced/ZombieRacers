@@ -66,6 +66,6 @@ class Game(main):
                     self.obj_dict[str(obj.uid)] = this_dict
             except AttributeError:
                 pass
-        print(self.obj_dict)
+        print("Saving...")
         serialize.SaveData("objects", self.obj_dict)
 

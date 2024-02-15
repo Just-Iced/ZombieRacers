@@ -67,7 +67,7 @@ class RoadGenerator(GameObject):
                 spawnPos -= Vec2(previousRoad.chunkSize.x, 0)
             case None:
                 return None
-        print(f"Spawn Pos is: {spawnPos}")
+        #print(f"Spawn Pos is: {spawnPos}")
         
         possibleRoads = []
         for road in self.roadPieces:
@@ -89,18 +89,18 @@ class RoadGenerator(GameObject):
             self.transform.pos = self.roads[0].transform.pos
         chunkToSpawn = self.pickNextChunk()
         
-        print(f"Road is at: {chunkToSpawn.transform.pos}")
-        print(f"Road has collision: {chunkToSpawn.physics.colliderState}")
+        #print(f"Road is at: {chunkToSpawn.transform.pos}")
+        #print(f"Road has collision: {chunkToSpawn.physics.colliderState}")
         self.roads.append(chunkToSpawn)
 
     def load(self):
-        print(self.road_dict)
+        #print(self.road_dict)
         for obj in self.road_dict:
             attrs = self.road_dict[obj] #attributes
             module = importlib.import_module(attrs["module name"])
             gameObject = self.main.LoadObject(getattr(module, attrs["class name"])(main = self.main, transform = attrs["transform"], zOrder=attrs["zOrder"]))
             self.roads.append(gameObject)
-        print(self.roads)
+        #print(self.roads)
         self.transform.pos = self.roads[0].transform.pos
 
     def save(self):
