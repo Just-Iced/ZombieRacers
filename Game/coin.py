@@ -9,8 +9,10 @@ from Engine.sprite import Sprite
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
+from Engine.sound import Sound
 import pygame
 import random
+
 
 class Coin(Sprite):
     def __init__(self, main, transform : Transform, zOrder = 1, path = 'Coin.png'):
@@ -35,6 +37,7 @@ class Coin(Sprite):
     def hit(self,object):
         if isinstance(object, Car):
             object.coins += object.coinMultiplier
+            self.main.Instantiate(Sound(self.main, self.transform, 500, "coin.mp3"))
             self.Destroy()
         else:
             self.speed = 0
