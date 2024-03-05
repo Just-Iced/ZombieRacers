@@ -26,13 +26,16 @@ class Button(Widget):
         
     #TODO: Fix the hover event, seems to break things rn
     def OnClicked(self):
-        self.clickEvent()
+        if self.visible:
+            self.clickEvent()
         
     def OnHovered(self):
-        self.hoverEvent()
+        if self.visible:
+            self.hoverEvent()
         
     def OnUnHovered(self):
-        self.unHoverEvent()
+        if self.visible:
+            self.unHoverEvent()
     
     
     

@@ -5,6 +5,7 @@ sys.path.append(os.getcwd())
 from Engine.spriteStack import SpriteStack
 from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
+from Engine.sound import Sound
 from pygame.math import Vector2 as Vec2
 from car import Car
 from coin import Coin
@@ -32,12 +33,17 @@ class Zombie(SpriteStack):
         self.ranOffset = 0
         self.playerOffset = random.randint(75,120)
         self.initSpeed = random.uniform(0.4,0.8)
-        
+        self.playing = False
+        self.groans = os.listdir(f"{os.getcwd()}\\Game\\sounds\\Zombie\\Groans")
+        self.sound = None
+
     def update(self):
         if round(time.time()) - self.startTime >= 25:
             self.Destroy()
         if random.randint(0,100) == 69:
             self.ranOffset = random.randint(-15,15)
+            if random.randint(0,10) == 5:
+                self.play_groan()
         #put your object logic here
         speed = self.initSpeed
         relativePos: Vec2 = self.main.player.transform.pos - self.transform.pos
@@ -64,5 +70,12 @@ class Zombie(SpriteStack):
             else:
                 self.main.player.kill()
             self.main.Instantiate(System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder))
+        if self.sound != None:
+            self.sound.Destroy()
         self.Destroy()
-            
+        
+    def play_groan(self):
+        if self.sound != None:
+            self.sound.Destroy()
+        self.sound = self.main.Instantiate(Sound(self.main, self.transform, 200, f"Zombie\\Groans\\{random.choice(self.groans)}"))
+        self.playing = True

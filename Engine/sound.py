@@ -23,10 +23,12 @@ class Sound(GameObject):
 
     def update(self):
         if pygame.time.get_ticks() - self.startTime >= self.sound.get_length()*1000 and not self.loop:
-            self.sound.stop()
             self.Destroy()
         if self.attenuation > 0:
             distance = self.transform.pos.distance_to(self.main.cam.pos)
             vol = (distance - self.attenuation) / -self.attenuation
             self.sound.set_volume(vol)
+    def Destroy(self):
+        self.sound.stop()
+        super().Destroy()
         
