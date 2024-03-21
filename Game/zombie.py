@@ -36,6 +36,7 @@ class Zombie(SpriteStack):
         self.playing = False
         self.groans = os.listdir(f"{os.getcwd()}\\Game\\sounds\\Zombie\\Groans")
         self.sound = None
+        self.damage = 0.1
 
     def update(self):
         if round(time.time()) - self.startTime >= 25:
@@ -57,6 +58,7 @@ class Zombie(SpriteStack):
         angle = (180/math.pi) * -math.atan2(relativePos.y,relativePos.x) + self.ranOffset
         self.transform.rot = angle + 90
         self.physics.setVelocity(Vec2(speed,0).rotate(-angle))
+        
     def collide(self, object):
         if not isinstance(object, Car):
             return
@@ -66,7 +68,7 @@ class Zombie(SpriteStack):
                 self.main.Instantiate(Coin(self.main, Transform(self.transform.pos + Vec2(random.uniform(-1,1),random.uniform(-1,1)), scale=Vec2(1,1)), self.zOrder))
         else:
             if self.main.player.maxSpeed > 0:
-                self.main.player.maxSpeed -= 0.1
+                self.main.player.maxSpeed -= self.damage
             else:
                 self.main.player.kill()
             self.main.Instantiate(System(self.main,'CarDamageSystem.json',self.main.player.transform,self.zOrder))

@@ -8,6 +8,7 @@ from Engine.transform import Transform
 from Engine.physicsObject import ColliderState
 from pygame.math import Vector2 as Vec2
 from zombie import Zombie
+from fastZombie import FastZombie
 from car import Car
 from Engine.spawnMethod import SpawnMethod
 import random
@@ -39,7 +40,10 @@ class RoadPiece(SpriteStack):
             self.kill()
     def spawn_zombie(self):
         pos = Vec2(random.randint(-42,42), random.randint(-72,72)) + self.transform.pos
-        self.main.Instantiate(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
+        if random.randint(0,3) == 3:
+            self.main.Instantiate(FastZombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
+        else:
+            self.main.Instantiate(Zombie(self.main,Transform(pos,random.randint(-180,180),Vec2(3,3))))
 
     def spawnNewRoad(self, obj):
         if not isinstance(obj, Car):
